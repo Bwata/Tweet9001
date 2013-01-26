@@ -26,14 +26,18 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import utilities.Listeners;
+import utilities.MainButtons;
 
 
 public class Controller {
-	
-	
-	/**The frmae for the whole project*/
+
+
+	/**The frame for the whole project*/
 	private JFrame frame;
-	
+
+	/**MainView of the Whole layout*/
+	ViewMain mainView;
+
 	/**The Twitter object to access all the twitter information*/
 	private Twitter twitter;
 
@@ -44,21 +48,21 @@ public class Controller {
 	Note: the eos computers are 1280 X 1024
 	 *****************************************************************/
 	public Controller () {
-		
+
 		//Instantiate the twitter object
 		twitter =  TwitterFactory.getSingleton();
 
 		//This sets the listeners for the Buttons.
 		setListeners();
-		
-		
 
 		//sets up the main frame and background of the whole program
 		frame = new JFrame ("Tweet9001");
 		frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
-		
-		
+		//frame.setResizable(false);
+
+		//show the main window
+		mainView = new ViewMain();
+		frame.getContentPane().add(((JPanel) mainView));
 
 		//show the background
 		frame.pack();
@@ -72,26 +76,27 @@ public class Controller {
 
 
 	//Methods go in here
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
 
 	/*****************************************************************
 	Gets the top ten trends for the united states
-	
+
 	@throws TwitterException 
 	 *****************************************************************/
 	private void getTrends () throws TwitterException {		
 
 		Trends trends = twitter.getPlaceTrends(23424977);
-	    Trend trend[] = trends.getTrends();
-		
-	    //now we need to figure out where this goes.
+		Trend trend[] = trends.getTrends();
+
+		//sends the trends to display
+		mainView.showTrends(trend);
 	}
 
 
@@ -107,33 +112,64 @@ public class Controller {
 	 *****************************************************************/
 	public void setListeners () {
 
-		Listeners.addListener(new UserButtonListener());
-		
+		Listeners.addListener(new MainButtonListener());
+
 	}
 
 	//################################################################
-	
+
 	//these are the listeners. WOOOOOHOOOOOO
 
 	/*****************************************************************
 	Listener description
 	 *****************************************************************/
-	public class UserButtonListener implements ActionListener {
+	public class MainButtonListener implements ActionListener {
 
 		/**The String determining the type of listener wanted.*/
-		private String listenType = "String"; //string has to match the enum
-
+		private String listenType = "MainButton"; //string has to match the enum
 
 		/*****************************************************************
 		The action performed method, like you do.
-		
+
 		@param event ActionEvent containing all the info you will need
 		 *****************************************************************/
 		@Override
 		public void actionPerformed(ActionEvent event) {
 
 			//Action to perform when the method is called.
-			
+			//Switch to Determine Pressed Button
+			switch (((MainButtons) event.getSource())) {
+
+			case HOMETIMELINE: 
+				System.out.println ("HomeTimeline");
+				break;
+				
+			case POST_TWEET: 
+				System.out.println ("Post tweet");
+				break;
+
+			case SEARCH: 
+				System.out.println ("Search");
+				break;
+				
+			case TRENDING: 
+				//System.out.println ("Trending");
+				try {
+					getTrends();
+				} catch (TwitterException e) {
+					// @TODO SHOW TWITTER IS UNACCESSABLE MESSAGE
+					e.printStackTrace();
+				}
+				break;
+				
+			case VIEW_PROFILE: 
+				System.out.println ("Profile");
+				break;
+
+			default: 
+				System.out.println ("Default");
+				break;
+			}
 		}
 
 		/*****************************************************************

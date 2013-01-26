@@ -22,11 +22,49 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
 
-
 public class ProgramStyle {
+	
+	//COLORS-------------------------------------
 
-	/**This is the color ????*/
-	public static final Color COLOR = new Color (255, 255, 255);
+	/**Main background color of the window*/
+	public static final Color BACKGROUND_COLOR = new Color (131, 185, 214);
+	
+	/**Color of the panels*/
+	public static final Color PANEL_COLOR = new Color (247, 215, 178);
+	
+	/**Color of the panels*/
+	public static final Color BUTTON_COLOR = new Color (252, 114, 114);
+	
+	
+	
+	
+	//DIMENSIONS----------------------------------
+
+	/**The Size of the programs window*/
+	public static final Dimension WINDOW_SIZE = new Dimension(1200, 1000);
+	
+	/**The Size of the programs top panel*/
+	public static final Dimension TOP_SIZE = 
+			new Dimension(WINDOW_SIZE.width,200);
+	
+	/**The Size of the programs top panel*/
+	public static final Dimension BUTTON_PANEL_SIZE = 
+			new Dimension(TOP_SIZE.width/3, TOP_SIZE.height);
+	
+	/**The Size of the programs top panel*/
+	public static final Dimension PROFILE_PANEL_SIZE = 
+			new Dimension(TOP_SIZE.width/3, TOP_SIZE.height);
+	
+	/**The Size of the programs top panel*/
+	public static final Dimension POST_PANEL_SIZE = 
+			new Dimension(TOP_SIZE.width/3, TOP_SIZE.height);
+	
+	//need to add window size dimensions of just smaller then eos lab size
+	
+	//from screen size figure the four sections of the UI
+	
+	
+	
 	
 	//fill in all the colors, sizes, strings, and other design and style variables
 

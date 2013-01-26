@@ -19,10 +19,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-
-
 
 public class MyButton extends JPanel {
 
@@ -38,7 +37,7 @@ public class MyButton extends JPanel {
 	/**The enum that passes */
 	ProgButton type;
 
-	/*These are the "sign style button" options*/
+	/*These are the "plain style button" options*/
 	/**The size of the button*/
 	private Dimension buttonSize;
 
@@ -81,9 +80,15 @@ public class MyButton extends JPanel {
 	sets the default style choices for the sign style buttons
 	 *****************************************************************/
 	public void setDefaultStyle () {
-
-		//styling for the button here
-
+		
+		buttonSize = new Dimension(195, 63);
+		fontSize = 17;
+		fitButton = false;
+		color = ProgramStyle.BUTTON_COLOR;
+		this.setBackground(color);
+		this.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, 
+				ProgramStyle.BACKGROUND_COLOR));
+		
 	}
 
 	/*****************************************************************
@@ -103,14 +108,17 @@ public class MyButton extends JPanel {
 				Dimension dim = ProgramStyle.getStringSize(page,
 						title, fontSize);
 				buttonSize = new Dimension (dim.width + 20, 
-						buttonSize.height);
+						dim.height);
 			}
 
-			//most fo the painting of the button to be done here.
-	
+			//Draws the string on the panel
+			page.setFont(ProgramStyle.getFont(fontSize));
+			page.setColor(Color.BLACK);
+			Point stringLocal = getTitleLocation(page);
+			page.drawString(title,stringLocal.x, stringLocal.y);
 		}
-
 	}
+	
 	/*****************************************************************
 	Figures out where to put the String title to center it in the box.
 	
@@ -142,7 +150,8 @@ public class MyButton extends JPanel {
 	 *****************************************************************/
 	public void useImageForButton () {
 		image = type.getIcon();
-		buttonSize = new Dimension (image.getIconWidth(), image.getIconHeight());
+		buttonSize = new Dimension (image.getIconWidth(), 
+				image.getIconHeight());
 		setPreferredSize(buttonSize);
 	}
 
@@ -226,12 +235,13 @@ public class MyButton extends JPanel {
 		 *****************************************************************/
 		@Override
 		public void mouseClicked (MouseEvent event) {
+			setBackground(Color.white);
 			listener.actionPerformed(new ActionEvent (type, 0,
 					passedString));
 		}
 
 		/*****************************************************************
-		Unused interface methods
+		Unused interface methods??
 		 *****************************************************************/
 		@Override
 		public void mousePressed (MouseEvent event) {}
@@ -240,10 +250,16 @@ public class MyButton extends JPanel {
 		public void mouseReleased (MouseEvent event) {}
 
 		@Override
-		public void mouseEntered (MouseEvent event) {}
+		public void mouseEntered (MouseEvent event) {
+			setBackground(Color.white);
+			updateUI();
+		}
 
 		@Override
-		public void mouseExited (MouseEvent event) {}
+		public void mouseExited (MouseEvent event) {
+			setBackground(color);
+			updateUI();
+		}
 	}
 
 }
