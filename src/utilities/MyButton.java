@@ -9,7 +9,6 @@ user wants a picture it will get it itself.
 package utilities;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -26,16 +25,16 @@ import javax.swing.JPanel;
 public class MyButton extends JPanel {
 
 	/**The possible image to display*/
-	ImageIcon image;
+	private ImageIcon image;
 
 	/**The title of the button and also the displayed label**/
-	String title;
+	private String title;
 
 	/**when clicked call this listener*/
-	ActionListener listener;
+	private ActionListener listener;
 
 	/**The enum that passes */
-	ProgButton type;
+	private ProgButton type;
 
 	/*These are the "plain style button" options*/
 	/**The size of the button*/
@@ -46,6 +45,9 @@ public class MyButton extends JPanel {
 
 	/**The background color of the button*/
 	private Color color;
+	
+	/**The Border color of the button*/
+	private Color colorBorder;
 
 	/**This fits the button to the title String size*/
 	private boolean fitButton;
@@ -84,11 +86,12 @@ public class MyButton extends JPanel {
 		buttonSize = new Dimension(195, 63);
 		fontSize = 17;
 		fitButton = false;
-		color = ProgramStyle.BUTTON_COLOR;
-		this.setBackground(color);
+		setOpaque(false);
+		color = ProgramStyle.BACKGROUND_COLOR;
+		setBackground(color);
+		colorBorder = ProgramStyle.BACKGROUND_COLOR;
 		this.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, 
-				ProgramStyle.BACKGROUND_COLOR));
-		
+				colorBorder));
 	}
 
 	/*****************************************************************
@@ -103,6 +106,8 @@ public class MyButton extends JPanel {
 		}
 		catch (NullPointerException e) { // if no image 
 
+			
+			
 			//if the button is to fit the text size, sets the size
 			if (fitButton){
 				Dimension dim = ProgramStyle.getStringSize(page,
@@ -113,7 +118,7 @@ public class MyButton extends JPanel {
 
 			//Draws the string on the panel
 			page.setFont(ProgramStyle.getFont(fontSize));
-			page.setColor(Color.BLACK);
+			page.setColor(ProgramStyle.TEXT_COLOR);
 			Point stringLocal = getTitleLocation(page);
 			page.drawString(title,stringLocal.x, stringLocal.y);
 		}
@@ -132,6 +137,11 @@ public class MyButton extends JPanel {
 		Dimension stringSize = new Dimension(fm.stringWidth(title), 
 				fm.getHeight());
 
+		if (buttonSize.width == 0 && buttonSize.height == 0) {
+			
+			buttonSize = this.getSize();
+			
+		}
 		//Finds the center of the image
 		Point center = new Point (buttonSize.width / 2, 
 				buttonSize.height / 2);
@@ -224,6 +234,24 @@ public class MyButton extends JPanel {
 	}
 
 	/*****************************************************************
+	Gets the color of the Border for the button.
+	
+	@return Color of the Border for the button.
+	 *****************************************************************/
+	public Color getColorBorder() {
+		return colorBorder;
+	}
+
+	/*****************************************************************
+	Sets the color of the Border of the button.
+	
+	@param colorBorder Color of the border for the button.
+	 *****************************************************************/
+	public void setColorBorder(Color colorBorder) {
+		this.colorBorder = colorBorder;
+	}
+
+	/*****************************************************************
 	Private Listener for the mouse to click the panel to activate the
 	"button"
 	 *****************************************************************/
@@ -235,7 +263,7 @@ public class MyButton extends JPanel {
 		 *****************************************************************/
 		@Override
 		public void mouseClicked (MouseEvent event) {
-			setBackground(Color.white);
+			//setBackground(Color.white);
 			listener.actionPerformed(new ActionEvent (type, 0,
 					passedString));
 		}
@@ -251,14 +279,14 @@ public class MyButton extends JPanel {
 
 		@Override
 		public void mouseEntered (MouseEvent event) {
-			setBackground(Color.white);
-			updateUI();
+			//setBackground(Color.white);
+			//updateUI();
 		}
 
 		@Override
 		public void mouseExited (MouseEvent event) {
-			setBackground(color);
-			updateUI();
+			//setBackground(color);
+			//updateUI();
 		}
 	}
 

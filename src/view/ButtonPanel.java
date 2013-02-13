@@ -6,7 +6,7 @@ started January 26, 2013
 @author Thomas Verstraete
 @version Winter 2013
  *****************************************************************/
-package main;
+package view;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -16,13 +16,13 @@ import javax.swing.JPanel;
 
 import utilities.*;
 
-public class ViewButtonPanel extends JPanel {
+public class ButtonPanel extends JPanel {
 
 	
 	/*****************************************************************
 	Basic Constructor to set up all the main buttons.
 	 *****************************************************************/
-	ViewButtonPanel () {
+	ButtonPanel () {
 		
 		//Sets panel properties
 		setPreferredSize(ProgramStyle.POST_PANEL_SIZE);
@@ -32,14 +32,16 @@ public class ViewButtonPanel extends JPanel {
 				ProgramStyle.BACKGROUND_COLOR));
 		
 		//grid layout with three rows and two columns
-		this.setLayout(new GridLayout(3,2));
+		this.setLayout(new GridLayout(3,1));
 		
 		//adds all the buttons based on the enum types
 		add(new MyButton(MainButtons.HOMETIMELINE));
-		add(new MyButton(MainButtons.POST_TWEET));
+		//add(new MyButton(MainButtons.POST_TWEET));
 		add(new MyButton(MainButtons.SEARCH));
 		add(new MyButton(MainButtons.TRENDING));
-		add(new MyButton(MainButtons.VIEW_PROFILE));
-		add(new MyButton(MainButtons.BLANK));
+		//add(new MyButton(MainButtons.VIEW_PROFILE));
+		//add(new MyButton(MainButtons.BLANK));
+		//add(new MyButton(MainButtons.BLANK));
+		//add(new MyButton(MainButtons.BLANK));
 	}
 }

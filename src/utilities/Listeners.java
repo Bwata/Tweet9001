@@ -1,6 +1,6 @@
 /*****************************************************************
 This is the listener holding tank for all the actions that need to
-be performed. 
+be performed.
 
 @author Thomas Verstraete
 @version Fall 2012
@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public class Listeners {
 
 	/***/
-	private static ArrayList<ActionListener> listeners = 
+	private static ArrayList<ActionListener> listeners =
 									new ArrayList<ActionListener>();
-	
+
 	/*****************************************************************
 	Access the specific listener for the Action by passing it the string
 	for the listener.
@@ -26,17 +26,18 @@ public class Listeners {
 	public static ActionListener getListener(String type) {
 		//ActionListener tempListener;
 		
-		for (int index = 0; index < listeners.size(); index ++){
-			if (listeners.get(index).toString() == (type))
+		for (int index = 0; index < listeners.size(); index++) {
+			if (listeners.get(index).toString() == (type)) {
 				return listeners.get(index);
+			}
 		}
-		
+
 		return null;
 	}
 
 	/*****************************************************************
 	Adds an action listener to this holding tank
-	
+
 	@param listener ActionListener to add to the tank.
 	 *****************************************************************/
 	public static void addListener(ActionListener listener) {

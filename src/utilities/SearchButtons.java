@@ -1,8 +1,7 @@
 /*****************************************************************
-Enum of all the main buttons to be displayed on the top left of the
-program window. All attributes needed for this button are attached.
+The buttons that are to be used in the search process.
 
-started January 26, 2013
+started February 10, 2013
 @author Thomas Verstraete
 @version Winter 2013
  *****************************************************************/
@@ -12,66 +11,48 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 
-
-public enum MainButtons implements ProgButton{
+public enum SearchButtons implements ProgButton {
 	
-	/**Show the basic home timeline*/
-	HOMETIMELINE ("Timeline"),
+	SEARCH_TWEET ("Search Tweet"),
 	
-	/**show the post a tweet panel*/
-	POST_TWEET ("Post"),
+	SEARCH_USER ("Search User"),
 	
-	/**show the searching panel*/
-	SEARCH ("Search"),
-	
-	/**show the trending panel*/
-	TRENDING ("Trending"),
-	
-	/**show the profile panel*/
-	VIEW_PROFILE ("Profile"),
-	
-	//blank button to maintain consistent styling
-	//maybe come up with an easter egg
-	BLANK ("");
-	
-	/*Variables**********************************/
+	SEARCH_ALL ("Search All");
 	
 	/**String to display in a none image button*/
     private final String title;
     
     /**Type of button for system use*/
-    private final static String className = "MainButton";
+    private final static String className = "SearchButton";
     
     /**Image to display in button if wanted*/
     private final ImageIcon image;
-
-    /**An object that can be passed to listener when button is pressed*/
-	private Object passedObj;
     
     /**Listener attached to perform action*/
     public static ActionListener listener;
     
-    /*****************************************************************
-    Basic constructor for the enum type
+    /**An object that can be passed to listener when button is pressed*/
+    private Object passedObj;
+	
+	/*****************************************************************
+    Basic constructor for the enum type.
     
     @param title String to display in the button.
      *****************************************************************/
-    private MainButtons (String title) {
+    private SearchButtons (String title) {
     	
     	this.title = title;
-    	
-    	//this goes and collects the image for the button
         image = new ImageIcon ("Images/ButtonImages/" + this.toString()
         		+ ".png"); 
-       
+          //this goes and collects the image for the button
         setListener();
         
     }
 
     /*****************************************************************
-    Returns the title of the button for painting purposes
+    Returns the title of the button for painting purposes.
     
-    @return String of the title of the enum
+    @return String of the title of the enum.
      *****************************************************************/
     @Override
     public String getTitle () {

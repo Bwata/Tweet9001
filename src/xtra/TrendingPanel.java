@@ -5,13 +5,15 @@ started January 26, 2013
 @author Thomas Verstraete
 @version Winter 2013
  *****************************************************************/
-package main;
+package xtra;
 
+import javax.swing.AbstractListModel;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import twitter4j.Trend;
 import utilities.ProgramStyle;
+import view.TrendingList;
 
 public class TrendingPanel extends JPanel {
 	
@@ -26,9 +28,6 @@ public class TrendingPanel extends JPanel {
 		//sets the background color of the panel
 		setBackground(ProgramStyle.BACKGROUND_COLOR);
 		
-		//for loop to display all trends in array
-		for (int i = 0; i < trends.length ; i++) {
-			add (new JLabel((i+1) + ":  " + trends[i].getName() + "   "));
-		}
+		add(new TrendingList(trends));
 	}
 }
