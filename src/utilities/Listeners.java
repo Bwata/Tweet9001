@@ -9,38 +9,39 @@ package utilities;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
+/*****************************************************************
+Sets up the needed material for the listeners of the program.
+ *****************************************************************/
 public class Listeners {
 
-	/***/
-	private static ArrayList<ActionListener> listeners =
-									new ArrayList<ActionListener>();
+    /**Array of Listeners for view side to access.*/
+    private static ArrayList<ActionListener> listeners =
+        new ArrayList<ActionListener>();
 
-	/*****************************************************************
-	Access the specific listener for the Action by passing it the string
-	for the listener.
-	
-	@param type String variable to match with a specific listener.
-	@return ActionListener for the action desired
-	 *****************************************************************/
-	public static ActionListener getListener(String type) {
-		//ActionListener tempListener;
-		
-		for (int index = 0; index < listeners.size(); index++) {
-			if (listeners.get(index).toString() == (type)) {
-				return listeners.get(index);
-			}
-		}
+    /*****************************************************************
+    Access the specific listener for the Action by passing it the
+    string for the listener.
 
-		return null;
-	}
+    @param type String variable to match with a specific listener.
+    @return ActionListener for the action desired
+     *****************************************************************/
+    public static ActionListener getListener(String type) {
 
-	/*****************************************************************
-	Adds an action listener to this holding tank
+        for (int index = 0; index < listeners.size(); index++) {
+            if (listeners.get(index).toString() == (type)) {
+                return listeners.get(index);
+            }
+        }
 
-	@param listener ActionListener to add to the tank.
-	 *****************************************************************/
-	public static void addListener(ActionListener listener) {
-		listeners.add(listener);
-	}
+            return null;
+    }
+
+    /*****************************************************************
+    Adds an action listener to this holding tank.
+
+    @param listener ActionListener to add to the tank.
+     *****************************************************************/
+    public static void addListener(ActionListener listener) {
+        listeners.add(listener);
+    }
 }
