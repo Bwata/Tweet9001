@@ -149,7 +149,7 @@ public class ProgramStyle {
 
         /*****************************************************************
         One of two required methods to use to Paint list items.
-
+        
         @return Returns the ListCellRendererComponent.
          *****************************************************************/
         @Override

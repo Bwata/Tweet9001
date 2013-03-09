@@ -9,7 +9,9 @@ started February 3, 2013
 package model;
 
 import java.util.List;
+import java.util.Scanner;
 
+import twitter4j.DirectMessage;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
@@ -128,5 +130,26 @@ public class ModelMain {
         Trends trends = twitter.getPlaceTrends(location);
         return trends.getTrends();
     }
+    public boolean directMessaging(String recipient, String words) {
+   	 
+   		 
+
+   		 if(!recipient.substring(0,1).equals("@")){
+   			 recipient= "@"+recipient;
+   		 }
+   		 
+   	        if (recipient.length() < 2) {
+   	            return false;
+   	        }
+   	        Twitter twitter = new TwitterFactory().getInstance();
+   	        try {
+   	            DirectMessage message = twitter.sendDirectMessage(recipient, words);
+   	           return true;
+   	        } catch (TwitterException te) {
+   	            te.printStackTrace();
+   	            return false;
+   	        }
+    }
 }
+
 
