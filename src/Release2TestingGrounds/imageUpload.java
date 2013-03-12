@@ -1,7 +1,24 @@
 package Release2TestingGrounds;
+import java.io.File;
+
+import javax.swing.JFileChooser;
+
 import twitter4j.*;
 public class imageUpload {
 
-//	ImageUploadFactory factory = new ImageUploadFactory(conf); ImageUpload upload = factory.getInstance(mProvider);	 String url = upload.upload(file, "my message "); Twitter t = new TwitterFactory(conf).getInstance(); t.updateStatus(new StatusUpdate("my message! " +url));
-	
+	public static void main(String[] args) throws Exception  {
+
+		Twitter twitter = new TwitterFactory().getInstance();
+		
+	    
+	    try{
+			String message = "IT WORKS!";
+	    	File file = new File("DeskTopIcon.png");
+	        StatusUpdate status = new StatusUpdate(message);
+	        status.setMedia(file);
+	        twitter.updateStatus(status);}
+	    catch(TwitterException e){
+	        throw e;
+	    }
+	}
 }
