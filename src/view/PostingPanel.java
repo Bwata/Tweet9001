@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+
 import twitter4j.util.CharacterUtil;
 import utilities.ButtonType;
 import utilities.Listeners;
@@ -66,7 +67,8 @@ public class PostingPanel extends JPanel {
 		post.setPassedObject(postArea);
 		post.addActionListener(Listeners.getListener("Button"));
 
-		TButton image = new TButton(ButtonType.SEARCH);
+		TButton image = new TButton(ButtonType.IMAGE);
+		image.setPassedObject(postArea);
 		image.addActionListener(Listeners.getListener("Button"));
 
 		side.add(image);

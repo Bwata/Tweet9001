@@ -26,12 +26,8 @@ import twitter4j.Trends;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-import utilities.ButtonType;
-import utilities.Listeners;
 import utilities.ProgramStyle;
-import utilities.TButton;
 import utilities.TrendLocations.TrendLocation;
-import utilities.WorldTrendButton;
 
 public class WorldTrendsPanel extends JPanel{
 
@@ -52,9 +48,9 @@ public class WorldTrendsPanel extends JPanel{
 			if (loc.getLocation().getPlaceCode() == 19) {
 				countryPanel = new JPanel();
 				
-				TButton button = new TButton(ButtonType.WORLD_TRENDING, loc.getName());
-				button.setPassedObject(loc);
-				button.addActionListener(Listeners.getListener("Button"));
+				JButton button = new JButton(loc.getName());
+				button.addActionListener(new ButtonListener
+						(loc.getLocation().getWoeid()));
 				
 				
 				countryPanel.add(button);
@@ -66,12 +62,9 @@ public class WorldTrendsPanel extends JPanel{
 				countryPanel.setBorder
 					(BorderFactory.createEmptyBorder(20,0,0,0));
 				
-				TButton button = new TButton(ButtonType.WORLD_TRENDING, loc.getName());
-				button = new WorldTrendButton(loc.getName());
-				button.setPassedObject(loc);
-				button.addActionListener(Listeners.getListener("Button"));
-//				button.addActionListener(new ButtonListener
-//						(loc.getLocation().getWoeid()));
+				JButton button = new JButton(loc.getName());
+				button.addActionListener(new ButtonListener
+						(loc.getLocation().getWoeid()));
 				
 				countryPanel.add(button, BorderLayout.NORTH);
 				
@@ -82,14 +75,11 @@ public class WorldTrendsPanel extends JPanel{
 				}
 					
 				main.add(countryPanel);
-			} else { //town				
+			} else { //town
 				
-				TButton button = new TButton(ButtonType.WORLD_TRENDING, loc.getName());
-				button = new WorldTrendButton(loc.getTownName());
-				button.setPassedObject(loc);
-				button.addActionListener(Listeners.getListener("Button"));
-//				button.addActionListener(new ButtonListener
-//						(loc.getLocation().getWoeid()));
+				JButton button = new JButton(loc.getTownName());
+				button.addActionListener(new ButtonListener
+						(loc.getLocation().getWoeid()));
 				
 				townPanel.add(button);
 			}

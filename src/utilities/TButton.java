@@ -13,11 +13,6 @@ public class TButton extends JButton{
 		super(type.getTitle());
 		this.type = type;
 	}
-	
-	public TButton(ButtonType type, String title) {
-		super(title);
-		this.type = type;
-	}
 
 	/*****************************************************************
 

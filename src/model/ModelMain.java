@@ -70,6 +70,17 @@ public class ModelMain {
     }
 
     /*****************************************************************
+    Posts an image with a message.
+    @param message the message to upload the photo with
+    @param image the picture to be posted
+    @throws TwitterException
+     *****************************************************************/
+    public void postTweet(String message, File image) throws TwitterException {
+    	StatusUpdate status = new StatusUpdate(message);
+        status.setMedia(image);
+        twitter.updateStatus(status);
+    }
+    /*****************************************************************
     Searches for user tweets based on a given string.
     @param searchWord the string to be searched for.
     @return an array of tweets containing the searched phrase.
@@ -136,7 +147,6 @@ public class ModelMain {
     }
     
     /*****************************************************************
-<<<<<<< HEAD
 
 	@throws TwitterException 
      *****************************************************************/
@@ -165,58 +175,6 @@ public class ModelMain {
             te.printStackTrace();
             return false;
         }
-=======
-    Sends a direct message to a user. 
-
-    @param recipient the recipient of the message.
-    @param privateMessage the message to be sent.
-    @throws TwitterException
-    @return true if the message successfully sends.
-     *****************************************************************/
-    public boolean directMessaging(String recipient, String privateMessage) {
-   	 
-   		 
-
-   		 if(!recipient.substring(0,1).equals("@")){
-   			 recipient= "@"+recipient;
-   		 }
-   		 
-   	        if (recipient.length() < 2) {
-   	            return false;
-   	        }
-   	        Twitter twitter = new TwitterFactory().getInstance();
-   	        try {
-   	            DirectMessage message = twitter.sendDirectMessage(recipient, privateMessage);
-   	           return true;
-   	        } catch (TwitterException te) {
-   	            te.printStackTrace();
-   	            return false;
-   	        }
->>>>>>> 2f2c48100a1b48cd1f7c2779f1b5539738b806a8
     }
-    
-    
-    /*****************************************************************
-    uploads an image with a message.
-
-    @param message the message to be attached to the photo
-    @param photo the photo file to be uploaded
-    @throws TwitterException
-    @return true if the image is successfully uploaded
-     *****************************************************************/
-    public boolean imageUpload(String message, File photo) throws TwitterException{
-
-    	    try{
-    	        StatusUpdate status = new StatusUpdate(message);
-    	        status.setMedia(photo);
-    	        twitter.updateStatus(status);
-    	        return true;
-    	        }
-    	    	
-    	    catch(TwitterException e){
-    	        throw e; 
-    	    }
-    	}
-    
 }
 

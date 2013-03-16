@@ -10,7 +10,9 @@ package main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -25,7 +27,6 @@ import model.ModelMain;
 import utilities.ButtonType;
 import utilities.Listeners;
 import utilities.TButton;
-import utilities.TrendLocations.TrendLocation;
 import zOldCode.MainButtons;
 import zOldCode.SearchButtons;
 import view.ViewMain;
@@ -44,9 +45,6 @@ public class Controller {
 
     /**The access class for the Project Model side.*/
     private ModelMain mainModel;
-    
-    /***/
-    private User user;
 
 
     /*****************************************************************
@@ -57,6 +55,7 @@ public class Controller {
 
         //Sets up the model
         mainModel = new ModelMain();
+        User user;
         try {
             user = mainModel.getMainUser();
         } catch (TwitterException e) {
@@ -70,13 +69,13 @@ public class Controller {
         //Sets up the main frame and background of the whole program
         frame = new JFrame("Tweet9001");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(true);
+        frame.setResizable(false);
 
         //show the main window
         mainView = new ViewMain(user);
 
         //Show Time line from the beginning
-       // showHomeTimeline();
+        showHomeTimeline();
 
         frame.getContentPane().add(((JPanel) mainView));
 
@@ -89,6 +88,17 @@ public class Controller {
     When user clicks on the profile panel, the top panel will refresh.
      *****************************************************************/
     private void refreshProfile() {
+        User user;
+        try {
+            user = mainModel.getMainUser();
+            //mainView.refreshProfile(user);
+            System.out.println("refresh method good");
+        } catch (TwitterException e) {
+            user = null;
+            System.out.println("refresh method error");
+            //e.printStackTrace();
+        }
+
         mainView.refreshProfile(user);
     }
 
@@ -114,7 +124,6 @@ public class Controller {
      *****************************************************************/
     private void postTweet(String text) {
 
-    	
         //String postText = mainView.getPost();
         try {
             mainModel.postTweet(text);
@@ -125,6 +134,21 @@ public class Controller {
             //e.printStackTrace();
         }
     }
+    
+    private void postTweetAndImage(String text) {
+
+        try {
+            mainModel.postTweet(text, mainView.imageChooser());
+            mainView.clearPost();
+            showHomeTimeline();
+        } catch (TwitterException e) {
+            mainView.showError();
+            //e.printStackTrace();
+        }
+    }
+    
+    
+    
 
     /*****************************************************************
     Gets the top ten trends for the united states - 23424977.
@@ -146,46 +170,12 @@ public class Controller {
             //e.printStackTrace();
         }
     }
-    
-    /*****************************************************************
-    Gets the top ten trends for the united states - 23424977.
-	Detroit 2391585 - chicago 2379574
-    @throws TwitterException
-     *****************************************************************/
-    private void getTrends(TrendLocation loc) {
-
-        //sends the trends to display
-        try {
-        	mainView.resetMainPanel();
-
-            mainView.addTrends(mainModel.getTrends
-            		(loc.getLocation().getWoeid()), loc.getTownName());
-        } catch (TwitterException e) {
-            mainView.showError();
-            //e.printStackTrace();
-        }
-    }
 
     /*****************************************************************
     Tells the view to show the search panel for the user.
      *****************************************************************/
     private void showSearchPanel() {
         mainView.showSearch();
-    }
-    
-    /*****************************************************************
-    Tells the view to show the search panel for the user.
-     *****************************************************************/
-    private void showDMSendPanel() {
-        mainView.showDM();
-    }
-    
-    /*****************************************************************
-
-
-     *****************************************************************/
-    private void sendDM (String recipient, String words) {	
-    	mainModel.directMessaging(recipient, words);
     }
 
     /*****************************************************************
@@ -218,6 +208,8 @@ public class Controller {
             //e.printStackTrace();
         }
     }
+    
+    
 
     /*****************************************************************
     Adds the listeners from the subclasses to the Static Listeners
@@ -253,14 +245,14 @@ public class Controller {
         public void actionPerformed(ActionEvent event) {
 
         	TButton button = (TButton) event.getSource();
-        	ButtonType type = button.getButtonType();
+        	ButtonType type = ((TButton) event.getSource())
+        			.getButtonType();
         	
             //Switch to Determine Pressed Button
             switch (type) {
 
             case HOMETIMELINE:
                 showHomeTimeline();
-                refreshProfile();
                 break;
 
             case POST_TWEET:
@@ -268,6 +260,12 @@ public class Controller {
                 ((JTextArea) (button.getPassedObject())).getText();
                 postTweet(tweetText);
                 break;
+                
+            case IMAGE:
+            	String message = 
+            	((JTextArea) (button.getPassedObject())).getText();
+            	postTweetAndImage(message);
+            	break;
 
             case SEARCH:
                 showSearchPanel();
@@ -297,9 +295,6 @@ public class Controller {
             	
             case WORLD_TRENDING:
             	
-            	TrendLocation loc = ((TrendLocation) (button.getPassedObject()));
-            	getTrends(loc);            	
-            	
             	break;
             case LOCAL_TRENDS:
             	
@@ -307,16 +302,6 @@ public class Controller {
             	
 			case VIEW_PROFILE:
 				
-				break;
-				
-			case DIRECT_MESSAGE:
-				showDMSendPanel();
-				break;
-				
-			case SEND_DM:
-				JTextArea[] areas = ((JTextArea[]) (button.getPassedObject()));
-				sendDM(areas[0].getText(), areas[1].getText());
-				refreshProfile();
 				break;
 				
 			default:
@@ -376,7 +361,7 @@ public class Controller {
             case POST_TWEET:
                 //postTweet();
                 break;
-
+            	
             case SEARCH:
                 showSearchPanel();
                 break;
@@ -384,6 +369,7 @@ public class Controller {
             case TRENDING:
                 getTrends();
                 break;
+                
             }
         }
 

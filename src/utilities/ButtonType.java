@@ -23,9 +23,6 @@ public enum ButtonType {
     /**Quits the program.*/
     QUIT ("Quit"),
     
-    /**show the DM panel*/
-    DIRECT_MESSAGE ("Direct Message"),
-    
     
 
     /**Search for a tweet button.*/
@@ -42,12 +39,6 @@ public enum ButtonType {
     
     /**show the local Trends.*/
     LOCAL_TRENDS ("Local Trends"),
-    
-    
-    
-    
-    /**Sends the direct message*/
-    SEND_DM ("Send")
     
     
     ;
