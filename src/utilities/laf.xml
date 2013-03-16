@@ -1,0 +1,250 @@
+<!-- http://docs.oracle.com/javase/6/docs/api/javax/swing/plaf/synth/doc-files/componentProperties.html#buttonProperties -->
+<!-- http://docs.oracle.com/javase/7/docs/api/javax/swing/plaf/synth/Region.html -->
+
+
+<synth>
+
+<style>
+	<font id="H3" name="Helvetica" size="25"/>
+	<font id="H4" name="Helvetica" size="20"/>
+	<font id="H5" name="Helvetica" size="15"/>
+	<font id="H6" name="Helvetica" size="12"/>
+	
+	<color id="mainBG" value="#345B79" type="BACKGROUND"/>
+	<color id="panelBG" value="#8DA3B5" type="BACKGROUND"/>
+	<color id="selectedBG" value="#C6CFDA" type="BACKGROUND"/>
+	<color id="buttonBG" value="#59686E" type="BACKGROUND"/>
+	<color id="textColor" value="#111B25" type="FOREGROUND"/>
+</style>
+
+
+  <!-- DEFAULT -->
+  <style id="backingStyle">
+    <!-- Make all the regions opaque-->
+    <opaque value="FALSE"/>
+    <font idref="H6"/>
+    <state>
+      <!-- Provide default colors -->
+      <color idref="mainBG"/>
+      <color idref="textColor"/>
+    </state>
+  </style>
+  <bind style="backingStyle" type="region" key=".*"/>
+
+
+<!-- **************** SCROLL BAR **************** -->
+
+
+<!-- SCROLLBAR MAIN PROPERTIES -->
+
+<style id="scrollBarMainStyle">
+
+  	<property key="ScrollBar.thumbHeight" type="integer" value="16" />
+	<property key="ScrollBar.minimumThumbSize" type="Dimension" value="16 16" />
+	<property key="ScrollBar.maximumThumbSize" type="Dimension" value="16 16" />
+	
+</style>
+
+<bind style="scrollBarMainStyle" type="REGION" key="ScrollBar" />
+
+<!-- SCROLLBAR ARROW -->
+<style id="ScrollBarArrowStyle">
+   
+   <state>
+   
+   <imagePainter method="arrowButtonForeground" 
+   		path="Images/SB_0000_ArrowUp.png" 
+   		center="true" direction="north" />
+   
+	<imagePainter method="arrowButtonForeground" 
+			path="Images/SB_0002_ArrowDown.png" 
+			center="true" direction="south" />
+	
+	</state>
+</style>
+<bind style="ScrollBarArrowStyle" type="REGION" key="ArrowButton" />
+
+<!-- SCROLLBAR GRABBER -->
+<style id="ScrollBarGrabberStyle">
+
+   <state>
+   <imagePainter method="scrollBarThumbBackground" direction="vertical" path="Images/SB_0001_Thumb.png" center="true" />
+   
+   </state>
+</style>
+<bind style="ScrollBarGrabberStyle" type="REGION" key="ScrollBarThumb" />
+
+
+<!-- SCROLLBAR BAR -->
+<style id="ScrollBarStyle">
+   
+   <state>
+   <imagePainter method="scrollBarTrackBackground" path="Images/SB_0003_Bar.png" direction="vertical" sourceInsets="10 0 10 0" />
+   </state>
+</style>
+<bind style="ScrollBarStyle" type="region" key="ScrollBarTrack"/>
+
+
+<!-- **************** BUTTONS **************** -->
+
+
+<!-- NAVAGATOR BUTTONS -->
+<style id="navButtons">
+       <opaque value="TRUE"/>
+
+	<font idref="H5"/>
+	<state>
+	</state>
+	
+</style>
+<bind style="navButtons" type="name" key="navButtons"/>
+
+
+
+<!-- BUTTONS -->
+<style id="mainButtonStyle">
+ 	<property key="Button.textShiftOffset" type="integer" value="2"/>
+       <opaque value="TRUE"/>
+ 	<insets top="8" left="8" right="8" bottom="8"/>
+ 	
+ 	<!-- STANDARD STATE -->
+ 	<state>
+ 	<imagePainter method="buttonBackground" path="Images/blackBorder.png"
+        sourceInsets="5 5 5 5"/>
+		<color value="#59686E" type="BACKGROUND"/>
+	</state>
+	
+	<!-- BUTTON PRESSED -->
+  	<state value="PRESSED">
+  	<imagePainter method="buttonBackground" path="Images/blackBorder.png"
+        sourceInsets="5 5 5 5"/>
+    	<color value="#C6CFDA" type="BACKGROUND"/>
+    </state>
+  
+  <!-- Button mouse over style 
+  <state value="MOUSE_OVER">    
+   <color value="RED" type="BACKGROUND"/>
+   <color type="TEXT_FOREGROUND" value="#8DA3B5"/>
+</state>
+  -->
+</style>
+<bind style="mainButtonStyle" type="region" key="Button"/>
+
+
+<!-- **************** TEXT AREAS **************** -->
+
+
+<!-- DEFAULT TEXT AREA -->
+<style id="TextAreaStyle">
+    <opaque value="TRUE"/>
+	<property key="TextArea.margin" type="insets" value="5 5 5 5"/>
+	
+	<state>
+		<color value="#59686E" type="BACKGROUND"/>
+		
+	</state>
+	
+	<state value="FOCUSED">
+	
+		<color value="#C6CFDA" type="BACKGROUND"/>
+	</state>
+
+</style>
+<bind style="TextAreaStyle" type="region" key="TextArea"/>
+
+<!-- DEFAULT TEXT AREA -->
+<style id="TextFieldStyle">
+       <opaque value="TRUE"/>
+	<property key="TextArea.margin" type="insets" value="5 5 5 5"/>
+	
+	<state>
+		<color value="#59686E" type="BACKGROUND"/>
+		
+	</state>
+	
+	<state value="FOCUSED">
+	
+		<color value="#C6CFDA" type="BACKGROUND"/>
+	</state>
+
+</style>
+<bind style="TextFieldStyle" type="region" key="TextField"/>
+
+
+<!-- **************** LABELS **************** -->
+
+
+<!-- H3 LABELS -->
+<style id="H3LabelStyle">
+	<font idref="H3"/>
+	<state></state>
+
+</style>
+<bind style="H3LabelStyle" type="name" key="H3"/>
+
+ <!-- H5 LABELS -->
+<style id="H5LabelStyle">
+	<font idref="H5"/>
+	<state></state>
+
+</style>
+<bind style="H5LabelStyle" type="name" key="H5"/>
+
+
+<!-- **************** PANELS **************** -->
+
+
+<!-- BASIC PANELS -->
+<style id="basicPanelStyle">  
+       <opaque value="TRUE"/>
+        <state>  
+        <!--imagePainter method="panelBackground" path="Images/blackBorder.png"
+        sourceInsets="5 5 5 5"/-->
+        	<insets top="5" left="5" right="5" bottom="5"/>
+            <color value="#8DA3B5" type="BACKGROUND" />  
+        </state>  
+      
+</style>  
+    <bind style="basicPanelStyle" key="Panel" type="region">  
+</bind>  
+
+<!-- BACKGROUND PANELS -->
+<style id="backgroundPanelStyle">  
+       <opaque value="TRUE"/>
+        <state>  
+        <!--imagePainter method="panelBackground" path="Images/blackBorder.png"
+        sourceInsets="5 5 5 5"/-->
+        	<insets top="5" left="5" right="5" bottom="5"/>
+            <color value="#345B79" type="BACKGROUND" />  
+        </state>  
+      
+</style>  
+    <bind style="backgroundPanelStyle" key="backgroundPanel" type="name">  
+</bind>  
+
+<!-- SELECTED PANELS -->
+<style id="selectedPanelStyle">  
+       <opaque value="TRUE"/>
+        <state>  
+        <!--imagePainter method="panelBackground" path="Images/blackBorder.png"
+        sourceInsets="5 5 5 5"/-->
+        	<insets top="5" left="5" right="5" bottom="5"/>
+            <color value="#C6CFDA" type="BACKGROUND" />  
+        </state>  
+      
+</style>  
+    <bind style="selectedPanelStyle" key="selectedPanel" type="name">  
+</bind> 
+
+<!-- VOID PANELS -->
+<style id="voidPanelStyle">  
+       <opaque value="FALSE"/>
+        <state>
+        </state>  
+      
+</style>  
+    <bind style="voidPanelStyle" key="voidPanel" type="name">  
+</bind> 
+
+
+</synth>

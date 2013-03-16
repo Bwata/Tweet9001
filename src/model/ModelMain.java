@@ -3,17 +3,18 @@ The primary class for the model side for the program. Handles all
 access to the model.
 
 started February 3, 2013
-@author Thomas Verstraete
+@author Thomas Verstraete, Tyler Hutek, Rui Takagi, Andrew Jarvis
 @version Winter 2013
  *****************************************************************/
 package model;
 
 import java.util.List;
-import java.util.Scanner;
 
 import twitter4j.DirectMessage;
+import twitter4j.Location;
 import twitter4j.Query;
 import twitter4j.QueryResult;
+import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Trend;
 import twitter4j.Trends;
@@ -21,6 +22,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
+import utilities.TrendLocations;
 
 /*****************************************************************
 The main model of the program. This updates the view.
@@ -130,26 +132,36 @@ public class ModelMain {
         Trends trends = twitter.getPlaceTrends(location);
         return trends.getTrends();
     }
-    public boolean directMessaging(String recipient, String words) {
-   	 
-   		 
+    
+    /*****************************************************************
 
-   		 if(!recipient.substring(0,1).equals("@")){
-   			 recipient= "@"+recipient;
-   		 }
-   		 
-   	        if (recipient.length() < 2) {
-   	            return false;
-   	        }
-   	        Twitter twitter = new TwitterFactory().getInstance();
-   	        try {
-   	            DirectMessage message = twitter.sendDirectMessage(recipient, words);
-   	           return true;
-   	        } catch (TwitterException te) {
-   	            te.printStackTrace();
-   	            return false;
-   	        }
+	@throws TwitterException 
+     *****************************************************************/
+    public TrendLocations getAllTrends () throws TwitterException {		
+
+    	ResponseList<Location> locations = twitter.getAvailableTrends();
+    	return new TrendLocations(locations);
+    }
+    
+    public boolean directMessaging(String recipient, String words) {
+        
+        
+        
+        if(!recipient.substring(0,1).equals("@")){
+            recipient= "@"+recipient;
+        }
+        
+        if (recipient.length() < 2) {
+            return false;
+        }
+        //Twitter twitter = new TwitterFactory().getInstance();
+        try {
+            DirectMessage message = twitter.sendDirectMessage(recipient, words);
+            return true;
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            return false;
+        }
     }
 }
-
 

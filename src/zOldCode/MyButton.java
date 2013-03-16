@@ -6,7 +6,7 @@ user wants a picture it will get it itself.
 @author Thomas Verstraete
 @version Fall 2012
  *****************************************************************/
-package utilities;
+package zOldCode;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -87,9 +87,9 @@ public class MyButton extends JPanel {
         fontSize = 17;
         fitButton = false;
         setOpaque(false);
-        color = ProgramStyle.BACKGROUND_COLOR;
+        //color = ProgramStyle.BACKGROUND_COLOR;
         setBackground(color);
-        colorBorder = ProgramStyle.BACKGROUND_COLOR;
+        //colorBorder = ProgramStyle.BACKGROUND_COLOR;
         this.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, 
             colorBorder));
     }
@@ -108,17 +108,17 @@ public class MyButton extends JPanel {
 
             //if the button is to fit the text size, sets the size
             if (fitButton){
-                Dimension dim = ProgramStyle.getStringSize(page,
-                    title, fontSize);
-                buttonSize = new Dimension (dim.width + 20,
-                        dim.height);
+                //Dimension dim = ProgramStyle.getStringSize(page,
+                   // title, fontSize);
+                //buttonSize = new Dimension (dim.width + 20,
+                        //dim.height);
             }
 
             //Draws the string on the panel
-            page.setFont(ProgramStyle.getFont(fontSize));
-            page.setColor(ProgramStyle.TEXT_COLOR);
-            Point stringLocal = getTitleLocation(page);
-            page.drawString(title, stringLocal.x, stringLocal.y);
+            //page.setFont(ProgramStyle.getFont(fontSize));
+            //page.setColor(ProgramStyle.TEXT_COLOR);
+            //Point stringLocal = getTitleLocation(page);
+            //page.drawString(title, stringLocal.x, stringLocal.y);
         }
     }
 
@@ -128,30 +128,30 @@ public class MyButton extends JPanel {
     @param page Graphics, like you do.
     @return the location for the string title.
      *****************************************************************/
-    private Point getTitleLocation(Graphics page) {
-
-        //get the size of the string to be printed.
-        FontMetrics fm = page.getFontMetrics(
-            ProgramStyle.getFont(fontSize));
-        Dimension stringSize = new Dimension(fm.stringWidth(title),
-                fm.getHeight());
-
-        if (buttonSize.width == 0 && buttonSize.height == 0) {
-
-            buttonSize = this.getSize();
-        }
-
-        //Finds the center of the image
-        Point center = new Point(buttonSize.width / 2,
-                buttonSize.height / 2);
-
-        //Finds the point bottom left of the string to make it
-            //centered on the image
-        Point string = new Point(center.x - (stringSize.width / 2),
-                center.y + (stringSize.height / 2) - 3);
-
-        return string;
-    }
+//    private Point getTitleLocation(Graphics page) {
+//
+//        //get the size of the string to be printed.
+//        FontMetrics fm = page.getFontMetrics(
+//            ProgramStyle.getFont(fontSize));
+//        Dimension stringSize = new Dimension(fm.stringWidth(title),
+//                fm.getHeight());
+//
+//        if (buttonSize.width == 0 && buttonSize.height == 0) {
+//
+//            buttonSize = this.getSize();
+//        }
+//
+//        //Finds the center of the image
+//        Point center = new Point(buttonSize.width / 2,
+//                buttonSize.height / 2);
+//
+//        //Finds the point bottom left of the string to make it
+//            //centered on the image
+//        Point string = new Point(center.x - (stringSize.width / 2),
+//                center.y + (stringSize.height / 2) - 3);
+//
+//        return string;
+//    }
 
     /*****************************************************************
     Tells the button to use an image for the button. gets the image'

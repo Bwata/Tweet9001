@@ -10,6 +10,8 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
+
 import javax.swing.*;
 
 import twitter4j.Status;
@@ -24,6 +26,9 @@ public class ViewMain extends JPanel {
 
     /**Top panel containing all semi-permanent panels.*/
     JPanel topPanel;
+    
+    /***/
+    private JPanel topCenter;
 
     /**The posting panel.*/
     private PostingPanel postPanel;
@@ -39,18 +44,16 @@ public class ViewMain extends JPanel {
      *****************************************************************/
     public ViewMain(User user) {
 
-        setPreferredSize(ProgramStyle.WINDOW_SIZE);
-
-       setBackground(ProgramStyle.BACKGROUND_COLOR);
+        setPreferredSize(ProgramStyle.windowSize());
+        setName("backgroundPanel");
+      // setBackground(ProgramStyle.BACKGROUND_COLOR);
 
         mainPanel = new JPanel();
-        mainPanel.setOpaque(false);
+    	mainPanel.setName("backgroundPanel");
 
         this.setLayout(new BorderLayout());
         add(setTopPanel(user), BorderLayout.NORTH);
         add(mainPanel, BorderLayout.CENTER);
-
-        //this needs to set up the different parts of the panel
 
     }
 
@@ -62,22 +65,58 @@ public class ViewMain extends JPanel {
     @return JPanel
      *****************************************************************/
     private JPanel setTopPanel (User user) {
+    	
         topPanel = new JPanel();
         //set the size of the panel
         topPanel.setPreferredSize(ProgramStyle.TOP_SIZE);
+    	topPanel.setName("backgroundPanel");
+
         //sets the color of the background
-        topPanel.setBackground(ProgramStyle.BACKGROUND_COLOR);
+        //topPanel.setBackground(ProgramStyle.BACKGROUND_COLOR);
 
         //sets up the three sections using BorderLayout method
         topPanel.setLayout(new BorderLayout());
+        
+        //sets up the panels
         postPanel = new PostingPanel();
         topPanel.add(postPanel, BorderLayout.WEST);
-        topPanel.add(new SmallProfilePanel(user), BorderLayout.CENTER);
+        topCenter = new SmallProfilePanel(user);
+        topPanel.add(topCenter, BorderLayout.CENTER);
         topPanel.add(new ButtonPanel(), BorderLayout.EAST);
 
         return topPanel;
     }
+    
+    /*****************************************************************
 
+
+     *****************************************************************/
+    public void resetSmallProfile (User user) {		
+
+    	topPanel.remove(topCenter);
+    	//resetMainPanel();
+    	topCenter = new SmallProfilePanel(user);
+    	topPanel.add(topCenter, BorderLayout.CENTER);
+
+        //add(mainPanel, BorderLayout.CENTER);
+
+        //refresh window
+        updateUI();
+    	
+    }
+
+    /*****************************************************************
+
+
+     *****************************************************************/
+    public void resetMainPanel () {	
+    	remove(mainPanel);
+    	mainPanel = new JPanel();
+    	mainPanel.setName("backgroundPanel");
+        add(mainPanel, BorderLayout.CENTER);
+    	//refresh window
+        updateUI();
+    }
 
     /*****************************************************************
     Display an array of trends in the main portion of the window.
@@ -85,12 +124,14 @@ public class ViewMain extends JPanel {
 
     @param trends Trend[]
      *****************************************************************/
-    public void showTrends(Trend[] trends) {
+    public void showTrends(Trend[] trends, String place, 
+    		TrendLocations locals) {
 
+    	mainPanel.setLayout(new BorderLayout());
+    	mainPanel.add(new WorldTrendsPanel(locals.getArray()), BorderLayout.WEST);
 
-
-        remove(mainPanel);
-        mainPanel = new TrendingList(trends);
+        //remove(mainPanel);
+        mainPanel.add(new TrendingList(trends, place), BorderLayout.CENTER);
 
         //add new trending panel to main section
         add(mainPanel, BorderLayout.CENTER);
@@ -103,32 +144,51 @@ public class ViewMain extends JPanel {
     For future use.
     @param trends Trend[]
      *****************************************************************/
-//  public void addTrends (Trend[] trends) {
-//
-//      if (mainPanel instanceof TrendingList) {
-//          ((TrendingList) mainPanel).addTrendList(trends);
+  public void addTrends (Trend[] trends, String place) {
+
+      //if (mainPanel instanceof TrendingList) {
+    	  mainPanel.add(new TrendingList(trends, place), BorderLayout.EAST);
+          //((TrendingList) mainPanel).addTrendList(trends, place);
 //      }
 //     else {
 //
 //      remove(mainPanel);
-//        mainPanel = new TrendingList(trends);
+//        mainPanel = new TrendingList(trends, place);
 //
 //        //add new trending panel to main section
 //        add(mainPanel, BorderLayout.CENTER);
 //      }
 //        //refresh window
-//        updateUI();
-//  }
+        updateUI();
+  }
 
     /*****************************************************************
     Show the search panel in the main section.
      *****************************************************************/
     public void showSearch() {
 
-        remove(mainPanel);
-        mainPanel = new SearchPanel();
+    	topPanel.remove(topCenter);
+    	//resetMainPanel();
+    	topCenter = new SearchPanel();
+    	topPanel.add(topCenter, BorderLayout.CENTER);
 
-        add(mainPanel, BorderLayout.CENTER);
+        //add(mainPanel, BorderLayout.CENTER);
+
+        //refresh window
+        updateUI();
+    }
+    
+    /*****************************************************************
+    Show the search panel in the main section.
+     *****************************************************************/
+    public void showDM() {
+
+    	topPanel.remove(topCenter);
+    	//resetMainPanel();
+    	topCenter = new DMessageSendPanel();
+    	topPanel.add(topCenter, BorderLayout.CENTER);
+
+        //add(mainPanel, BorderLayout.CENTER);
 
         //refresh window
         updateUI();
@@ -140,8 +200,8 @@ public class ViewMain extends JPanel {
      *****************************************************************/
     public void showSearchResults(Status[] stati) {
 
-        remove(mainPanel);
-        mainPanel = new StatusList(stati);
+    	resetMainPanel();
+    	mainPanel.add(new StatusList(stati));
 
         add(mainPanel, BorderLayout.CENTER);
 
@@ -155,8 +215,8 @@ public class ViewMain extends JPanel {
      *****************************************************************/
     public void showUserSearch(User[] userSearch) {
 
-        remove(mainPanel);
-        mainPanel = new UserList(userSearch);
+    	resetMainPanel();
+    	mainPanel.add(new UserList(userSearch));
 
         add(mainPanel, BorderLayout.CENTER);
 
@@ -212,6 +272,9 @@ public class ViewMain extends JPanel {
     @param user User to show in Profile Panel.
      *****************************************************************/
     public void refreshProfile(User user) {
-        setTopPanel(user);
+    	
+    	remove(topPanel);
+        add(setTopPanel(user), BorderLayout.NORTH);
+        updateUI();
     }
 }

@@ -9,12 +9,14 @@ started February 8, 2013
  *****************************************************************/
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListModel;
@@ -26,9 +28,6 @@ import utilities.ProgramStyle;
 The panel which displays all trending topics.
  *****************************************************************/
 public class TrendingList extends JPanel {
-
-    /**The items in the list that are to be displayed.*/
-    ArrayList<Trend[]> itemsList;
 
     /**Swing list object to show list.*/
     JList list;
@@ -42,33 +41,54 @@ public class TrendingList extends JPanel {
 
     @param items Trends[] array to show in the panel list.
      *****************************************************************/
-    public TrendingList(Trend[] items) {
+    public TrendingList(Trend[] items, String place) {
+ 
+    	
+    	setLayout(new BorderLayout());
+    	
+    	JLabel title = new JLabel(place);
+    	title.setName("H3");
+    	System.out.println("Break");
 
-        this.setBackground(ProgramStyle.BACKGROUND_COLOR);
-        itemsList = new ArrayList<Trend[]>();
-
-        itemsList.add(items);
         listener = Listeners.getListener("ListListener");
 
         //Sets up the JList to display the items
         list = new JList(items);
         list.setCellRenderer(ProgramStyle.getTrendListRenderer());
-        list.addMouseListener(new ListClickListener(list));
-        list.setOpaque(false);
-        list.setBackground(ProgramStyle.BACKGROUND_COLOR);
+        list.addMouseListener(new ListClickListener());
         list.setVisibleRowCount(10);
 
         //Add all the parts together
-        add(list);
+        add(title, BorderLayout.NORTH);
+        add(list, BorderLayout.CENTER);
+    	
+    	
+//        listener = Listeners.getListener("ListListener");
+//
+//        //Sets up the JList to display the items
+//        list = new JList(items);
+//        list.setCellRenderer(ProgramStyle.getTrendListRenderer());
+//        list.addMouseListener(new ListClickListener(list));
+//        //list.setOpaque(false);
+//        //list.setBackground(ProgramStyle.BACKGROUND_COLOR);
+//        list.setVisibleRowCount(10);
+//
+//        //Add all the parts together
+//        add(list);
     }
 
     /*****************************************************************
     This is for future use.
     @param items Trend[]
      *****************************************************************/
-//    public void addTrendList (Trend[] items) {
+//    public void addTrendList (Trend[] items, String place) {
 //
-//        itemsList.add(items);
+//    	JPanel listItem = new JPanel();
+//    	listItem.setLayout(new BorderLayout());
+//    	
+//    	JLabel title = new JLabel(place);
+//    	title.setName("H3");
+//    	System.out.println("Break");
 //
 //        listener = Listeners.getListener("ListListener");
 //
@@ -76,23 +96,23 @@ public class TrendingList extends JPanel {
 //        list = new JList(items);
 //        list.setCellRenderer(ProgramStyle.getTrendListRenderer());
 //        list.addMouseListener(new ListClickListener(list));
-//        list.setOpaque(false);
-//        list.setBackground(ProgramStyle.BACKGROUND_COLOR);
 //        list.setVisibleRowCount(10);
 //
 //        //Add all the parts together
-//        add(list);
+//        listItem.add(title, BorderLayout.NORTH);
+//        listItem.add(list, BorderLayout.CENTER);
+//        add(listItem);
 //    }
 
     /*****************************************************************
     Class listener when user clicks on an item in the list.
      *****************************************************************/
     public class ListClickListener extends MouseAdapter {
-        protected JList list;
-
-        public ListClickListener(JList l){
-            list = l;
-        }
+//        protected JList list;
+//
+//        public ListClickListener(JList l){
+//            list = l;
+//        }
 
         /*****************************************************************
         Mouse event that listens for a double click of an item on the list.

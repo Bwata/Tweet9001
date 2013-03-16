@@ -45,8 +45,6 @@ public class UserList extends JPanel{
      *****************************************************************/
     public UserList(User[] items) {
 
-        this.setBackground(ProgramStyle.BACKGROUND_COLOR);
-
         this.items = items;
         listener = Listeners.getListener("ListListener");
 
@@ -54,21 +52,12 @@ public class UserList extends JPanel{
         list = new JList(items);
         list.setCellRenderer(ProgramStyle.getUserListRenderer());
         list.addMouseListener(new ListClickListener(list));
-        list.setOpaque(false);
-        list.setBackground(ProgramStyle.BACKGROUND_COLOR);
 
         //Place the JList into a scrollable window
         JScrollPane scrollPane = new JScrollPane(list,
         ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
         ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setPreferredSize(new Dimension(500, 720));
-        //hides the vertical scroll bar
-        scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
-        scrollPane.setOpaque(false);
-        //sets the background color
-        scrollPane.setBackground(ProgramStyle.BACKGROUND_COLOR);
-        //eliminates the default border
-        scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        scrollPane.setPreferredSize(new Dimension(ProgramStyle.MAIN_ELEMENT_WIDTH, ProgramStyle.MAIN_HEIGHT));
 
         //Add all the parts together
         add(scrollPane);

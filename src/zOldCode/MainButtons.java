@@ -6,7 +6,7 @@ started January 26, 2013
 @author Thomas Verstraete
 @version Winter 2013
  *****************************************************************/
-package utilities;
+package zOldCode;
 
 import java.awt.event.ActionListener;
 
@@ -92,7 +92,7 @@ public enum MainButtons implements ProgButton {
     Sets the listener for this type of button.
      *****************************************************************/
     public static void setListener() {
-        listener = Listeners.getListener(className);
+        //listener = Listeners.getListener(className);
     }
 
     /*****************************************************************
