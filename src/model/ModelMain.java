@@ -8,6 +8,7 @@ started February 3, 2013
  *****************************************************************/
 package model;
 
+import java.io.File;
 import java.util.List;
 
 import twitter4j.DirectMessage;
@@ -16,6 +17,7 @@ import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.ResponseList;
 import twitter4j.Status;
+import twitter4j.StatusUpdate;
 import twitter4j.Trend;
 import twitter4j.Trends;
 import twitter4j.Twitter;
@@ -134,6 +136,7 @@ public class ModelMain {
     }
     
     /*****************************************************************
+<<<<<<< HEAD
 
 	@throws TwitterException 
      *****************************************************************/
@@ -162,6 +165,58 @@ public class ModelMain {
             te.printStackTrace();
             return false;
         }
+=======
+    Sends a direct message to a user. 
+
+    @param recipient the recipient of the message.
+    @param privateMessage the message to be sent.
+    @throws TwitterException
+    @return true if the message successfully sends.
+     *****************************************************************/
+    public boolean directMessaging(String recipient, String privateMessage) {
+   	 
+   		 
+
+   		 if(!recipient.substring(0,1).equals("@")){
+   			 recipient= "@"+recipient;
+   		 }
+   		 
+   	        if (recipient.length() < 2) {
+   	            return false;
+   	        }
+   	        Twitter twitter = new TwitterFactory().getInstance();
+   	        try {
+   	            DirectMessage message = twitter.sendDirectMessage(recipient, privateMessage);
+   	           return true;
+   	        } catch (TwitterException te) {
+   	            te.printStackTrace();
+   	            return false;
+   	        }
+>>>>>>> 2f2c48100a1b48cd1f7c2779f1b5539738b806a8
     }
+    
+    
+    /*****************************************************************
+    uploads an image with a message.
+
+    @param message the message to be attached to the photo
+    @param photo the photo file to be uploaded
+    @throws TwitterException
+    @return true if the image is successfully uploaded
+     *****************************************************************/
+    public boolean imageUpload(String message, File photo) throws TwitterException{
+
+    	    try{
+    	        StatusUpdate status = new StatusUpdate(message);
+    	        status.setMedia(photo);
+    	        twitter.updateStatus(status);
+    	        return true;
+    	        }
+    	    	
+    	    catch(TwitterException e){
+    	        throw e; 
+    	    }
+    	}
+    
 }
 
