@@ -28,7 +28,7 @@ public class ButtonPanel extends JPanel{
         //this.setName("Test");
         
         //grid layout with three rows and two columns
-        this.setLayout(new GridLayout(3,1));
+        this.setLayout(new GridLayout(2,2));
 
         //adds all the buttons based on the enum types
         JButton ht = new TButton(ButtonType.HOMETIMELINE);
@@ -45,6 +45,11 @@ public class ButtonPanel extends JPanel{
         tr.addActionListener(Listeners.getListener("Button"));
         tr.setName("navButtons");
         add(tr);
+        
+        JButton dm = new TButton(ButtonType.DIRECT_MESSAGE);
+        dm.addActionListener(Listeners.getListener("Button"));
+        dm.setName("navButtons");
+        add(dm);
 
     }
 	

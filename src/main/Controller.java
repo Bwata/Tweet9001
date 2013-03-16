@@ -27,6 +27,7 @@ import model.ModelMain;
 import utilities.ButtonType;
 import utilities.Listeners;
 import utilities.TButton;
+import utilities.TrendLocations.TrendLocation;
 import zOldCode.MainButtons;
 import zOldCode.SearchButtons;
 import view.ViewMain;
@@ -46,6 +47,8 @@ public class Controller {
     /**The access class for the Project Model side.*/
     private ModelMain mainModel;
 
+    /***/
+	private User user;
 
     /*****************************************************************
     General constructor sets up all the attributes.
@@ -55,7 +58,6 @@ public class Controller {
 
         //Sets up the model
         mainModel = new ModelMain();
-        User user;
         try {
             user = mainModel.getMainUser();
         } catch (TwitterException e) {
@@ -88,17 +90,6 @@ public class Controller {
     When user clicks on the profile panel, the top panel will refresh.
      *****************************************************************/
     private void refreshProfile() {
-        User user;
-        try {
-            user = mainModel.getMainUser();
-            //mainView.refreshProfile(user);
-            System.out.println("refresh method good");
-        } catch (TwitterException e) {
-            user = null;
-            System.out.println("refresh method error");
-            //e.printStackTrace();
-        }
-
         mainView.refreshProfile(user);
     }
 
@@ -147,9 +138,6 @@ public class Controller {
         }
     }
     
-    
-    
-
     /*****************************************************************
     Gets the top ten trends for the united states - 23424977.
 	Detroit 2391585 - chicago 2379574
@@ -163,13 +151,30 @@ public class Controller {
         	
             mainView.showTrends(mainModel.getTrends(23424977), "USA", 
             		mainModel.getAllTrends());
-            //mainView.addTrends(mainModel.getTrends(2379574), "Chicago");
-            //mainView.addTrends(mainModel.getTrends(2391585), "Detroit");
         } catch (TwitterException e) {
             mainView.showError();
             //e.printStackTrace();
         }
     }
+    
+    /*****************************************************************
+    Gets the top ten trends for the united states - 23424977.
+	Detroit 2391585 - chicago 2379574
+    @throws TwitterException
+	 *****************************************************************/
+	private void getTrends(TrendLocation loc) {
+
+		//sends the trends to display
+		try {
+			mainView.resetMainPanel();
+
+			mainView.addTrends(mainModel.getTrends
+					(loc.getLocation().getWoeid()), loc.getTownName());
+		} catch (TwitterException e) {
+			mainView.showError();
+			//e.printStackTrace();
+		}
+	}
 
     /*****************************************************************
     Tells the view to show the search panel for the user.
@@ -177,6 +182,21 @@ public class Controller {
     private void showSearchPanel() {
         mainView.showSearch();
     }
+
+	/*****************************************************************
+    Tells the view to show the search panel for the user.
+	 *****************************************************************/
+	private void showDMSendPanel() {
+		mainView.showDM();
+	}
+
+	/*****************************************************************
+
+
+	 *****************************************************************/
+	private void sendDM (String recipient, String words) {	
+		mainModel.directMessaging(recipient, words);
+	}
 
     /*****************************************************************
     Shows the search results if the user wants to search for tweets.
@@ -208,8 +228,6 @@ public class Controller {
             //e.printStackTrace();
         }
     }
-    
-    
 
     /*****************************************************************
     Adds the listeners from the subclasses to the Static Listeners
@@ -294,6 +312,9 @@ public class Controller {
             	break;
             	
             case WORLD_TRENDING:
+
+				TrendLocation loc = ((TrendLocation) (button.getPassedObject()));
+				getTrends(loc);   
             	
             	break;
             case LOCAL_TRENDS:
@@ -302,6 +323,16 @@ public class Controller {
             	
 			case VIEW_PROFILE:
 				
+				break;
+
+			case DIRECT_MESSAGE:
+				showDMSendPanel();
+				break;
+
+			case SEND_DM:
+				JTextArea[] areas = ((JTextArea[]) (button.getPassedObject()));
+				sendDM(areas[0].getText(), areas[1].getText());
+				refreshProfile();
 				break;
 				
 			default:
@@ -369,7 +400,6 @@ public class Controller {
             case TRENDING:
                 getTrends();
                 break;
-                
             }
         }
 

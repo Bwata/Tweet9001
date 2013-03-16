@@ -176,5 +176,29 @@ public class ModelMain {
             return false;
         }
     }
+    
+    /*****************************************************************
+    uploads an image with a message.
+
+    @param message the message to be attached to the photo
+    @param photo the photo file to be uploaded
+    @throws TwitterException
+    @return true if the image is successfully uploaded
+     *****************************************************************/
+    public boolean imageUpload(String message, File photo) throws TwitterException{
+
+    	    try{
+    	        StatusUpdate status = new StatusUpdate(message);
+    	        status.setMedia(photo);
+    	        twitter.updateStatus(status);
+    	        return true;
+    	        }
+    	    	
+    	    catch(TwitterException e){
+    	        throw e; 
+    	    }
+    	}
+    
 }
+
 

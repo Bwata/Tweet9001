@@ -8,6 +8,12 @@ public class PanelMain extends JPanel{
 	
 	/***/
 	private ArrayList<JPanel> lists;
+	
+	/***/
+	private JPanel access;
+	
+	/***/
+	private JPanel main;
 
 	/*****************************************************************
 
@@ -16,7 +22,7 @@ public class PanelMain extends JPanel{
 		
 		//set up as grid with one row
 		//set to panel background
-		//
+		//make the main a scrollpane
 		
 		
 		

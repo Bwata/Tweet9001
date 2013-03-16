@@ -14,6 +14,12 @@ public class TButton extends JButton{
 		this.type = type;
 	}
 
+
+	public TButton(ButtonType type, String title) {
+		super(title);
+		this.type = type;
+	}
+	
 	/*****************************************************************
 
 	 *****************************************************************/

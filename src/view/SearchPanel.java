@@ -31,8 +31,8 @@ public class SearchPanel extends JPanel {
 
         setPreferredSize(ProgramStyle.TOP_PANEL_SIZE);
     	
-        JPanel itemArea = new JPanel();
-        itemArea.setLayout(new BorderLayout());
+       
+        setLayout(new BorderLayout());
 
         JTextArea searchWindow = new JTextArea();
 
@@ -46,10 +46,9 @@ public class SearchPanel extends JPanel {
         userButton.setPassedObject(searchWindow);
         userButton.addActionListener(Listeners.getListener("Button"));
 
-        itemArea.add(searchWindow, BorderLayout.NORTH);
-        itemArea.add(tweetButton, BorderLayout.EAST);
-        itemArea.add(userButton, BorderLayout.WEST);
+        add(searchWindow, BorderLayout.NORTH);
+        add(tweetButton, BorderLayout.EAST);
+        add(userButton, BorderLayout.WEST);
 
-        add(itemArea);
     }
 }

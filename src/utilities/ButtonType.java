@@ -40,6 +40,12 @@ public enum ButtonType {
     /**show the local Trends.*/
     LOCAL_TRENDS ("Local Trends"),
     
+    /**show the DM panel*/
+    DIRECT_MESSAGE ("Direct Message"),
+    
+    /**Sends the direct message*/
+    SEND_DM ("Send")
+    
     
     ;
     

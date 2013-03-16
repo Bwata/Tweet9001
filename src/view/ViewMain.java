@@ -10,6 +10,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.io.File;
 
 import javax.swing.*;
@@ -127,10 +128,11 @@ public class ViewMain extends JPanel {
     public void showTrends(Trend[] trends, String place, 
     		TrendLocations locals) {
 
-    	mainPanel.add(new WorldTrendsPanel(locals.getArray()));
+    	mainPanel.setLayout(new BorderLayout());
+    	mainPanel.add(new WorldTrendsPanel(locals.getArray()), BorderLayout.WEST);
 
         //remove(mainPanel);
-        mainPanel.add(new TrendingList(trends, place));
+        mainPanel.add(new TrendingList(trends, place), BorderLayout.CENTER);
 
         //add new trending panel to main section
         add(mainPanel, BorderLayout.CENTER);
@@ -146,7 +148,7 @@ public class ViewMain extends JPanel {
   public void addTrends (Trend[] trends, String place) {
 
       //if (mainPanel instanceof TrendingList) {
-    	  mainPanel.add(new TrendingList(trends, place));
+    	  mainPanel.add(new TrendingList(trends, place), BorderLayout.EAST);
           //((TrendingList) mainPanel).addTrendList(trends, place);
 //      }
 //     else {
@@ -158,7 +160,7 @@ public class ViewMain extends JPanel {
 //        add(mainPanel, BorderLayout.CENTER);
 //      }
 //        //refresh window
-//        updateUI();
+        updateUI();
   }
 
     /*****************************************************************
@@ -169,6 +171,22 @@ public class ViewMain extends JPanel {
     	topPanel.remove(topCenter);
     	//resetMainPanel();
     	topCenter = new SearchPanel();
+    	topPanel.add(topCenter, BorderLayout.CENTER);
+
+        //add(mainPanel, BorderLayout.CENTER);
+
+        //refresh window
+        updateUI();
+    }
+    
+    /*****************************************************************
+    Show the search panel in the main section.
+     *****************************************************************/
+    public void showDM() {
+
+    	topPanel.remove(topCenter);
+    	//resetMainPanel();
+    	topCenter = new DMessageSendPanel();
     	topPanel.add(topCenter, BorderLayout.CENTER);
 
         //add(mainPanel, BorderLayout.CENTER);
@@ -223,8 +241,7 @@ public class ViewMain extends JPanel {
     public void clearPost() {
         postPanel.clearText();
     }
-    
-    
+
     /*****************************************************************
     Displays an error message.
      *****************************************************************/
@@ -259,10 +276,10 @@ public class ViewMain extends JPanel {
     	
     	remove(topPanel);
         add(setTopPanel(user), BorderLayout.NORTH);
+        updateUI();
     }
-
-
-	/*****************************************************************
+    
+    /*****************************************************************
 	Displays the file chooser for image uploading.
 	
 	 *****************************************************************/
