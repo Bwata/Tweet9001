@@ -67,6 +67,7 @@ public class PostingPanel extends JPanel {
 		post.addActionListener(Listeners.getListener("Button"));
 
 		TButton image = new TButton(ButtonType.IMAGE);
+		image.setPassedObject(postArea);
 		image.addActionListener(Listeners.getListener("Button"));
 
 		side.add(image);

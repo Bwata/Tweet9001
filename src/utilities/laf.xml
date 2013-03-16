@@ -190,6 +190,14 @@
 </style>
 <bind style="H5LabelStyle" type="name" key="H5"/>
 
+<!-- **************** FILECHOOSER **************** -->
+
+ 	<style id="fileChooser">
+
+	
+
+	</style>
+ 		<bind style="fileChooser" type="region" key="FileChooser"/>
 
 <!-- **************** PANELS **************** -->
 
