@@ -16,17 +16,19 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 import twitter4j.User;
 import utilities.ProgramStyle;
 
@@ -37,6 +39,32 @@ public class SmallProfilePanel extends JPanel {
 
     /**User object to display aspects of.*/
     private User user;
+    
+    //used to update profile information
+    public static void update(String nam, String url, String loc, String des){
+    	
+    	Twitter up = new TwitterFactory().getInstance();
+    	
+    	try {
+			up.updateProfile(nam, url, loc, des);
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    //updates profile picture
+    public static void updatePic(File img){
+    	
+    	Twitter pic = new TwitterFactory().getInstance();
+    	
+    	try {
+			pic.updateProfileImage(img);
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 
     /*****************************************************************
     Basic Constructor for the profile information panel.
