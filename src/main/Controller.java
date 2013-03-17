@@ -1,7 +1,7 @@
 /*****************************************************************
 This class is God. This is the hub where all action passes through.
 everything the user does calls on this class to react and make
-changes to the accounts and rentals.
+changes to the Twitter Project.
 
 @author Thomas Verstraete, Tyler Hutek, Rui Takagi, Andrew Jarvis
 @version Winter 2013
@@ -48,7 +48,7 @@ public class Controller {
     /**The access class for the Project Model side.*/
     private ModelMain mainModel;
 
-    /***/
+    /**User account info*/
 	private User user;
 
     /*****************************************************************
@@ -88,7 +88,7 @@ public class Controller {
     }
 
     /*****************************************************************
-    When user clicks on the profile panel, the top panel will refresh.
+    Redisplay the small profile information.
      *****************************************************************/
     private void refreshProfile() {
         mainView.refreshProfile(user);
@@ -113,10 +113,11 @@ public class Controller {
     /*****************************************************************
     Process to collect the post text and send it on to twitter then
     update the view's timeline.
+    
+    @param text String message to post.
      *****************************************************************/
     private void postTweet(String text) {
 
-        //String postText = mainView.getPost();
         try {
             mainModel.postTweet(text);
             mainView.clearPost();
@@ -127,6 +128,12 @@ public class Controller {
         }
     }
     
+    /*****************************************************************
+    Take the String parameter, collect the image with a filechooser 
+    and post both to the twitters. 
+    
+    @param text String message to post.
+     *****************************************************************/
     private void postTweetAndImage(String text) {
 
         try {
@@ -140,9 +147,12 @@ public class Controller {
     }
     
     /*****************************************************************
-    Gets the top ten trends for the united states - 23424977.
-	Detroit 2391585 - chicago 2379574
-    @throws TwitterException
+    Get the Top Ten trends of a hard coded location and also display 
+    all the possible trending locaitons of Twitter.
+    Local examples:
+    united states - 23424977.
+	Detroit - 2391585
+	Chicago - 2379574
      *****************************************************************/
     private void getTrends() {
 
@@ -159,8 +169,7 @@ public class Controller {
     }
     
     /*****************************************************************
-    Gets the top ten trends for the united states - 23424977.
-	Detroit 2391585 - chicago 2379574
+    Gets the top ten trends for a parameter location
     @throws TwitterException
 	 *****************************************************************/
 	private void getTrends(TrendLocation loc) {
@@ -186,6 +195,7 @@ public class Controller {
 
     /*****************************************************************
     Tells the view to show the Direct Message panel for the user.
+    And displays the DM's sent to the user.
 	 *****************************************************************/
 	private void showDMSendPanel() {
 		DirectMessage[] Dmessages = mainModel.receiveDirectMessage();
@@ -193,8 +203,10 @@ public class Controller {
 	}
 
 	/*****************************************************************
-
-
+	Sends a direct message to the parameter user with the parameter 
+	message.
+	@param recipient String user to receive DM from program user
+	@param words String message to send recipient.
 	 *****************************************************************/
 	private void sendDM (String recipient, String words) {	
 		mainModel.directMessaging(recipient, words);
@@ -230,6 +242,46 @@ public class Controller {
             //e.printStackTrace();
         }
     }
+    
+    /*****************************************************************
+
+
+     *****************************************************************/
+    private void showProfileEdit () {		
+    	mainView.showProfileEdit(user);
+    }
+    
+    /*****************************************************************
+	Gives user a file chooser to edit the profile image.
+     *****************************************************************/
+    private void imageEdit () {		
+    	mainModel.updatePic(mainView.imageChooser());
+    }
+    
+    /*****************************************************************
+	Takes the info to edit the profile.
+     *****************************************************************/
+    private void editProfile (JTextArea[] areas) {		
+    	mainModel.update(areas[0].getText(), areas[1].getText(), 
+    			areas[2].getText(), areas[3].getText());
+    }
+    
+    /*****************************************************************
+     * Gets the conversations/replies from a status
+     * @param statusID
+     * @return Status[] an array of statuses/replies
+     * @throws TwitterException
+     *****************************************************************/
+    private void getConversations(long statusID) throws TwitterException{
+
+    	
+    	Status[] convo = mainModel.getConversations(statusID);
+    	
+    	if (convo.length > 1) {
+    		mainView.addConversations(convo);
+    	}
+    	
+    }
 
     /*****************************************************************
     Adds the listeners from the subclasses to the Static Listeners
@@ -238,9 +290,7 @@ public class Controller {
     private void setListeners() {
 
     	Listeners.addListener(new ButtonListener());
-//        Listeners.addListener(new MainButtonListener());
         Listeners.addListener(new ListListener());
-//        Listeners.addListener(new SearchButtonListener());
     }
 
     //################################################################
@@ -273,6 +323,7 @@ public class Controller {
 
             case HOMETIMELINE:
                 showHomeTimeline();
+            	refreshProfile();
                 break;
 
             case POST_TWEET:
@@ -294,10 +345,6 @@ public class Controller {
             case TRENDING:
                 getTrends();
                 break;
-                
-            case QUIT:
-            	
-            	break;
             	
             case SEARCH_TWEET:
             	String searchTweetText =
@@ -319,14 +366,7 @@ public class Controller {
 				getTrends(loc);   
             	
             	break;
-            case LOCAL_TRENDS:
             	
-            	break;
-            	
-			case VIEW_PROFILE:
-				
-				break;
-
 			case DIRECT_MESSAGE:
 				showDMSendPanel();
 				break;
@@ -337,71 +377,27 @@ public class Controller {
 				refreshProfile();
 				break;
 				
-			default:
-				
+			case EDIT_IMAGE:
+				System.out.println("Controller 357");
+				//show file chooser and update it then
+				imageEdit();
 				break;
-            	
-            }
-        }
+				
+			case EDIT_PROFILE:
+				//show profile panel
+				showProfileEdit();
+				break;
 
-        /***************************************************************
-        This gets the determining String.
-        @return String of the listener type.
-         **************************************************************/
-        @Override
-        public String toString() {
-            return listenType;
-        }
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    /*****************************************************************
-    Listener for the main buttons on the main panel.
-     *****************************************************************/
-    public class MainButtonListener implements ActionListener {
-
-        /**The String determining the type of listener wanted.*/
-        //string has to match the enum
-        private String listenType = "MainButton";
-
-        /***************************************************************
-        The action performed method, like you do.
-
-        @param event ActionEvent containing all the info you will need
-         **************************************************************/
-        @Override
-        public void actionPerformed(ActionEvent event) {
-
-            //Switch to Determine Pressed Button
-            switch (((MainButtons) event.getSource())) {
-
-            case HOMETIMELINE:
-                showHomeTimeline();
-                break;
-
-            case POST_TWEET:
-                //postTweet();
-                break;
-            	
-            case SEARCH:
-                showSearchPanel();
-                break;
-
-            case TRENDING:
-                getTrends();
-                break;
+			case SAVE_PROFILE:
+				//get text info from edit panel
+				JTextArea[] profileAreas = ((JTextArea[]) (button.getPassedObject()));
+				editProfile(profileAreas);
+				showHomeTimeline();
+            	refreshProfile();
+				break;
+		
+			default:
+				break;
             }
         }
 
@@ -437,6 +433,22 @@ public class Controller {
             if (obj instanceof Trend) {
                 showSearchTweets(((Trend) obj).getName());
             }
+            
+            if (obj instanceof Status) {
+//                if(((Status) obj).isRetweet() == true){ //TODO
+//                	System.out.println("faaaaat");
+//                	showIfRetweet();	       	
+//                }
+                try {
+					getConversations(((Status) obj).getId());
+				} catch (TwitterException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                
+            }
+            
+
 
 //            if (obj instanceof Status) {
 //                //For future use.
@@ -447,57 +459,6 @@ public class Controller {
 		This gets the determining String.
 		@return String of the listener type.
          **************************************************************/
-        @Override
-        public String toString() {
-            return listenType;
-        }
-    }
-
-    /*****************************************************************
-	Listener for the main buttons on the main panel.
-     *****************************************************************/
-    public class SearchButtonListener implements ActionListener {
-
-        /**The String determining the type of listener wanted.*/
-        //string has to match the enum
-        private String listenType = "SearchButton";
-
-        /***************************************************************
-		The action performed method, like you do.
-
-		@param event ActionEvent containing all the info you will need
-         **************************************************************/
-        @Override
-        public void actionPerformed(ActionEvent event) {
-
-            SearchButtons button = (SearchButtons) event.getSource();
-
-            String searchText =
-                    ((JTextField) (button.getPassedObject())).getText();
-
-            if (searchText.length() != 0) {
-
-                //Switch to determine what search button was pressed
-                switch (button) {
-
-                case SEARCH_TWEET:
-                    showSearchTweets(searchText);
-                    refreshProfile();
-                    break;
-
-                case SEARCH_USER:
-                    showSearchUsers(searchText);
-                    refreshProfile();
-                    break;
-
-                }
-            }
-        }
-
-        /***************************************************************
-		This gets the determining String.
-        @return String of the listener type.
-         *************************************************************/
         @Override
         public String toString() {
             return listenType;

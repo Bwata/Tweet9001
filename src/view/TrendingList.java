@@ -43,12 +43,10 @@ public class TrendingList extends JPanel {
      *****************************************************************/
     public TrendingList(Trend[] items, String place) {
  
-    	
     	setLayout(new BorderLayout());
     	
     	JLabel title = new JLabel(place);
     	title.setName("H3");
-
 
         listener = Listeners.getListener("ListListener");
 
@@ -61,20 +59,6 @@ public class TrendingList extends JPanel {
         //Add all the parts together
         add(title, BorderLayout.NORTH);
         add(list, BorderLayout.CENTER);
-    	
-    	
-//        listener = Listeners.getListener("ListListener");
-//
-//        //Sets up the JList to display the items
-//        list = new JList(items);
-//        list.setCellRenderer(ProgramStyle.getTrendListRenderer());
-//        list.addMouseListener(new ListClickListener(list));
-//        //list.setOpaque(false);
-//        //list.setBackground(ProgramStyle.BACKGROUND_COLOR);
-//        list.setVisibleRowCount(10);
-//
-//        //Add all the parts together
-//        add(list);
     }
 
     /*****************************************************************
@@ -108,11 +92,6 @@ public class TrendingList extends JPanel {
     Class listener when user clicks on an item in the list.
      *****************************************************************/
     public class ListClickListener extends MouseAdapter {
-//        protected JList list;
-//
-//        public ListClickListener(JList l){
-//            list = l;
-//        }
 
         /*****************************************************************
         Mouse event that listens for a double click of an item on the list.

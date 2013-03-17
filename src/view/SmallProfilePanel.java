@@ -40,31 +40,7 @@ public class SmallProfilePanel extends JPanel {
     /**User object to display aspects of.*/
     private User user;
     
-    //used to update profile information
-    public static void update(String nam, String url, String loc, String des){
-    	
-    	Twitter up = new TwitterFactory().getInstance();
-    	
-    	try {
-			up.updateProfile(nam, url, loc, des);
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }
     
-    //updates profile picture
-    public static void updatePic(File img){
-    	
-    	Twitter pic = new TwitterFactory().getInstance();
-    	
-    	try {
-			pic.updateProfileImage(img);
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }
 
     /*****************************************************************
     Basic Constructor for the profile information panel.
@@ -152,30 +128,14 @@ public class SmallProfilePanel extends JPanel {
         //user name
         JLabel userName = new JLabel(user.getName());
         userName.setName("H3");
-        //userName.setFont(ProgramStyle.getFont(20));
-        //userName.setForeground(ProgramStyle.TEXT_COLOR);
         names.add(userName, BorderLayout.CENTER);
 
         //screen name
         JLabel screenName = new JLabel("@" + user.getScreenName());
-        //screenName.setFont(ProgramStyle.getFont(12));
-        //screenName.setForeground(ProgramStyle.TEXT_COLOR);
         names.add(screenName, BorderLayout.EAST);
 
         main.add(names, BorderLayout.NORTH);
 
-//        //description
-//        JTextArea description = new JTextArea(user.getDescription());
-//        //description portion attributes.
-//        description.setPreferredSize(description.getSize());
-//        //description.setFont(ProgramStyle.getFont(12));
-//        //description.setForeground(ProgramStyle.TEXT_COLOR);
-//        description.setOpaque(false);
-//        description.setLineWrap(true);
-//        description.setWrapStyleWord(true);
-//        description.setEditable(false);
-
-//        main.add(description, BorderLayout.CENTER);
         main.add(setBottomHalf(), BorderLayout.CENTER);
         return main;
     }
@@ -211,15 +171,10 @@ public class SmallProfilePanel extends JPanel {
 
         JPanel main = new JPanel();
 
-       // main.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5,
-       //         ProgramStyle.BACKGROUND_COLOR));
-       // main.setBackground(ProgramStyle.PANEL_COLOR);
         main.setLayout(new GridLayout(2, 1));
         JLabel titleLabel = new JLabel(title);
-        //titleLabel.setForeground(ProgramStyle.TEXT_COLOR);
 
         JLabel valueLabel = new JLabel("" + value);
-        //valueLabel.setForeground(ProgramStyle.TEXT_COLOR);
 
         main.add(titleLabel);
         main.add(valueLabel);

@@ -57,7 +57,7 @@ public class PostingPanel extends JPanel {
 		postArea.addKeyListener(new KeyboardListener());
 
 		//text character counter
-		charCount = new JLabel(" " + CharacterUtil.count(postArea.getText()));
+		charCount = new JLabel(" " + (140-CharacterUtil.count(postArea.getText())));
 		charCount.setHorizontalTextPosition(JLabel.CENTER);
 
 		JPanel side = new JPanel();
@@ -97,20 +97,19 @@ public class PostingPanel extends JPanel {
 	}
 
 	/*****************************************************************
-
+	Listener for the key strokes in the text area.
 	 *****************************************************************/
 	private class KeyboardListener extends KeyAdapter {
 
 		/*****************************************************************
-
+		sets the counter for the text area.
+		
+		@param e KeyEvent
 		 *****************************************************************/
 		public void keyPressed(KeyEvent e) {
 
-
-
-			charCount.setText(" " + CharacterUtil.count(postArea.getText()));
-			charCount.setText(" " + CharacterUtil.count(postArea.getText()));
-
+			charCount.setText(" " + 
+					(140-CharacterUtil.count(postArea.getText())));
 		}
 	}
 }

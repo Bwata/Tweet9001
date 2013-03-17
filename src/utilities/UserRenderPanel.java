@@ -1,8 +1,14 @@
+/*****************************************************************
+List Rendering Panel for Statuses.
+
+started March 3, 2013
+@author Thomas Verstraete
+@version Winter 2013
+ *****************************************************************/
 package utilities;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -14,10 +20,18 @@ import javax.swing.JTextArea;
 
 import twitter4j.User;
 
-
-
 public class UserRenderPanel extends JPanel{
 	
+	/*****************************************************************
+	Constructor for UserRenderPanel. Builds the panel with the appropriate
+	items for display.
+	
+	@param list JList The list to display in.
+	@param value Object The item whose info is being displayed.
+	@param index int The index of the item within the list.
+	@param isSelected boolean if the item is selected in the GUI
+	@param cellHasFocus boolean if the item has focus.
+	 *****************************************************************/
 	public UserRenderPanel (
             final JList list,              // the list
             final Object value,            // value to display
@@ -25,8 +39,6 @@ public class UserRenderPanel extends JPanel{
             final boolean isSelected,      // is the cell selected
             final boolean cellHasFocus)    // does the cell have focus 
 	{
-		
-		
 		/* Items to show from user
         *
         * Image           .getMiniProfileImageURL()
@@ -38,11 +50,9 @@ public class UserRenderPanel extends JPanel{
 		
 		 try {
            User user = ((User) value);
-           
-           
-           
+
            this.setLayout(new BorderLayout());
-           this.setPreferredSize(new Dimension(500, 100));
+			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 100));
            
          //checks if selected
 			if (isSelected) {
@@ -77,7 +87,6 @@ public class UserRenderPanel extends JPanel{
            
            textPanel.add(userInfo, BorderLayout.NORTH);
            
-           
            JTextArea postArea = new JTextArea(user.getDescription());
            postArea.setName("voidPanel");
 
@@ -92,83 +101,5 @@ public class UserRenderPanel extends JPanel{
 		 } catch (NullPointerException e) {
            //e.printStackTrace();
        }
-
-//       //set the size of the panel
-//       setPreferredSize(new Dimension(500, 80));
-//
-//       g.setColor(BACKGROUND_COLOR);
-//       g.fillRect(0, 0, getWidth(), getHeight());
-//
-//       //paint the background if selected or not
-//       if (isSelected) {
-//           g.setColor(SELECT_COLOR);
-//       }
-//       else {
-//           g.setColor(PANEL_COLOR);
-//       }
-//       g.fillRect(7, 7, getWidth() - 14, getHeight() - 14);
-//
-//       try {
-//           User user = ((User) value);
-//
-//           //set the font style and size
-//           g.setFont(ProgramStyle.getFont(12));
-//
-//           //set the color of the string and draw it
-//           g.setColor(ProgramStyle.TEXT_COLOR);
-//
-//           //paints the tweeters profile image
-//           ImageIcon image = new ImageIcon
-//                   (user.getProfileImageUrlHttps());
-//           image.paintIcon(this, g, 0, 0);
-//
-//           //set the font style and size for the User Name
-//           g.setFont(ProgramStyle.getFont(15));
-//
-//           //paints the user name
-//           g.drawString(user.getName(), 50, 22);
-//
-//           Dimension nameSize = getStringSize(
-//                   g, user.getName(), 15);
-//
-//           //set the font style and size for the User Name
-//           g.setFont(ProgramStyle.getFont(9));
-//
-//           //paints the user's twitter handle name
-//           g.drawString("@" + user.getScreenName(),
-//                   (50 + nameSize.width + 5), 22);
-//
-//           //paints the creation time
-//           String local = user.getLocation();
-//           if (local != null) {
-//               g.drawString(user.getLocation(), 425, 22);
-//           }
-//
-//           //set the font style and size for the tweet
-//           g.setFont(ProgramStyle.getFont(12));
-//
-//           //paints the post string
-//           String post = user.getDescription();
-//           ArrayList<String> postLines = new ArrayList<String>();
-//
-//           while (post.length() > 50) {
-//
-//               postLines.add(post.substring(0, 51));
-//               post = post.substring(51);
-//
-//           }
-//           postLines.add(post);
-//
-//           for (int i = 0; i < postLines.size(); i++) {
-//
-//               g.drawString(postLines.get(i), 50, (40 + 15 * i));
-//
-//           }
-//       } catch (NullPointerException e) {
-//           //e.printStackTrace();
-//       }
-		
-		
 	}
-
 }

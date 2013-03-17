@@ -1,3 +1,11 @@
+/*****************************************************************
+An Enum that lists all the buttons the program uses and contains
+the string to be used for the text of the button.
+
+started March 3, 2013
+@author Thomas Verstraete
+@version Winter 2013
+ *****************************************************************/
 package utilities;
 
 public enum ButtonType {
@@ -23,7 +31,11 @@ public enum ButtonType {
     /**Quits the program.*/
     QUIT ("Quit"),
     
+    EDIT_PROFILE ("Edit Profile"),
     
+    EDIT_IMAGE ("Edit Image"),
+    
+    SAVE_PROFILE ("Save"),
 
     /**Search for a tweet button.*/
     SEARCH_TWEET("Search Tweet"),
@@ -44,9 +56,10 @@ public enum ButtonType {
     DIRECT_MESSAGE ("Direct Message"),
     
     /**Sends the direct message*/
-    SEND_DM ("Send")
+    SEND_DM ("Send"),
     
-    
+    /***/
+    BLANK ("")
     ;
     
     

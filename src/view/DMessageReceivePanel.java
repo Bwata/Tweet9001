@@ -1,28 +1,41 @@
+/*****************************************************************
+Displays the list of direct messages received by the user.
+
+started March 16, 2013
+@author Thomas Verstraete, Tyler Hutek
+@version Winter 2013
+ *****************************************************************/
 package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import twitter4j.DirectMessage;
-import twitter4j.User;
 import utilities.Listeners;
 import utilities.ProgramStyle;
-import view.TrendingList.ListClickListener;
 
 public class DMessageReceivePanel extends JPanel {
+	
+	/**Array of DirectMessages*/
 	private DirectMessage[] items;
+	
+	/**List displayed*/
 	private JList list;
+	
+	/**listener for double clicks*/
 	private ActionListener listener;
 	
+	/*****************************************************************
+	Constructor. Sets up the list of direct messages for display.
 	
+	@param dmessages DirectMessage[] Array of the messages to show.
+	 *****************************************************************/
 	public DMessageReceivePanel(DirectMessage[] dmessages){
 
 	        this.items = dmessages;

@@ -1,3 +1,10 @@
+/*****************************************************************
+Panel of Buttons on the top right side of the screen.
+
+started March 8, 2013
+@author Thomas Verstraete
+@version Winter 2013
+ *****************************************************************/
 package view;
 
 import java.awt.GridLayout;
@@ -20,38 +27,41 @@ public class ButtonPanel extends JPanel{
 
         //Sets panel properties
         setPreferredSize(ProgramStyle.TOP_PANEL_SIZE);
-        //setBackground(ProgramStyle.PANEL_COLOR);
-        //order of matte border method (top, left, bottom, right, color)
-        //this.setBorder(BorderFactory.createMatteBorder(11, 5, 0, 11,
-               // ProgramStyle.BACKGROUND_COLOR));
-
-        //this.setName("Test");
         
         //grid layout with three rows and two columns
-        this.setLayout(new GridLayout(2,2));
+        this.setLayout(new GridLayout(3,2));
 
         //adds all the buttons based on the enum types
-        JButton ht = new TButton(ButtonType.HOMETIMELINE);
+        TButton ht = new TButton(ButtonType.HOMETIMELINE);
         ht.addActionListener(Listeners.getListener("Button"));
         ht.setName("navButtons");
         add(ht);
         
-        JButton se = new TButton(ButtonType.SEARCH);
+        TButton se = new TButton(ButtonType.SEARCH);
         se.addActionListener(Listeners.getListener("Button"));
         se.setName("navButtons");
         add(se);
         
-        JButton tr = new TButton(ButtonType.TRENDING);
+        TButton tr = new TButton(ButtonType.TRENDING);
         tr.addActionListener(Listeners.getListener("Button"));
         tr.setName("navButtons");
         add(tr);
         
-        JButton dm = new TButton(ButtonType.DIRECT_MESSAGE);
+        TButton dm = new TButton(ButtonType.DIRECT_MESSAGE);
         dm.addActionListener(Listeners.getListener("Button"));
         dm.setName("navButtons");
         add(dm);
+        
+        TButton ep = new TButton(ButtonType.EDIT_PROFILE);
+        ep.addActionListener(Listeners.getListener("Button"));
+        ep.setName("navButtons");
+        add(ep);
+        
+        TButton bl = new TButton(ButtonType.BLANK);
+        bl.setName("navButtons");
+        add(bl);
+
+        
 
     }
-	
-	
 }

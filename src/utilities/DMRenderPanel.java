@@ -1,6 +1,11 @@
+/*****************************************************************
+List Rendering Panel for Direct Messages.
+
+started March 16, 2013
+@author Thomas Verstraete, Tyler Hutek
+@version Winter 2013
+ *****************************************************************/
 package utilities;
-
-
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -14,12 +19,21 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-
 import twitter4j.DirectMessage;
-import twitter4j.Status;
 import twitter4j.User;
 
 public class DMRenderPanel extends JPanel{
+	
+	/*****************************************************************
+	Constructor for DMRenderPanel. Builds the panel with the appropriate
+	items for display.
+	
+	@param list JList The list to display in.
+	@param value Object The item whose info is being displayed.
+	@param index int The index of the item within the list.
+	@param isSelected boolean if the item is selected in the GUI
+	@param cellHasFocus boolean if the item has focus.
+	 *****************************************************************/
 	public DMRenderPanel (
 			final JList list,              // the list
 			final Object value,            // value to display
@@ -39,9 +53,8 @@ public class DMRenderPanel extends JPanel{
 				//nothing?
 			}
 				
-
 			this.setLayout(new BorderLayout());
-			this.setPreferredSize(new Dimension(500, 80));
+			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 100));
 
 			JLabel image = new JLabel(new ImageIcon(user.getProfileImageUrlHttps()));
 			add(image, BorderLayout.WEST);
@@ -72,7 +85,6 @@ public class DMRenderPanel extends JPanel{
 
 			textPanel.add(userInfo, BorderLayout.NORTH);
 
-
 			JTextArea postArea = new JTextArea(directMessage.getText());
 			postArea.setName("voidPanel");
 
@@ -82,13 +94,10 @@ public class DMRenderPanel extends JPanel{
 
 			textPanel.add(postArea, BorderLayout.CENTER);
 
-
 			add(textPanel, BorderLayout.CENTER);
-
 
 		} catch (NullPointerException e) {
 			//e.printStackTrace();
 		}
-
 	}
 }

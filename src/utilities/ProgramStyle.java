@@ -7,7 +7,6 @@ the GUI.
  *****************************************************************/
 package utilities;
 
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -69,6 +68,9 @@ public class ProgramStyle {
     
     /**The width of the main panel elements*/
     public static final int MAIN_ELEMENT_WIDTH = (int) windowSize().getWidth()/3;
+    
+    /***/
+    public static final int RENDER_WIDTH = 1200/3 - 20;
 
     //fill in all other colors, sizes, strings, and other design
     //and style variables
@@ -164,7 +166,7 @@ public class ProgramStyle {
                     super.paintComponent(g);
 
                     //set the size of the panel
-                    setPreferredSize(new Dimension(350, 50));
+                    setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 50));
 
                     //paint the background if selected or not
                     if (isSelected) {
@@ -187,13 +189,12 @@ public class ProgramStyle {
                 }
 
                 public Dimension getPreferredSize() {
-                    return new Dimension(350, 50);
+                    return new Dimension(ProgramStyle.RENDER_WIDTH, 50);
                 }
             };
         }
     }
 
-    
     
     /*****************************************************************
     Accesses the Direct Message List Renderer to paint the list of 
@@ -227,37 +228,6 @@ public class ProgramStyle {
                 final boolean cellHasFocus)    // does the cell have focus
         {
         	return new DMRenderPanel (list, value, index, isSelected, cellHasFocus);
-
-//                public void paintComponent(Graphics g) {
-//                    super.paintComponent(g);
-//
-//                    //set the size of the panel
-//                    setPreferredSize(new Dimension(350, 50));
-//
-//                    //paint the background if selected or not
-//                    if (isSelected) {
-//                        g.setColor(SELECT_COLOR);
-//                    }
-//                    else {
-//                        g.setColor(PANEL_COLOR);
-//                    }
-//                    g.fillRect(0, 0, getWidth(), getHeight());
-//
-//                    String Dmessage = ((String) value);
-//
-//                    //set the font style and size
-//                    g.setFont(ProgramStyle.getFont(20));
-//
-//                    //set the color of the string and draw it
-//                    g.setColor(ProgramStyle.TEXT_COLOR);
-//                    g.drawString(Dmessage, 5, 30);
-//
-//                }
-//
-//                public Dimension getPreferredSize() {
-//                    return new Dimension(350, 50);
-//                }
-//          };
         }
     }
     /*****************************************************************
@@ -292,96 +262,6 @@ public class ProgramStyle {
         {
         	
         	return new StatusRenderPanel (list, value, index, isSelected, cellHasFocus);
-//            return new JPanel() {
-//
-//                public void paintComponent(Graphics g) {
-//                    super.paintComponent(g);
-//
-//                    //set the size of the panel
-//                    setPreferredSize(new Dimension(500, 80));
-//
-//                    g.setColor(BACKGROUND_COLOR);
-//                    g.fillRect(0, 0, getWidth(), getHeight());
-//
-//                    //paint the background if selected or not
-//                    if (isSelected) {
-//                        g.setColor(SELECT_COLOR);
-//                    }
-//                    else {
-//                        g.setColor(PANEL_COLOR);
-//                    }
-//                    g.fillRect(7, 7, getWidth() - 14, getHeight() - 14);
-//
-//
-//                    Status status = ((Status) value);
-//
-//                    try {
-//                        //set the font style and size
-//                        g.setFont(ProgramStyle.getFont(12));
-//
-//                        //set the color of the string and draw it
-//                        g.setColor(ProgramStyle.TEXT_COLOR);
-//
-//
-//                        //paints the tweeters profile image
-//                        ImageIcon image = new ImageIcon(
-//                                status.getUser().getProfileImageUrlHttps());
-//                        image.paintIcon(this, g, 0, 0);
-//
-//
-//                        //set the font style and size for the User Name
-//                        g.setFont(ProgramStyle.getFont(15));
-//
-//                        //paints the user name
-//                        g.drawString(status.getUser().getName(), 50, 22);
-//
-//                        Dimension nameSize = getStringSize(
-//                                g, status.getUser().getName(), 15);
-//
-//                        //set the font style and size for the User Name
-//                        g.setFont(ProgramStyle.getFont(9));
-//
-//                        //paints the user's twitter handle name
-//                        g.drawString("@" + status.getUser().getScreenName(),
-//                                (50 + nameSize.width + 5), 22);
-//
-//                        //paints the creation time
-//                        Date date = status.getCreatedAt();
-//                        g.drawString(((date.getMonth() + 1) + "/" + date.getDate()
-//                                + "/" + (date.getYear() - 100)), 450, 22);
-//
-//                        //set the font style and size for the tweet
-//                        g.setFont(ProgramStyle.getFont(12));
-//
-//                        //paints the post string
-//                        String post = status.getText();
-//                        ArrayList<String> postLines = new ArrayList<String>();
-//
-//                        while (post.length() > 50){
-//
-//                            postLines.add(post.substring(0, 51));
-//                            post = post.substring(51);
-//
-//                        }
-//                        postLines.add(post);
-//
-//                        for (int i = 0; i < postLines.size(); i++) {
-//
-//                            g.drawString(postLines.get(i), 50, (40 + 15 * i));
-//
-//                        }
-//                    } catch (NullPointerException e) {
-//                        //e.printStackTrace();
-//                    }
-//                }
-//              /*****************************************************************
-//              Sets the Size of the individual panel in the list.
-//              @return Dimension size of the panel to display.
-//              *****************************************************************/
-//                public Dimension getPreferredSize() {
-//                    return new Dimension(500, 80);
-//                }
-//            };
         }
     }
 
@@ -412,101 +292,6 @@ public class ProgramStyle {
                 final boolean cellHasFocus)    // does the cell have focus
         {
         	return new UserRenderPanel(list, value, index, isSelected, cellHasFocus);
-        	
-//            return new JPanel() {
-//
-//                public void paintComponent(Graphics g) {
-//                    super.paintComponent(g);
-//
-//                    /* Items to show from user
-//                     *
-//                     * Image           .getMiniProfileImageURL()
-//                     * Name            .getName();
-//                     * handle          .getScreenName()
-//                     * description     .getDescription()
-//                     * location        .getLocation()
-//                     * */
-//
-//                    //set the size of the panel
-//                    setPreferredSize(new Dimension(500, 80));
-//
-//                    g.setColor(BACKGROUND_COLOR);
-//                    g.fillRect(0, 0, getWidth(), getHeight());
-//
-//                    //paint the background if selected or not
-//                    if (isSelected) {
-//                        g.setColor(SELECT_COLOR);
-//                    }
-//                    else {
-//                        g.setColor(PANEL_COLOR);
-//                    }
-//                    g.fillRect(7, 7, getWidth() - 14, getHeight() - 14);
-//
-//                    try {
-//                        User user = ((User) value);
-//
-//                        //set the font style and size
-//                        g.setFont(ProgramStyle.getFont(12));
-//
-//                        //set the color of the string and draw it
-//                        g.setColor(ProgramStyle.TEXT_COLOR);
-//
-//                        //paints the tweeters profile image
-//                        ImageIcon image = new ImageIcon
-//                                (user.getProfileImageUrlHttps());
-//                        image.paintIcon(this, g, 0, 0);
-//
-//                        //set the font style and size for the User Name
-//                        g.setFont(ProgramStyle.getFont(15));
-//
-//                        //paints the user name
-//                        g.drawString(user.getName(), 50, 22);
-//
-//                        Dimension nameSize = getStringSize(
-//                                g, user.getName(), 15);
-//
-//                        //set the font style and size for the User Name
-//                        g.setFont(ProgramStyle.getFont(9));
-//
-//                        //paints the user's twitter handle name
-//                        g.drawString("@" + user.getScreenName(),
-//                                (50 + nameSize.width + 5), 22);
-//
-//                        //paints the creation time
-//                        String local = user.getLocation();
-//                        if (local != null) {
-//                            g.drawString(user.getLocation(), 425, 22);
-//                        }
-//
-//                        //set the font style and size for the tweet
-//                        g.setFont(ProgramStyle.getFont(12));
-//
-//                        //paints the post string
-//                        String post = user.getDescription();
-//                        ArrayList<String> postLines = new ArrayList<String>();
-//
-//                        while (post.length() > 50) {
-//
-//                            postLines.add(post.substring(0, 51));
-//                            post = post.substring(51);
-//
-//                        }
-//                        postLines.add(post);
-//
-//                        for (int i = 0; i < postLines.size(); i++) {
-//
-//                            g.drawString(postLines.get(i), 50, (40 + 15 * i));
-//
-//                        }
-//                    } catch (NullPointerException e) {
-//                        //e.printStackTrace();
-//                    }
-//                }
-//
-//                public Dimension getPreferredSize() {
-//                    return new Dimension(500, 80);
-//                }
-//            };
         }
     }
 }

@@ -1,7 +1,14 @@
+/*****************************************************************
+List Rendering Panel for Statuses.
+
+started March 3, 2013
+@author Thomas Verstraete
+@version Winter 2013
+ *****************************************************************/
 package utilities;
 
-
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.util.Date;
 
@@ -16,10 +23,18 @@ import javax.swing.JTextArea;
 import twitter4j.Status;
 import twitter4j.User;
 
-
-
 public class StatusRenderPanel extends JPanel{
 
+	/*****************************************************************
+	Constructor for StatusRenderPanel. Builds the panel with the appropriate
+	items for display.
+	
+	@param list JList The list to display in.
+	@param value Object The item whose info is being displayed.
+	@param index int The index of the item within the list.
+	@param isSelected boolean if the item is selected in the GUI
+	@param cellHasFocus boolean if the item has focus.
+	 *****************************************************************/
 	public StatusRenderPanel (
 			final JList list,              // the list
 			final Object value,            // value to display
@@ -38,10 +53,9 @@ public class StatusRenderPanel extends JPanel{
 			} else {
 				//nothing?
 			}
-				
 
 			this.setLayout(new BorderLayout());
-			this.setPreferredSize(new Dimension(500, 80));
+			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 100));
 
 			JLabel image = new JLabel(new ImageIcon(user.getProfileImageUrlHttps()));
 			add(image, BorderLayout.WEST);
@@ -61,6 +75,12 @@ public class StatusRenderPanel extends JPanel{
 			userScreenName.setName("H6");
 			userInfo.add(userScreenName);
 
+			if (status.isRetweet()) {
+				JLabel rt = new JLabel(" ReTweet");
+				rt.setForeground(Color.RED);
+				userInfo.add(rt);
+			}
+			
 			userInfo.add(Box.createHorizontalGlue());
 
 			Date date = status.getCreatedAt();
@@ -72,7 +92,6 @@ public class StatusRenderPanel extends JPanel{
 
 			textPanel.add(userInfo, BorderLayout.NORTH);
 
-
 			JTextArea postArea = new JTextArea(status.getText());
 			postArea.setName("voidPanel");
 
@@ -82,14 +101,10 @@ public class StatusRenderPanel extends JPanel{
 
 			textPanel.add(postArea, BorderLayout.CENTER);
 
-
 			add(textPanel, BorderLayout.CENTER);
-
 
 		} catch (NullPointerException e) {
 			//e.printStackTrace();
 		}
-
 	}
-
 }
