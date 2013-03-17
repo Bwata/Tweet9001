@@ -48,7 +48,7 @@ public class PostingPanel extends JPanel {
 		setLayout(new BorderLayout());
 
 		//JTextFields
-		postArea = new JTextArea("Write your post here2!!!", 4, 30);
+		postArea = new JTextArea("Write your post here!", 4, 30);
 		postArea.setLineWrap(true);
 		postArea.setWrapStyleWord(true);
 		postArea.setEditable(true);

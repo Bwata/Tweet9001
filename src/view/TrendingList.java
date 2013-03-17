@@ -48,7 +48,7 @@ public class TrendingList extends JPanel {
     	
     	JLabel title = new JLabel(place);
     	title.setName("H3");
-    	System.out.println("Break");
+
 
         listener = Listeners.getListener("ListListener");
 

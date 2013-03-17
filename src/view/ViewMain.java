@@ -15,6 +15,7 @@ import java.io.File;
 
 import javax.swing.*;
 
+import twitter4j.DirectMessage;
 import twitter4j.Status;
 import twitter4j.Trend;
 import twitter4j.User;
@@ -195,6 +196,26 @@ public class ViewMain extends JPanel {
         updateUI();
     }
 
+	/*****************************************************************
+    Show the Direct Message panel in the main section.
+     *****************************************************************/
+    public void showDM(DirectMessage[] dmessages) {
+
+
+    		topPanel.remove(topCenter);
+    	    	topCenter = new DMessageSendPanel();
+    	    	
+    	    	topPanel.add(topCenter, BorderLayout.CENTER);
+    			
+    			resetMainPanel();
+
+    			mainPanel.add(new DMessageReceivePanel(dmessages));
+    			
+
+    			updateUI();
+
+    	}
+
     /*****************************************************************
     Show the results of a tweet search in the main section.
     @param stati Status[]
@@ -284,9 +305,20 @@ public class ViewMain extends JPanel {
 	
 	 *****************************************************************/
 	public File imageChooser(){
-	JFileChooser imageChooser = new JFileChooser();
-	imageChooser.showOpenDialog(this);
-	File picture = imageChooser.getSelectedFile();
-	return picture;
+		int option;
+		JFileChooser imageChooser = new JFileChooser();
+
+		//imageChooser.showOpenDialog(this);
+
+		
+		option = imageChooser.showOpenDialog(this);
+		if(option == JFileChooser.APPROVE_OPTION){
+			File picture = imageChooser.getSelectedFile();
+			return picture;
+		}
+		else{
+
+			return null;
+		}
 	}
 }

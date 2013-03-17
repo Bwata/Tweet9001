@@ -76,9 +76,14 @@ public class ModelMain {
     @throws TwitterException
      *****************************************************************/
     public void postTweet(String message, File image) throws TwitterException {
-    	StatusUpdate status = new StatusUpdate(message);
-        status.setMedia(image);
-        twitter.updateStatus(status);
+	    
+	    	if(image != null){
+	    		StatusUpdate status = new StatusUpdate(message);
+	    		status.setMedia(image);
+	    		twitter.updateStatus(status);
+	    		
+	    	}
+	    
     }
     /*****************************************************************
     Searches for user tweets based on a given string.
@@ -178,26 +183,71 @@ public class ModelMain {
     }
     
     /*****************************************************************
-    uploads an image with a message.
-
-    @param message the message to be attached to the photo
-    @param photo the photo file to be uploaded
-    @throws TwitterException
-    @return true if the image is successfully uploaded
+    Gets a list of received direct messages and converts them to an
+    arrayList.
      *****************************************************************/
-    public boolean imageUpload(String message, File photo) throws TwitterException{
+    public DirectMessage[] receiveDirectMessage() {
 
-    	    try{
-    	        StatusUpdate status = new StatusUpdate(message);
-    	        status.setMedia(photo);
-    	        twitter.updateStatus(status);
-    	        return true;
-    	        }
-    	    	
-    	    catch(TwitterException e){
-    	        throw e; 
-    	    }
-    	}
+		 
+		 Twitter twitter = new TwitterFactory().getInstance();
+  	        try {
+  	        	
+  	            List<DirectMessage> messages;
+  	                messages = twitter.getDirectMessages();
+  	                
+
+  	                DirectMessage[] list = new DirectMessage[1];
+
+  	                return messages.toArray(list);
+  	                
+//  	                for (DirectMessage message : messages) {
+//  	                    receivedMessages.add("From: @" + message.getSenderScreenName() + " - "
+//  	                    		 + message.getText());
+//  	                }
+//  	                messageArray = new String[receivedMessages.size()];
+//  	                for(int i = receivedMessages.size()-1; i>=0; i--){
+//  	                	messageArray[i] = receivedMessages.get(i);
+//  	                	System.out.println(messageArray[i]);
+//  	                }
+//  	                return messageArray;
+
+  	        } 
+  	        catch (TwitterException te) {
+  	            te.printStackTrace();
+  	            System.out.println("Failed to get messages: " + te.getMessage());
+  	            System.exit(-1);
+		   	    }
+  	      return null;
+   	    }
+
+    
+//    /*****************************************************************
+//    uploads an image with a message.
+//
+//    @param message the message to be attached to the photo
+//    @param photo the photo file to be uploaded
+//    @throws TwitterException
+//    @return true if the image is successfully uploaded
+//     *****************************************************************/
+//    public boolean imageUpload(String message, File photo) throws TwitterException{
+//    	System.out.println(photo);
+//    	    try{
+//    	    	if(photo != null){
+//    	    		StatusUpdate status = new StatusUpdate(message);
+//    	    		status.setMedia(photo);
+//    	    		twitter.updateStatus(status);
+//    	    		return true;
+//    	    	}
+//    	    	else{
+//    	    		System.out.println("YOYOYOYO");
+//    	    		return false;
+//    	    	}
+//    	    }
+//    	    	
+//    	    catch(TwitterException e){
+//    	        throw e; 
+//    	    }
+//    	}
     
 }
 

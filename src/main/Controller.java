@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 
+import twitter4j.DirectMessage;
 import twitter4j.Status;
 import twitter4j.Trend;
 import twitter4j.TwitterException;
@@ -183,11 +184,12 @@ public class Controller {
         mainView.showSearch();
     }
 
-	/*****************************************************************
-    Tells the view to show the search panel for the user.
+    /*****************************************************************
+    Tells the view to show the Direct Message panel for the user.
 	 *****************************************************************/
 	private void showDMSendPanel() {
-		mainView.showDM();
+		DirectMessage[] Dmessages = mainModel.receiveDirectMessage();
+		mainView.showDM(Dmessages);
 	}
 
 	/*****************************************************************
