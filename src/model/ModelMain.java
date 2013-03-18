@@ -9,10 +9,7 @@ started February 3, 2013
 package model;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
-
 import twitter4j.DirectMessage;
 import twitter4j.Location;
 import twitter4j.Query;
@@ -34,7 +31,7 @@ The main model of the program. This updates the view.
  *****************************************************************/
 public class ModelMain {
 
-	/**The Twitter object to access all the twitter information.*/
+    /**The Twitter object to access all the twitter information.*/
 	private Twitter twitter;
 
 	/*****************************************************************
@@ -77,7 +74,7 @@ public class ModelMain {
     @param image the picture to be posted
     @throws TwitterException
 	 *****************************************************************/
-	public void postTweet(String message, File image) 
+    public void postTweet(String message, File image)
 			throws TwitterException {
 
 		if(image != null){
@@ -154,11 +151,11 @@ public class ModelMain {
 
 	/*****************************************************************
 	Collects all possible trending locations.
-	
+
 	@return TrendLocations Collection of All trend locations.
-	@throws TwitterException 
+	@throws TwitterException
 	 *****************************************************************/
-	public TrendLocations getAllTrends () throws TwitterException {		
+	public TrendLocations getAllTrends () throws TwitterException {
 
 		ResponseList<Location> locations = twitter.getAvailableTrends();
 		return new TrendLocations(locations);
@@ -167,7 +164,7 @@ public class ModelMain {
 	/*****************************************************************
 	Sends a Direct Message to the parameter recipient with the message
 	words.
-	
+
 	@param recipient String User to recieve DM.
 	@param words String message to be sent.
 	@return boolean If the message was successfully sent.
@@ -181,7 +178,7 @@ public class ModelMain {
 		if (recipient.length() < 2) {
 			return false;
 		}
-		
+
 		try {
 			DirectMessage message = twitter.sendDirectMessage(recipient, words);
 			return true;
@@ -194,7 +191,7 @@ public class ModelMain {
 	/*****************************************************************
     Gets a list of received direct messages and converts them to an
     arrayList.
-    
+
     @return Direct Message[] List of messages sent to this user.
 	 *****************************************************************/
 	public DirectMessage[] receiveDirectMessage() {
@@ -209,7 +206,7 @@ public class ModelMain {
 
 			return messages.toArray(list);
 
-		} 
+		}
 		catch (TwitterException te) {
 			te.printStackTrace();
 			System.out.println("Failed to get messages: " + te.getMessage());
@@ -217,9 +214,9 @@ public class ModelMain {
 		}
 		return null;
 	}
-	
+
 	/*****************************************************************
-	used to update profile information
+	used to update profile information.
 	 *****************************************************************/
     public void update(String nam, String url, String loc, String des){
     	    	
@@ -230,12 +227,12 @@ public class ModelMain {
 			e.printStackTrace();
 		}
     }
-    
+
     /*****************************************************************
 	updates profile picture
      *****************************************************************/
     public void updatePic(File img){
-    	System.out.println("MM 232");    	
+    	System.out.println("MM 232");
     	try {
 			twitter.updateProfileImage(img);
 		} catch (TwitterException e) {
@@ -243,20 +240,20 @@ public class ModelMain {
 			e.printStackTrace();
 		}
     }
-    
+
     /*****************************************************************
-     * method for getting the replies to a status
+     * method for getting the replies to a status.
      * @param statusID
      * @return Status[] an array of statuses/replies
      * @throws TwitterException
      *****************************************************************/
     public Status[] getConversations(long statusID) throws TwitterException{
-    	
+
     	RelatedResults results = twitter.getRelatedResults(statusID);
     	List<Status> conversations = results.getTweetsWithConversation();
-   
+
     	Status[] list = new Status[1];
-    	
+
     	Status originalStatus = twitter.showStatus(statusID);
 //    	if (conversations.isEmpty()) {
 //    		System.out.println("MM 262");
@@ -272,7 +269,7 @@ public class ModelMain {
 //    	        conversations.add(status);
 //    	    }
 //    	}
-    	
+
     	if (!conversations.isEmpty()) {
     		System.out.println("mm 277");
     	    conversations.add(originalStatus);

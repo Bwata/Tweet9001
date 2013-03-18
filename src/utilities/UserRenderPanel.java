@@ -21,11 +21,11 @@ import javax.swing.JTextArea;
 import twitter4j.User;
 
 public class UserRenderPanel extends JPanel{
-	
+
 	/*****************************************************************
 	Constructor for UserRenderPanel. Builds the panel with the appropriate
 	items for display.
-	
+
 	@param list JList The list to display in.
 	@param value Object The item whose info is being displayed.
 	@param index int The index of the item within the list.
@@ -47,57 +47,57 @@ public class UserRenderPanel extends JPanel{
         * description     .getDescription()
         * location        .getLocation()
         * */
-		
+
 		 try {
            User user = ((User) value);
 
            this.setLayout(new BorderLayout());
 			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 100));
-           
+
          //checks if selected
 			if (isSelected) {
 				setName("selectedPanel");
 			} else {
 				//nothing?
 			}
-           
+
            JLabel image = new JLabel(new ImageIcon(user.getProfileImageUrlHttps()));
            add(image, BorderLayout.WEST);
-           
+
            JPanel textPanel = new JPanel();
            textPanel.setName("voidPanel");
            textPanel.setLayout(new BorderLayout());
-           
+
            JPanel userInfo = new JPanel();
            userInfo.setName("voidPanel");
            userInfo.setLayout(new BoxLayout(userInfo, BoxLayout.LINE_AXIS));
            JLabel userName = new JLabel(user.getName());
            userName.setName("H5");
            userInfo.add(userName);
-           
+
            JLabel userScreenName = new JLabel("@" + user.getScreenName());
            userScreenName.setName("H6");
            userInfo.add(userScreenName);
-           
+
            userInfo.add(Box.createHorizontalGlue());
-           
+
            JLabel timeStamp = new JLabel(user.getLocation());
            timeStamp.setName("H6");
            userInfo.add(timeStamp);
-           
+
            textPanel.add(userInfo, BorderLayout.NORTH);
-           
+
            JTextArea postArea = new JTextArea(user.getDescription());
            postArea.setName("voidPanel");
 
            postArea.setLineWrap(true);
            postArea.setWrapStyleWord(true);
            postArea.setEditable(false);
-           
+
            textPanel.add(postArea, BorderLayout.CENTER);
-           
+
            add(textPanel, BorderLayout.CENTER);
-           
+
 		 } catch (NullPointerException e) {
            //e.printStackTrace();
        }

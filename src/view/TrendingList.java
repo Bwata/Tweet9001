@@ -14,8 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -42,9 +40,9 @@ public class TrendingList extends JPanel {
     @param items Trends[] array to show in the panel list.
      *****************************************************************/
     public TrendingList(Trend[] items, String place) {
- 
-    	setLayout(new BorderLayout());
-    	
+
+        setLayout(new BorderLayout());
+
     	JLabel title = new JLabel(place);
     	title.setName("H3");
 
@@ -69,7 +67,7 @@ public class TrendingList extends JPanel {
 //
 //    	JPanel listItem = new JPanel();
 //    	listItem.setLayout(new BorderLayout());
-//    	
+//
 //    	JLabel title = new JLabel(place);
 //    	title.setName("H3");
 //    	System.out.println("Break");

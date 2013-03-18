@@ -26,15 +26,16 @@ public class Ignition {
      *****************************************************************/
      public static void main(String[] cheese) {
 
-        //this stops the program at the beginning to
-        //allow code cover to get more
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.print("Press Enter key to continue...");
-//        scanner.nextLine();
+//        this stops the program at the beginning to
+//        allow code cover to get more
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Press Enter key to continue...");
+        scanner.nextLine();
 
-    	 SynthLookAndFeel laf = new SynthLookAndFeel();
+        SynthLookAndFeel laf = new SynthLookAndFeel();
  		try {
-			laf.load(LAFTesting.class.getResourceAsStream("../utilities/laf.xml"), LAFTesting.class);
+			laf.load(LAFTesting.class.getResourceAsStream(
+					"../utilities/laf.xml"), LAFTesting.class);
 		} catch (ParseException e1) {
 			//e1.printStackTrace();
 		}
@@ -43,7 +44,7 @@ public class Ignition {
 		} catch (UnsupportedLookAndFeelException e1) {
 			//e1.printStackTrace();
 		}
-    	 
+
         Controller control;
 
         try {

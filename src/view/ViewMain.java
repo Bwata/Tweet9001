@@ -10,7 +10,6 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.io.File;
 
 import javax.swing.*;
@@ -29,7 +28,7 @@ public class ViewMain extends JPanel {
 	/**Top panel containing all semi-permanent panels.*/
 	JPanel topPanel;
 
-	/**Top Center Panel for displaying different items*/
+	/**Top Center Panel for displaying different items.*/
 	private JPanel topCenter;
 
 	/**The posting panel.*/
@@ -84,11 +83,11 @@ public class ViewMain extends JPanel {
 	}
 
 	/*****************************************************************
-	Redisplays the profile information in the top center panel
+	Redisplays the profile information in the top center panel.
 
 	@param user User to display the profile infor for.
 	 *****************************************************************/
-	public void resetSmallProfile (User user) {		
+	public void resetSmallProfile (User user) {
 
 		topPanel.remove(topCenter);
 		//resetMainPanel();
@@ -102,7 +101,7 @@ public class ViewMain extends JPanel {
 	/*****************************************************************
 	Resets the mainPanel to clear out the old cruft.
 	 *****************************************************************/
-	public void resetMainPanel () {	
+	public void resetMainPanel() {
 		remove(mainPanel);
 		mainPanel = new JPanel();
 		mainPanel.setName("backgroundPanel");
@@ -114,10 +113,10 @@ public class ViewMain extends JPanel {
 	/*****************************************************************
     Display an array of trends in the main portion of the window.
     and then updates the display.
-
+    @param place the location for trends
     @param trends Trend[]
 	 *****************************************************************/
-	public void showTrends(Trend[] trends, String place, 
+	public void showTrends(Trend[] trends, String place,
 			TrendLocations locals) {
 
 		mainPanel.setLayout(new BorderLayout());
@@ -139,7 +138,7 @@ public class ViewMain extends JPanel {
 	 *****************************************************************/
 	public void addTrends (Trend[] trends, String place) {
 
-		mainPanel.add(new TrendingList(trends, place), BorderLayout.EAST);
+        mainPanel.add(new TrendingList(trends, place), BorderLayout.EAST);
 
 		updateUI();
 	}
@@ -204,10 +203,10 @@ public class ViewMain extends JPanel {
 		//refresh window
 		updateUI();
 	}
-	
+
 	/*****************************************************************
-
-
+	 * This method adds the status list conversation to the gui.
+	 * @param Status[] convo the list of status conversations.
 	 *****************************************************************/
 	public void addConversations (Status[] convo) {		
 		mainPanel.add(new StatusList(convo));
@@ -290,7 +289,7 @@ public class ViewMain extends JPanel {
 
 	 *****************************************************************/
 	public File imageChooser(){
-		
+
 		System.out.println("VM 283");
 		int option;
 		JFileChooser imageChooser = new JFileChooser();
@@ -304,13 +303,13 @@ public class ViewMain extends JPanel {
 			return null;
 		}
 	}
-	
+
 	/*****************************************************************
 
 	@param user User
 	 *****************************************************************/
 	public void showProfileEdit (User user) {
-		
+
 		resetMainPanel();
 		mainPanel.add(new ProfileEditPanel(user));
 

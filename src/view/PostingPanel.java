@@ -103,12 +103,12 @@ public class PostingPanel extends JPanel {
 
 		/*****************************************************************
 		sets the counter for the text area.
-		
+
 		@param e KeyEvent
 		 *****************************************************************/
 		public void keyPressed(KeyEvent e) {
 
-			charCount.setText(" " + 
+			charCount.setText(" " +
 					(140-CharacterUtil.count(postArea.getText())));
 		}
 	}

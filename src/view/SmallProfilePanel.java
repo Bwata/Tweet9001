@@ -16,7 +16,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -26,9 +25,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import twitter4j.User;
 import utilities.ProgramStyle;
 
@@ -39,17 +35,17 @@ public class SmallProfilePanel extends JPanel {
 
     /**User object to display aspects of.*/
     private User user;
-    
-    
+
+
 
     /*****************************************************************
     Basic Constructor for the profile information panel.
     @param userPassed User whose profile is displayed.
      *****************************************************************/
     SmallProfilePanel(final User userPassed) {
-    	
+
     	setPreferredSize(ProgramStyle.TOP_PANEL_SIZE);
-    	
+
     	//check if user is valid
       if (userPassed == null) {
           JLabel errorMessage = new JLabel("Twitter is not responding :(");

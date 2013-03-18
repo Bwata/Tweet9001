@@ -15,7 +15,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -57,7 +56,9 @@ public class UserList extends JPanel{
         JScrollPane scrollPane = new JScrollPane(list,
         ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
         ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setPreferredSize(new Dimension(ProgramStyle.MAIN_ELEMENT_WIDTH, ProgramStyle.MAIN_HEIGHT));
+        scrollPane.setPreferredSize(new Dimension(
+                ProgramStyle.MAIN_ELEMENT_WIDTH,
+        		ProgramStyle.MAIN_HEIGHT));
 
         //Add all the parts together
         add(scrollPane);

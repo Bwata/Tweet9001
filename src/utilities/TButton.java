@@ -10,16 +10,16 @@ package utilities;
 import javax.swing.JButton;
 
 public class TButton extends JButton{
-	
+
 	/**The ButtonType enum of this button*/
 	ButtonType type;
-	
+
 	/**The object attached for passing to the listener*/
 	Object passedObject;
 
 	/*****************************************************************
 	Constructor. Define variables from the Enum parameter.
-	
+
 	@param type ButtonType of this button.
 	 *****************************************************************/
 	public TButton(ButtonType type) {
@@ -30,7 +30,7 @@ public class TButton extends JButton{
 	/*****************************************************************
 	Constructor. Define the title and type seperately to allow for 
 	different text in the button.
-	
+
 	@param type ButtonType of this button.
 	@param title String to be placed in the button GUI.
 	 *****************************************************************/
@@ -38,10 +38,10 @@ public class TButton extends JButton{
 		super(title);
 		this.type = type;
 	}
-	
+
 	/*****************************************************************
 	Returns the type of button.
-	
+
 	@return ButtonType of the button.
 	 *****************************************************************/
 	public ButtonType getButtonType() {
@@ -50,16 +50,16 @@ public class TButton extends JButton{
 
 	/*****************************************************************
 	Return the object to be passed with the button.
-	
+
 	@return Object that is passed.
 	 *****************************************************************/
 	public Object getPassedObject() {
 		return passedObject;
 	}
-	
+
 	/*****************************************************************
 	Sets the object to be passed with the button.
-	
+
 	@param obj Object to be passed.
 	 *****************************************************************/
 	public void setPassedObject(Object obj) {

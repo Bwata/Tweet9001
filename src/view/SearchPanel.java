@@ -9,11 +9,8 @@ started February 10, 2013
 package view;
 
 import java.awt.BorderLayout;
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 import utilities.ButtonType;
 import utilities.Listeners;
 import utilities.ProgramStyle;
@@ -30,8 +27,8 @@ public class SearchPanel extends JPanel {
     SearchPanel() {
 
         setPreferredSize(ProgramStyle.TOP_PANEL_SIZE);
-    	
-       
+
+
         setLayout(new BorderLayout());
 
         JTextArea searchWindow = new JTextArea();
