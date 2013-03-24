@@ -15,7 +15,7 @@ public enum ButtonType {
 
     /**show the post a tweet panel.*/
     POST_TWEET ("Post"),
-    
+
     /**Add image to post.*/
     IMAGE ("Image"),
 
@@ -27,14 +27,14 @@ public enum ButtonType {
 
     /**show the profile panel.*/
     VIEW_PROFILE ("Profile"),
-    
+
     /**Quits the program.*/
     QUIT ("Quit"),
-    
+
     EDIT_PROFILE ("Edit Profile"),
-    
+
     EDIT_IMAGE ("Edit Image"),
-    
+
     SAVE_PROFILE ("Save"),
 
     /**Search for a tweet button.*/
@@ -42,38 +42,31 @@ public enum ButtonType {
 
     /**Search for a user button.*/
     SEARCH_USER("Search User"),
-    
-    
-    
-    
+
+
+
+
     /**show the World Trends.*/
     WORLD_TRENDING ("World Trends"),
-    
+
     /**show the local Trends.*/
     LOCAL_TRENDS ("Local Trends"),
-    
+
     /**show the DM panel*/
     DIRECT_MESSAGE ("Direct Message"),
-    
+
     /**Sends the direct message*/
     SEND_DM ("Send"),
-    
+
     /***/
-    BLANK ("")
-    ;
-    
-    
-    
-    
-    
-    
-    
+    BLANK ("");
+
     private String title;
-    
+
     private ButtonType(String title) {
     	this.title = title;
     }
-	
+
 	public String getTitle() {
 		return title;
 	}

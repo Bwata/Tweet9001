@@ -63,7 +63,9 @@ public class StatusList extends JPanel {
 		JScrollPane scrollPane = new JScrollPane(list,
 		ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setPreferredSize(new Dimension(ProgramStyle.MAIN_ELEMENT_WIDTH, ProgramStyle.MAIN_HEIGHT));
+		scrollPane.setPreferredSize(new Dimension(
+				ProgramStyle.MAIN_ELEMENT_WIDTH,
+				ProgramStyle.MAIN_HEIGHT));
 		scrollPane.setOpaque(false);
 		//eliminates the default border
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));

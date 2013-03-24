@@ -7,7 +7,6 @@ started March 16, 2013
  *****************************************************************/
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
@@ -21,19 +20,19 @@ import utilities.Listeners;
 import utilities.ProgramStyle;
 
 public class DMessageReceivePanel extends JPanel {
-	
-	/**Array of DirectMessages*/
+
+    /**Array of DirectMessages*/
 	private DirectMessage[] items;
-	
+
 	/**List displayed*/
 	private JList list;
-	
+
 	/**listener for double clicks*/
 	private ActionListener listener;
-	
+
 	/*****************************************************************
 	Constructor. Sets up the list of direct messages for display.
-	
+
 	@param dmessages DirectMessage[] Array of the messages to show.
 	 *****************************************************************/
 	public DMessageReceivePanel(DirectMessage[] dmessages){

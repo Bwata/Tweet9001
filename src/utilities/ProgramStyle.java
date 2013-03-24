@@ -62,13 +62,13 @@ public class ProgramStyle {
     /**The Size of the programs top panel.*/
     public static final Dimension TOP_PANEL_SIZE =
             new Dimension(TOP_SIZE.width / 3, TOP_SIZE.height);
-    
+
     /**The Height of the main panel elements.*/
     public static final int MAIN_HEIGHT = ((int) windowSize().getHeight()-170);
-    
+
     /**The width of the main panel elements*/
     public static final int MAIN_ELEMENT_WIDTH = (int) windowSize().getWidth()/3;
-    
+
     /***/
     public static final int RENDER_WIDTH = 1200/3 - 20;
 
@@ -77,7 +77,7 @@ public class ProgramStyle {
 
     /*****************************************************************
     Access the screen size of the computer program is on.
-    
+
     @return Dimension size of the window of the monitor.
      *****************************************************************/
     public static Dimension windowSize() {
@@ -195,7 +195,7 @@ public class ProgramStyle {
         }
     }
 
-    
+
     /*****************************************************************
     Accesses the Direct Message List Renderer to paint the list of 
 	trend items.
@@ -260,7 +260,7 @@ public class ProgramStyle {
                 final boolean isSelected,      // is the cell selected
                 final boolean cellHasFocus)    // does the cell have focus
         {
-        	
+
         	return new StatusRenderPanel (list, value, index, isSelected, cellHasFocus);
         }
     }

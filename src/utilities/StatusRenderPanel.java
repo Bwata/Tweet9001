@@ -28,7 +28,7 @@ public class StatusRenderPanel extends JPanel{
 	/*****************************************************************
 	Constructor for StatusRenderPanel. Builds the panel with the appropriate
 	items for display.
-	
+
 	@param list JList The list to display in.
 	@param value Object The item whose info is being displayed.
 	@param index int The index of the item within the list.
@@ -48,7 +48,7 @@ public class StatusRenderPanel extends JPanel{
 		try {
 			Status status = ((Status) value);
 			User user = status.getUser();
-			
+
 			//checks if selected
 			if (isSelected) {
 				setName("selectedPanel");
@@ -82,7 +82,7 @@ public class StatusRenderPanel extends JPanel{
 				rt.setForeground(Color.RED);
 				userInfo.add(rt);
 			}
-			
+
 			userInfo.add(Box.createHorizontalGlue());
 
 			Date date = status.getCreatedAt();

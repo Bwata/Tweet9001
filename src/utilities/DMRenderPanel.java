@@ -23,11 +23,11 @@ import twitter4j.DirectMessage;
 import twitter4j.User;
 
 public class DMRenderPanel extends JPanel{
-	
+
 	/*****************************************************************
 	Constructor for DMRenderPanel. Builds the panel with the appropriate
 	items for display.
-	
+
 	@param list JList The list to display in.
 	@param value Object The item whose info is being displayed.
 	@param index int The index of the item within the list.
@@ -47,14 +47,14 @@ public class DMRenderPanel extends JPanel{
 		try {
 			DirectMessage directMessage = (DirectMessage) value;
 			User user = directMessage.getSender();
-			
+
 			//checks if selected
 			if (isSelected) {
 				setName("selectedPanel");
 			} else {
 				//nothing?
 			}
-				
+
 			this.setLayout(new BorderLayout());
 			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 100));
 

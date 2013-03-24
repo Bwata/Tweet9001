@@ -10,12 +10,8 @@ package main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.JTextArea;
 
 import twitter4j.DirectMessage;
@@ -46,7 +42,7 @@ public class Controller {
     /**The access class for the Project Model side.*/
     private ModelMain mainModel;
 
-    /**User account info*/
+    /**User account info.*/
 	private User user;
 
     /*****************************************************************
@@ -111,7 +107,7 @@ public class Controller {
     /*****************************************************************
     Process to collect the post text and send it on to twitter then
     update the view's timeline.
-    
+
     @param text String message to post.
      *****************************************************************/
     private void postTweet(String text) {
@@ -125,11 +121,11 @@ public class Controller {
             //e.printStackTrace();
         }
     }
-    
+
     /*****************************************************************
-    Take the String parameter, collect the image with a filechooser 
-    and post both to the twitters. 
-    
+    Take the String parameter, collect the image with a filechooser
+    and post both to the twitters.
+
     @param text String message to post.
      *****************************************************************/
     private void postTweetAndImage(String text) {
@@ -143,9 +139,9 @@ public class Controller {
             //e.printStackTrace();
         }
     }
-    
+
     /*****************************************************************
-    Get the Top Ten trends of a hard coded location and also display 
+    Get the Top Ten trends of a hard coded location and also display
     all the possible trending locaitons of Twitter.
     Local examples:
     united states - 23424977.
@@ -157,17 +153,17 @@ public class Controller {
         //sends the trends to display
         try {
         	mainView.resetMainPanel();
-        	
-            mainView.showTrends(mainModel.getTrends(23424977), "USA", 
+
+            mainView.showTrends(mainModel.getTrends(23424977), "USA",
             		mainModel.getAllTrends());
         } catch (TwitterException e) {
             mainView.showError();
             //e.printStackTrace();
         }
     }
-    
+
     /*****************************************************************
-    Gets the top ten trends for a parameter location
+    Gets the top ten trends for a parameter location.
     @throws TwitterException
 	 *****************************************************************/
 	private void getTrends(TrendLocation loc) {
@@ -176,8 +172,9 @@ public class Controller {
 		try {
 			mainView.resetMainPanel();
 
-			mainView.addTrends(mainModel.getTrends
-					(loc.getLocation().getWoeid()), loc.getTownName());
+			mainView.addTrends(mainModel.getTrends(
+					loc.getLocation().getWoeid()),
+					loc.getTownName());
 		} catch (TwitterException e) {
 			mainView.showError();
 			//e.printStackTrace();
@@ -201,12 +198,12 @@ public class Controller {
 	}
 
 	/*****************************************************************
-	Sends a direct message to the parameter user with the parameter 
+	Sends a direct message to the parameter user with the parameter
 	message.
 	@param recipient String user to receive DM from program user
 	@param words String message to send recipient.
 	 *****************************************************************/
-	private void sendDM (String recipient, String words) {	
+	private void sendDM(String recipient, String words) {
 		mainModel.directMessaging(recipient, words);
 	}
 
@@ -240,45 +237,45 @@ public class Controller {
             //e.printStackTrace();
         }
     }
-    
+
     /*****************************************************************
 
 
      *****************************************************************/
-    private void showProfileEdit () {		
+    private void showProfileEdit() {
     	mainView.showProfileEdit(user);
     }
-    
+
     /*****************************************************************
 	Gives user a file chooser to edit the profile image.
      *****************************************************************/
     private void imageEdit () {		
     	mainModel.updatePic(mainView.imageChooser());
     }
-    
+
     /*****************************************************************
 	Takes the info to edit the profile.
+	@param areas an array of JText areas used for editing profile info.
      *****************************************************************/
-    private void editProfile (JTextArea[] areas) {		
-    	mainModel.update(areas[0].getText(), areas[1].getText(), 
+    private void editProfile(JTextArea[] areas) {
+    	mainModel.update(areas[0].getText(), areas[1].getText(),
     			areas[2].getText(), areas[3].getText());
     }
-    
+
     /*****************************************************************
-     * Gets the conversations/replies from a status
+     * Gets the conversations/replies from a status.
      * @param statusID
-     * @return Status[] an array of statuses/replies
      * @throws TwitterException
      *****************************************************************/
     private void getConversations(long statusID) throws TwitterException{
 
-    	
+
     	Status[] convo = mainModel.getConversations(statusID);
-    	
+
     	if (convo.length > 1) {
     		mainView.addConversations(convo);
     	}
-    	
+
     }
 
     /*****************************************************************
@@ -294,16 +291,16 @@ public class Controller {
     //################################################################
 
     //these are the listeners. WOOOOOHOOOOOO
-    
+
     /*****************************************************************
     Listener for the main buttons on the main panel.
      *****************************************************************/
     public class ButtonListener implements ActionListener {
-    	
+
     	/**The String determining the type of listener wanted.*/
         //string has to match the enum
         private String listenType = "Button";
-    	
+
         /***************************************************************
         The action performed method, like you do.
 
@@ -315,7 +312,7 @@ public class Controller {
         	TButton button = (TButton) event.getSource();
         	ButtonType type = ((TButton) event.getSource())
         			.getButtonType();
-        	
+
             //Switch to Determine Pressed Button
             switch (type) {
 
@@ -329,9 +326,9 @@ public class Controller {
                 ((JTextArea) (button.getPassedObject())).getText();
                 postTweet(tweetText);
                 break;
-                
+
             case IMAGE:
-            	String message = 
+            	String message =
             	((JTextArea) (button.getPassedObject())).getText();
             	postTweetAndImage(message);
             	break;
@@ -343,44 +340,46 @@ public class Controller {
             case TRENDING:
                 getTrends();
                 break;
-            	
+
             case SEARCH_TWEET:
             	String searchTweetText =
                 ((JTextArea) (button.getPassedObject())).getText();
             	showSearchTweets(searchTweetText);
             	refreshProfile();
             	break;
-                
+
             case SEARCH_USER:
             	String searchUserText =
                 ((JTextArea) (button.getPassedObject())).getText();
             	showSearchUsers(searchUserText);
             	refreshProfile();
             	break;
-            	
+
             case WORLD_TRENDING:
 
-				TrendLocation loc = ((TrendLocation) (button.getPassedObject()));
-				getTrends(loc);   
-            	
+				TrendLocation loc = ((TrendLocation)
+						(button.getPassedObject()));
+				getTrends(loc);
+
             	break;
-            	
+
 			case DIRECT_MESSAGE:
 				showDMSendPanel();
 				break;
 
 			case SEND_DM:
-				JTextArea[] areas = ((JTextArea[]) (button.getPassedObject()));
+				JTextArea[] areas = ((JTextArea[])
+						(button.getPassedObject()));
 				sendDM(areas[0].getText(), areas[1].getText());
 				refreshProfile();
 				break;
-				
+
 			case EDIT_IMAGE:
 				System.out.println("Controller 357");
 				//show file chooser and update it then
 				imageEdit();
 				break;
-				
+
 			case EDIT_PROFILE:
 				//show profile panel
 				showProfileEdit();
@@ -388,12 +387,13 @@ public class Controller {
 
 			case SAVE_PROFILE:
 				//get text info from edit panel
-				JTextArea[] profileAreas = ((JTextArea[]) (button.getPassedObject()));
+				JTextArea[] profileAreas = ((JTextArea[])
+						(button.getPassedObject()));
 				editProfile(profileAreas);
 				showHomeTimeline();
             	refreshProfile();
 				break;
-		
+
 			default:
 				break;
             }
@@ -431,21 +431,18 @@ public class Controller {
             if (obj instanceof Trend) {
                 showSearchTweets(((Trend) obj).getName());
             }
-            
+
             if (obj instanceof Status) {
-//                if(((Status) obj).isRetweet() == true){ //TODO
-//                	System.out.println("faaaaat");
-//                	showIfRetweet();	       	
-//                }
+
                 try {
-					getConversations(((Status) obj).getId());
+				   getConversations(((Status) obj).getId());
 				} catch (TwitterException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-                
+
             }
-            
+
 
 
 //            if (obj instanceof Status) {
