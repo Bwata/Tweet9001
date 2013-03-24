@@ -33,12 +33,7 @@ public class Ignition {
 
         SynthLookAndFeel laf = new SynthLookAndFeel();
  		try {
-<<<<<<< HEAD
 			laf.load(Ignition.class.getResourceAsStream("../utilities/laf.xml"), Ignition.class);
-=======
-			laf.load(LAFTesting.class.getResourceAsStream(
-					"../utilities/laf.xml"), LAFTesting.class);
->>>>>>> 05002386c1621d5746d08e4c1d81cb9623dfa10a
 		} catch (ParseException e1) {
 			//e1.printStackTrace();
 		}

@@ -30,8 +30,7 @@ public class ProfileEditPanel extends JPanel{
 	 *****************************************************************/
 	public ProfileEditPanel (User user) {
 
-		//username, url, location, description
-		//image button.
+		this.setName("borderPanel");
 
 		JTextArea[] areas = new JTextArea[4];
 
@@ -73,12 +72,8 @@ public class ProfileEditPanel extends JPanel{
 		//Description side
 		JLabel descLabel = new JLabel("Description:");
 		JTextArea description = new JTextArea(user.getDescription());
-<<<<<<< HEAD
 		description.setName("writeArea");
 		
-=======
-
->>>>>>> 05002386c1621d5746d08e4c1d81cb9623dfa10a
 		areas[3] = description;
 
 		right.add(descLabel);

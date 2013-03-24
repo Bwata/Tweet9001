@@ -46,25 +46,17 @@ public class UserRenderPanel extends JPanel{
         * handle          .getScreenName()
         * description     .getDescription()
         * location        .getLocation()
-        * */
-<<<<<<< HEAD
-		
+        * */		
 		this.setName("statusPanel");
-		
-=======
 
->>>>>>> 05002386c1621d5746d08e4c1d81cb9623dfa10a
 		 try {
            User user = ((User) value);
 
            this.setLayout(new BorderLayout());
-<<<<<<< HEAD
 			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 90));
            
-=======
 			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 100));
 
->>>>>>> 05002386c1621d5746d08e4c1d81cb9623dfa10a
          //checks if selected
 			if (isSelected) {
 				setName("selectedPanel");
