@@ -147,9 +147,8 @@ public class SmallProfilePanel extends JPanel {
      *****************************************************************/
     private JPanel setBottomHalf() {
         JPanel main = new JPanel();
-        main.setOpaque(false);
+        main.setName("voidPanel");
         main.setLayout(new GridLayout(1, 3));
-        main.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         main.add(profileNumbers("Following", user.getFriendsCount()));
 

@@ -35,6 +35,7 @@ public class SearchPanel extends JPanel {
         setLayout(new BorderLayout());
 
         JTextArea searchWindow = new JTextArea();
+        searchWindow.setName("writeArea");
 
         //search tweet button
         TButton tweetButton = new TButton(ButtonType.SEARCH_TWEET);
@@ -46,7 +47,7 @@ public class SearchPanel extends JPanel {
         userButton.setPassedObject(searchWindow);
         userButton.addActionListener(Listeners.getListener("Button"));
 
-        add(searchWindow, BorderLayout.NORTH);
+        add(searchWindow, BorderLayout.CENTER);
         add(tweetButton, BorderLayout.EAST);
         add(userButton, BorderLayout.WEST);
 

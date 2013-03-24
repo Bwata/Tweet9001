@@ -48,8 +48,8 @@ public class StatusList extends JPanel {
      *****************************************************************/
    public StatusList(Status[] itemsPassed) {
 
-        //this.setBackground(ProgramStyle.BACKGROUND_COLOR);
-
+	   this.setName("voidPanel");
+	   
         this.items = itemsPassed;
         listener = Listeners.getListener("ListListener");
 

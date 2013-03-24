@@ -38,6 +38,8 @@ public class DMessageReceivePanel extends JPanel {
 	 *****************************************************************/
 	public DMessageReceivePanel(DirectMessage[] dmessages){
 
+		this.setName("voidPanel");
+		
 	        this.items = dmessages;
 	        listener = Listeners.getListener("ListListener");
 

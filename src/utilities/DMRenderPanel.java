@@ -42,6 +42,8 @@ public class DMRenderPanel extends JPanel{
 			final boolean cellHasFocus)    // does the cell have focus 
 	{
 
+		this.setName("statusPanel");
+		
 		try {
 			DirectMessage directMessage = (DirectMessage) value;
 			User user = directMessage.getSender();
@@ -79,7 +81,7 @@ public class DMRenderPanel extends JPanel{
 			Date date = directMessage.getCreatedAt();
 
 			JLabel timeStamp = new JLabel(((date.getMonth() + 1) + "/" + date.getDate()
-					+ "/" + (date.getYear() - 100)));
+					+ "/" + (date.getYear() - 100) + " " + (date.getHours() % 12) + ":" + date.getMinutes()));
 			timeStamp.setName("H6");
 			userInfo.add(timeStamp);
 

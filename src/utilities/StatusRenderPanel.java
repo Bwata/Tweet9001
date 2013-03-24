@@ -42,6 +42,8 @@ public class StatusRenderPanel extends JPanel{
 			final boolean isSelected,      // is the cell selected
 			final boolean cellHasFocus)    // does the cell have focus 
 	{
+		
+		this.setName("statusPanel");
 
 		try {
 			Status status = ((Status) value);
@@ -55,7 +57,7 @@ public class StatusRenderPanel extends JPanel{
 			}
 
 			this.setLayout(new BorderLayout());
-			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 100));
+			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 90));
 
 			JLabel image = new JLabel(new ImageIcon(user.getProfileImageUrlHttps()));
 			add(image, BorderLayout.WEST);

@@ -44,11 +44,13 @@ public class PostingPanel extends JPanel {
 	public PostingPanel() {
 
 		//Sets panel properties
+		this.setName("voidPanel");
 		setPreferredSize(ProgramStyle.TOP_PANEL_SIZE);
 		setLayout(new BorderLayout());
 
 		//JTextFields
 		postArea = new JTextArea("Write your post here!", 4, 30);
+		postArea.setName("writeArea");
 		postArea.setLineWrap(true);
 		postArea.setWrapStyleWord(true);
 		postArea.setEditable(true);

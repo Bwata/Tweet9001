@@ -25,9 +25,11 @@ public class DMessageSendPanel extends JPanel{
 		JTextArea[] textAreas = new JTextArea[2];
 
 		JTextArea reciever = new JTextArea();
+		reciever.setName("writeArea");
 		textAreas[0] = reciever;
 		
 		JTextArea message = new JTextArea();
+		message.setName("writeArea");
 		message.setLineWrap(true);
 		message.setWrapStyleWord(true);
 		message.setEditable(true);

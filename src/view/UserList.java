@@ -45,6 +45,8 @@ public class UserList extends JPanel{
      *****************************************************************/
     public UserList(User[] items) {
 
+    	this.setName("voidPanel");
+    	
         this.items = items;
         listener = Listeners.getListener("ListListener");
 

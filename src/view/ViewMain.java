@@ -45,7 +45,7 @@ public class ViewMain extends JPanel {
 	 *****************************************************************/
 	public ViewMain(User user) {
 
-		setPreferredSize(ProgramStyle.windowSize());
+		setPreferredSize(ProgramStyle.WINDOW_SIZE);
 		setName("backgroundPanel");
 
 		mainPanel = new JPanel();
@@ -68,7 +68,7 @@ public class ViewMain extends JPanel {
 		topPanel = new JPanel();
 		//set the size of the panel
 		topPanel.setPreferredSize(ProgramStyle.TOP_SIZE);
-		topPanel.setName("backgroundPanel");
+		topPanel.setName("borderPanel");
 
 		//sets up the three sections using BorderLayout method
 		topPanel.setLayout(new BorderLayout());
@@ -76,9 +76,12 @@ public class ViewMain extends JPanel {
 		//sets up the panels
 		postPanel = new PostingPanel();
 		topPanel.add(postPanel, BorderLayout.WEST);
+		
 		topCenter = new SmallProfilePanel(user);
 		topPanel.add(topCenter, BorderLayout.CENTER);
-		topPanel.add(new ButtonPanel(), BorderLayout.EAST);
+		
+		JPanel buttonPanel = new ButtonPanel();
+		topPanel.add(buttonPanel, BorderLayout.EAST);
 
 		return topPanel;
 	}
@@ -93,6 +96,7 @@ public class ViewMain extends JPanel {
 		topPanel.remove(topCenter);
 		//resetMainPanel();
 		topCenter = new SmallProfilePanel(user);
+		topCenter.setName("voidPanel");
 		topPanel.add(topCenter, BorderLayout.CENTER);
 
 		//refresh window
@@ -151,6 +155,7 @@ public class ViewMain extends JPanel {
 
 		topPanel.remove(topCenter);
 		topCenter = new SearchPanel();
+		topCenter.setName("voidPanel");
 		topPanel.add(topCenter, BorderLayout.CENTER);
 
 		//refresh window

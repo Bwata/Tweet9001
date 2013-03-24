@@ -50,12 +50,15 @@ public class ProfileEditPanel extends JPanel{
 		
 		JLabel usernameLabel = new JLabel("UserName:");
 		JTextArea username = new JTextArea(user.getName());
+		username.setName("writeArea");
 		areas[0] = username;
 		JLabel urlLabel = new JLabel("URL:");
 		JTextArea url = new JTextArea(user.getURL());
+		url.setName("writeArea");
 		areas[1] = url;
 		JLabel locLabel = new JLabel("Location:");
 		JTextArea loc = new JTextArea(user.getLocation());
+		loc.setName("writeArea");
 		areas[2] = loc;
 		
 		left.add(usernameLabel);
@@ -70,6 +73,7 @@ public class ProfileEditPanel extends JPanel{
 		//Description side
 		JLabel descLabel = new JLabel("Description:");
 		JTextArea description = new JTextArea(user.getDescription());
+		description.setName("writeArea");
 		
 		areas[3] = description;
 		

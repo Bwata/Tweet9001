@@ -29,8 +29,6 @@ import utilities.ButtonType;
 import utilities.Listeners;
 import utilities.TButton;
 import utilities.TrendLocations.TrendLocation;
-import zOldCode.MainButtons;
-import zOldCode.SearchButtons;
 import view.ViewMain;
 
 /*****************************************************************

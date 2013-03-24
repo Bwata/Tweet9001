@@ -48,11 +48,13 @@ public class UserRenderPanel extends JPanel{
         * location        .getLocation()
         * */
 		
+		this.setName("statusPanel");
+		
 		 try {
            User user = ((User) value);
 
            this.setLayout(new BorderLayout());
-			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 100));
+			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 90));
            
          //checks if selected
 			if (isSelected) {
