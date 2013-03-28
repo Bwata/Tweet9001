@@ -9,12 +9,13 @@ started February 10, 2013
 package view;
 
 import java.awt.BorderLayout;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import utilities.ButtonType;
-import utilities.Listeners;
+import javax.swing.JTextField;
+
+import utilities.MyButton;
 import utilities.ProgramStyle;
-import utilities.TButton;
+import utilities.SearchButtons;
 
 /*****************************************************************
 This is the panel for tweet searches and user searches.
@@ -26,27 +27,36 @@ public class SearchPanel extends JPanel {
      *****************************************************************/
     SearchPanel() {
 
-        setPreferredSize(ProgramStyle.TOP_PANEL_SIZE);
+        setBackground(ProgramStyle.BACKGROUND_COLOR);
 
+        JPanel itemArea = new JPanel();
+        itemArea.setLayout(new BorderLayout());
+        itemArea.setBorder(BorderFactory.
+                createEmptyBorder(20, 20, 20, 20));
 
-        setLayout(new BorderLayout());
+        //sets the background color of the panel
+        itemArea.setBackground(ProgramStyle.PANEL_COLOR);
 
-        JTextArea searchWindow = new JTextArea();
-        searchWindow.setName("writeArea");
+        JTextField searchWindow = new JTextField(18);
+        searchWindow.setBorder(BorderFactory.createMatteBorder(
+                5, 5, 5, 5, ProgramStyle.BACKGROUND_COLOR));
+        searchWindow.setBackground(ProgramStyle.PANEL_COLOR);
+        searchWindow.setForeground(ProgramStyle.TEXT_COLOR);
 
         //search tweet button
-        TButton tweetButton = new TButton(ButtonType.SEARCH_TWEET);
-        tweetButton.setPassedObject(searchWindow);
-        tweetButton.addActionListener(Listeners.getListener("Button"));
+        SearchButtons searchTweet = SearchButtons.SEARCH_TWEET;
+        searchTweet.setPassedObject(searchWindow);
+        MyButton tweetButton = new MyButton(searchTweet);
 
         //search user button
-        TButton userButton = new TButton(ButtonType.SEARCH_USER);
-        userButton.setPassedObject(searchWindow);
-        userButton.addActionListener(Listeners.getListener("Button"));
+        SearchButtons searchUser = SearchButtons.SEARCH_USER;
+        searchUser.setPassedObject(searchWindow);
+        MyButton userButton = new MyButton(searchUser);
 
-        add(searchWindow, BorderLayout.CENTER);
-        add(tweetButton, BorderLayout.EAST);
-        add(userButton, BorderLayout.WEST);
+        itemArea.add(searchWindow, BorderLayout.NORTH);
+        itemArea.add(tweetButton, BorderLayout.EAST);
+        itemArea.add(userButton, BorderLayout.WEST);
 
+        add(itemArea);
     }
 }

@@ -3,9 +3,6 @@ Panel to display the basic profile information of the user.
 Contains the profile image, name, screen name, description and the
 numbers of following, followers, and favorites.
 
-Bigger Profile Image: 73, 73
-Profile Banner: 260, 520
-
 started January 26, 2013
 @author Thomas Verstraete
 @version Winter 2013
@@ -20,9 +17,11 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import twitter4j.User;
@@ -36,29 +35,32 @@ public class SmallProfilePanel extends JPanel {
     /**User object to display aspects of.*/
     private User user;
 
-
-
     /*****************************************************************
     Basic Constructor for the profile information panel.
     @param userPassed User whose profile is displayed.
      *****************************************************************/
     SmallProfilePanel(final User userPassed) {
+        //Sets panel properties
+        setPreferredSize(ProgramStyle.POST_PANEL_SIZE);
+        setBackground(ProgramStyle.PANEL_COLOR);
+        //order of matteborder method (top, left, bottom, right, color)
+        setBorder(BorderFactory.createMatteBorder(11, 5, 0, 5,
+                ProgramStyle.BACKGROUND_COLOR));
+        setForeground(Color.red);
 
-    	setPreferredSize(ProgramStyle.TOP_PANEL_SIZE);
-
-    	//check if user is valid
-      if (userPassed == null) {
-          JLabel errorMessage = new JLabel("Twitter is not responding :(");
-          JLabel errorDirection = new JLabel("Click to refresh");
-          setBackground(Color.red);
-          add(errorMessage);
-          add(errorDirection);
-      } else {
-          this.user = userPassed;
-          setLayout(new BorderLayout());
-          add(setTopHalf(), BorderLayout.CENTER);
-          //add(setBottomHalf(), BorderLayout.SOUTH);
-      }
+        //check if user is valid
+        if (userPassed == null) {
+            JLabel errorMessage = new JLabel("Twitter is not responding :(");
+            JLabel errorDirection = new JLabel("Click to refresh");
+            setBackground(Color.red);
+            add(errorMessage);
+            add(errorDirection);
+        } else {
+            this.user = userPassed;
+            setLayout(new BorderLayout());
+            add(setTopHalf(), BorderLayout.CENTER);
+            add(setBottomHalf(), BorderLayout.SOUTH);
+        }
     }
 
     /*****************************************************************
@@ -123,16 +125,31 @@ public class SmallProfilePanel extends JPanel {
 
         //user name
         JLabel userName = new JLabel(user.getName());
-        userName.setName("H3");
+        userName.setFont(ProgramStyle.getFont(20));
+        userName.setForeground(ProgramStyle.TEXT_COLOR);
         names.add(userName, BorderLayout.CENTER);
 
         //screen name
         JLabel screenName = new JLabel("@" + user.getScreenName());
+        screenName.setFont(ProgramStyle.getFont(12));
+        screenName.setForeground(ProgramStyle.TEXT_COLOR);
         names.add(screenName, BorderLayout.EAST);
 
         main.add(names, BorderLayout.NORTH);
 
-        main.add(setBottomHalf(), BorderLayout.CENTER);
+        //description
+        JTextArea description = new JTextArea(user.getDescription());
+        //description portion attributes.
+        description.setPreferredSize(description.getSize());
+        description.setFont(ProgramStyle.getFont(12));
+        description.setForeground(ProgramStyle.TEXT_COLOR);
+        description.setOpaque(false);
+        description.setLineWrap(true);
+        description.setWrapStyleWord(true);
+        description.setEditable(false);
+
+        main.add(description, BorderLayout.CENTER);
+
         return main;
     }
 
@@ -143,14 +160,15 @@ public class SmallProfilePanel extends JPanel {
      *****************************************************************/
     private JPanel setBottomHalf() {
         JPanel main = new JPanel();
-        main.setName("voidPanel");
+        main.setOpaque(false);
         main.setLayout(new GridLayout(1, 3));
+        main.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         main.add(profileNumbers("Following", user.getFriendsCount()));
 
         main.add(profileNumbers("Followers", user.getFollowersCount()));
 
-        main.add(profileNumbers("Favorites", user.getFavouritesCount()));
+        main.add(profileNumbers("Favorite", user.getFavouritesCount()));
 
         return main;
     }
@@ -166,10 +184,15 @@ public class SmallProfilePanel extends JPanel {
 
         JPanel main = new JPanel();
 
+        main.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5,
+                ProgramStyle.BACKGROUND_COLOR));
+        main.setBackground(ProgramStyle.PANEL_COLOR);
         main.setLayout(new GridLayout(2, 1));
         JLabel titleLabel = new JLabel(title);
+        titleLabel.setForeground(ProgramStyle.TEXT_COLOR);
 
         JLabel valueLabel = new JLabel("" + value);
+        valueLabel.setForeground(ProgramStyle.TEXT_COLOR);
 
         main.add(titleLabel);
         main.add(valueLabel);
