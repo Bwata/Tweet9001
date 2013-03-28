@@ -1,8 +1,7 @@
 /*****************************************************************
-Panel to display all the buttons in the top right side of the
-window.
+Panel of Buttons on the top right side of the screen.
 
-started January 26, 2013
+started March 8, 2013
 @author Thomas Verstraete
 @version Winter 2013
  *****************************************************************/
@@ -10,37 +9,57 @@ package view;
 
 import java.awt.GridLayout;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import utilities.MainButtons;
-import utilities.MyButton;
+import utilities.ButtonType;
+import utilities.Listeners;
 import utilities.ProgramStyle;
+import utilities.TButton;
 
-/*****************************************************************
-The panel that displays the main group of buttons in the top right.
- *****************************************************************/
-public class ButtonPanel extends JPanel {
+public class ButtonPanel extends JPanel{
 
     /*****************************************************************
     Basic Constructor to set up all the main buttons.
      *****************************************************************/
-    ButtonPanel() {
+    public ButtonPanel() {
 
         //Sets panel properties
-        setPreferredSize(ProgramStyle.POST_PANEL_SIZE);
-        setBackground(ProgramStyle.PANEL_COLOR);
-        //order of matte border method (top, left, bottom, right, color)
-        this.setBorder(BorderFactory.createMatteBorder(11, 5, 0, 11,
-                ProgramStyle.BACKGROUND_COLOR));
+        setPreferredSize(ProgramStyle.TOP_PANEL_SIZE);
 
         //grid layout with three rows and two columns
-        this.setLayout(new GridLayout(3,1));
+        this.setLayout(new GridLayout(3,2));
 
         //adds all the buttons based on the enum types
-        add(new MyButton(MainButtons.HOMETIMELINE));
-        add(new MyButton(MainButtons.SEARCH));
-        add(new MyButton(MainButtons.TRENDING));
+        TButton ht = new TButton(ButtonType.HOMETIMELINE);
+        ht.addActionListener(Listeners.getListener("Button"));
+        ht.setName("navButtons");
+        add(ht);
+
+        TButton se = new TButton(ButtonType.SEARCH);
+        se.addActionListener(Listeners.getListener("Button"));
+        se.setName("navButtons");
+        add(se);
+
+        TButton tr = new TButton(ButtonType.TRENDING);
+        tr.addActionListener(Listeners.getListener("Button"));
+        tr.setName("navButtons");
+        add(tr);
+
+        TButton dm = new TButton(ButtonType.DIRECT_MESSAGE);
+        dm.addActionListener(Listeners.getListener("Button"));
+        dm.setName("navButtons");
+        add(dm);
+
+        TButton ep = new TButton(ButtonType.EDIT_PROFILE);
+        ep.addActionListener(Listeners.getListener("Button"));
+        ep.setName("navButtons");
+        add(ep);
+
+        TButton bl = new TButton(ButtonType.BLANK);
+        bl.setName("navButtons");
+        add(bl);
+
+
 
     }
 }
