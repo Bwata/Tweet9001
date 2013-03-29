@@ -10,6 +10,8 @@ package model;
 
 import java.io.File;
 import java.util.List;
+
+import model.DMGroups.DMMessage;
 import twitter4j.DirectMessage;
 import twitter4j.Location;
 import twitter4j.Query;
@@ -30,6 +32,8 @@ import utilities.TrendLocations;
 The main model of the program. This updates the view.
  *****************************************************************/
 public class ModelMain {
+	
+	DMGroups groups;
 
     /**The Twitter object to access all the twitter information.*/
 	private Twitter twitter;
@@ -213,6 +217,40 @@ public class ModelMain {
 			System.exit(-1);
 		}
 		return null;
+	}
+	/*****************************************************************
+	 * Gets a list of the users which have a direct message.
+	 * @return a list of users
+	 *****************************************************************/
+	public User[] getDMUsers(){
+		//Sets the parameters of a DM group
+		DirectMessage[] rlist = new DirectMessage[1];
+		DirectMessage[] slist = new DirectMessage[1];
+		
+		try {
+
+			List<DirectMessage> messages;
+			//retrieves a list of all direct messages
+			messages = twitter.getDirectMessages();
+
+			rlist =  messages.toArray(rlist);
+			messages = twitter.getSentDirectMessages();
+			slist = messages.toArray(slist);
+
+		}
+		catch (TwitterException te) {
+			te.printStackTrace();
+			System.out.println("Failed to get messages: " + te.getMessage());
+			System.exit(-1);
+		}
+		//Creating a new group 
+		groups = new DMGroups(slist, rlist);
+		return groups.getUsers();
+		
+	}
+	/**This returns the messages related to a user */
+	public DMMessage[] getDMMessages(User user){
+		return groups.getMessages(user);
 	}
 
 	/*****************************************************************
