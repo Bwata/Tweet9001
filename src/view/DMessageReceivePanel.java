@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import model.DMGroups.DMMessage;
+
 import twitter4j.DirectMessage;
 import utilities.Listeners;
 import utilities.ProgramStyle;
@@ -22,7 +24,7 @@ import utilities.ProgramStyle;
 public class DMessageReceivePanel extends JPanel {
 
     /**Array of DirectMessages*/
-	private DirectMessage[] items;
+	private DMMessage[] items;
 
 	/**List displayed*/
 	private JList list;
@@ -35,7 +37,7 @@ public class DMessageReceivePanel extends JPanel {
 
 	@param dmessages DirectMessage[] Array of the messages to show.
 	 *****************************************************************/
-	public DMessageReceivePanel(DirectMessage[] dmessages){
+	public DMessageReceivePanel(DMMessage[] dmessages){
 
 		this.setName("voidPanel");
 		
@@ -50,7 +52,7 @@ public class DMessageReceivePanel extends JPanel {
 	        JScrollPane scrollPane = new JScrollPane(list,
 	        ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 	        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-	        scrollPane.setPreferredSize(new Dimension(ProgramStyle.MAIN_ELEMENT_WIDTH, ProgramStyle.MAIN_HEIGHT));
+	        scrollPane.setPreferredSize(ProgramStyle.MAIN_PANEL);
 
 	        //Add all the parts together
 	        add(scrollPane);

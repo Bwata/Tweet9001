@@ -43,7 +43,7 @@ public class Controller {
     private ModelMain mainModel;
 
     /**User account info.*/
-	private User user;
+	//private User user;
 
     /*****************************************************************
     General constructor sets up all the attributes.
@@ -52,11 +52,15 @@ public class Controller {
     public Controller() {
 
         //Sets up the model
+    	User user;
+    	Status[] stati;
         mainModel = new ModelMain();
         try {
             user = mainModel.getMainUser();
+            stati = mainModel.getHomeTimeline();
         } catch (TwitterException e) {
             user = null;
+            stati = null;
             //e.printStackTrace();
         }
 
@@ -69,10 +73,10 @@ public class Controller {
         frame.setResizable(true);
 
         //show the main window
-        mainView = new ViewMain(user);
+        mainView = new ViewMain(user, stati);
 
         //Show Time line from the beginning
-        showHomeTimeline();
+        //showHomeTimeline();
 
         frame.getContentPane().add(((JPanel) mainView));
 
@@ -84,9 +88,9 @@ public class Controller {
     /*****************************************************************
     Redisplay the small profile information.
      *****************************************************************/
-    private void refreshProfile() {
-        mainView.resetSmallProfile(user);
-    }
+//    private void refreshProfile() {
+//        mainView.resetSmallProfile(user);
+//    }
 
     /*****************************************************************
     Get the user's home time line and send it to the view.
@@ -95,9 +99,10 @@ public class Controller {
 
         Status[] stati;
         try {
-        	mainView.switchToTimeline(mainModel.getHomeTimeline());
-            //stati = mainModel.getHomeTimeline();
-            //mainView.addList(stati, "");
+        	
+        	mainView.switchToTimeline(mainModel.getHomeTimeline(),
+        			mainModel.getMainUser());
+            
         } catch (TwitterException e) {
             stati = null;
             mainView.showError();
@@ -115,7 +120,7 @@ public class Controller {
 
         try {
             mainModel.postTweet(text);
-            //mainView.clearPost();
+            
             showHomeTimeline();
         } catch (TwitterException e) {
             mainView.showError();
@@ -186,7 +191,7 @@ public class Controller {
     Tells the view to show the search panel for the user.
      *****************************************************************/
     private void showSearchPanel() {
-        mainView.showSearch();
+        mainView.switchToSearch();
     }
 
     /*****************************************************************
@@ -194,9 +199,9 @@ public class Controller {
     And displays the DM's sent to the user.
 	 *****************************************************************/
 	private void showDMSendPanel() {
-		DirectMessage[] Dmessages = mainModel.receiveDirectMessage();
-		mainView.switchToDM();
-		mainView.addList(Dmessages, "");
+		
+		mainView.switchToDM(mainModel.getDMUsers());
+		
 	}
 
 	/*****************************************************************
@@ -217,9 +222,10 @@ public class Controller {
 
         Status[] stati;
         try {
-            mainView.switchToTimeline(mainModel.searchTweets(searchText));
-//            mainView.addStatusList(stati);
-//            mainView.addStatusList(stati);
+        	
+            mainView.switchToTimeline(mainModel.searchTweets(searchText), 
+            		mainModel.getMainUser());
+
         } catch (TwitterException e) {
             stati = null;
             mainView.showError();
@@ -227,6 +233,24 @@ public class Controller {
         }
     }
 
+    
+    /*****************************************************************
+    Shows the search results if the user wants to search for tweets.
+    @param searchText String to find results for.
+     *****************************************************************/
+    private void showTrendTweets(String searchText) {
+
+        Status[] stati;
+        try {
+        	
+            mainView.addList(mainModel.searchTweets(searchText), searchText);
+
+        } catch (TwitterException e) {
+            stati = null;
+            mainView.showError();
+            //e.printStackTrace();
+        }
+    }
     /*****************************************************************
     Shows the search results if the user wants to search for Users.
     @param searchText String to find results for.
@@ -247,7 +271,15 @@ public class Controller {
 
      *****************************************************************/
     private void showProfileEdit() {
-    	mainView.showProfileEdit(user);
+    	//mainView.showProfileEdit(user);
+    }
+    
+    /*****************************************************************
+
+
+     *****************************************************************/
+    private void showProfile(User user) {
+    	mainView.showProfile(user);
     }
 
     /*****************************************************************
@@ -322,8 +354,20 @@ public class Controller {
 
             case HOMETIMELINE:
                 showHomeTimeline();
-            	refreshProfile();
+            	//refreshProfile();
                 break;
+                
+            case SEARCH:
+                showSearchPanel();
+                break;
+
+            case TRENDING:
+                getTrends();
+                break;
+                
+            case DIRECT_MESSAGE:
+				showDMSendPanel();
+				break;
 
             case POST_TWEET:
             	String tweetText =
@@ -339,26 +383,20 @@ public class Controller {
             	postTweetAndImage(message);
             	break;
 
-            case SEARCH:
-                showSearchPanel();
-                break;
-
-            case TRENDING:
-                getTrends();
-                break;
+            
 
             case SEARCH_TWEET:
             	String searchTweetText =
                 ((JTextArea) (button.getPassedObject())).getText();
             	showSearchTweets(searchTweetText);
-            	refreshProfile();
+            	
             	break;
 
             case SEARCH_USER:
             	String searchUserText =
                 ((JTextArea) (button.getPassedObject())).getText();
             	//showSearchUsers(searchUserText);
-            	refreshProfile();
+            	
             	break;
 
             case WORLD_TRENDING:
@@ -369,15 +407,12 @@ public class Controller {
 
             	break;
 
-			case DIRECT_MESSAGE:
-				showDMSendPanel();
-				break;
+			
 
 			case SEND_DM:
 				JTextArea[] areas = ((JTextArea[])
 						(button.getPassedObject()));
 				sendDM(areas[0].getText(), areas[1].getText());
-				refreshProfile();
 				break;
 
 			case EDIT_IMAGE:
@@ -397,7 +432,6 @@ public class Controller {
 						(button.getPassedObject()));
 				editProfile(profileAreas);
 				showHomeTimeline();
-            	refreshProfile();
 				break;
 
 			default:
@@ -435,13 +469,14 @@ public class Controller {
             Object obj = event.getSource();
 
             if (obj instanceof Trend) {
-                showSearchTweets(((Trend) obj).getName());
+                showTrendTweets(((Trend) obj).getName());
             }
 
             if (obj instanceof Status) {
 
                 try {
 				   getConversations(((Status) obj).getId());
+				   showProfile(((Status) obj).getUser());
 				} catch (TwitterException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

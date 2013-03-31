@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import model.DMGroups.DMMessage;
+
 import twitter4j.DirectMessage;
 import twitter4j.Status;
 import twitter4j.Trend;
@@ -53,25 +55,69 @@ public class ViewMain extends JPanel {
 
     @param user the main user.
 	 *****************************************************************/
-	public ViewMain(User user) {
+	public ViewMain(User user, Status[] stati) {
 
 		state = State.TIMELINE;
 
 		setPreferredSize(ProgramStyle.WINDOW_SIZE);
 		setName("backgroundPanel");
-
-		setMainPanel();
-		//setAccessPanel(new JPanel());
-
+		
 		this.setLayout(new BorderLayout());
 		add(setTopPanel(user), BorderLayout.NORTH);
+
+		setMiddlePanel(new StatusList(stati));
+		removeAccessPanel();
+		removeFocusPanel();
+
+		updateUI();
+	}
+
+	/*****************************************************************
+	Sets up the three panel sections at the top of the window and
+	returns it to display.
+	
+	@return JPanel
+	 *****************************************************************/
+	private JPanel setTopPanel (User user) {
+	
+		topPanel = new JPanel();
+		//set the size of the panel
+		topPanel.setPreferredSize(ProgramStyle.TOP_SIZE);
+		topPanel.setName("borderPanel");
+	
+		//sets up the three sections using BorderLayout method
+		topPanel.setLayout(new BorderLayout());
+	
+		//sets up the panels
+		JPanel postPanel = new PostingPanel();
+		topPanel.add(postPanel, BorderLayout.WEST);
+	
+		topCenter = new SmallProfilePanel(user);
+		topPanel.add(topCenter, BorderLayout.CENTER);
+	
+		JPanel buttonPanel = new ButtonPanel();
+		topPanel.add(buttonPanel, BorderLayout.EAST);
+	
+		return topPanel;
+	}
+	
+	/*****************************************************************
+
+	@return JPanel
+	 *****************************************************************/
+	private JPanel placeHolderPanel () {		
+		JPanel panel = new JPanel();
+		panel.setName("voidPanel");
+		panel.setPreferredSize(ProgramStyle.MAIN_PANEL);
+		return panel;
+		
 	}
 
 	/*****************************************************************
 
 
 	 *****************************************************************/
-	private void setMainPanel () {	
+	private void setMiddlePanel (JPanel panel) {	
 		
 		System.out.println("VM 71");
 
@@ -82,58 +128,33 @@ public class ViewMain extends JPanel {
 		
 		//updateUI();
 
-		middlePanel = new JPanel();
-		middlePanel.setName("backgroundPanel");
-		//mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.LINE_AXIS));
-		//mainPanel.setPreferredSize(new Dimension(0, ProgramStyle.MAIN_HEIGHT));
-
-
-//		mainScrollPane = new JScrollPane(mainPanel,
-//				ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-//				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-//		mainScrollPane.setPreferredSize(new Dimension(
-//				ProgramStyle.RENDER_WIDTH*2,
-//				ProgramStyle.MAIN_HEIGHT));
-//		mainScrollPane.setOpaque(false);
-//		//eliminates the default border
-//		mainScrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		middlePanel = panel;
+		
 
 
 		add(middlePanel, BorderLayout.CENTER);
 
 		//refresh window
-		updateUI();
+		//updateUI();
 	}
 
 	/*****************************************************************
-    Sets up the three panel sections at the top of the window and
-    returns it to display.
 
-    @return JPanel
+
 	 *****************************************************************/
-	private JPanel setTopPanel (User user) {
-
-		topPanel = new JPanel();
-		//set the size of the panel
-		topPanel.setPreferredSize(ProgramStyle.TOP_SIZE);
-		topPanel.setName("borderPanel");
-
-		//sets up the three sections using BorderLayout method
-		topPanel.setLayout(new BorderLayout());
-
-		//sets up the panels
-		JPanel postPanel = new PostingPanel();
-		topPanel.add(postPanel, BorderLayout.WEST);
-
-		topCenter = new SmallProfilePanel(user);
-		topPanel.add(topCenter, BorderLayout.CENTER);
-
-		JPanel buttonPanel = new ButtonPanel();
-		topPanel.add(buttonPanel, BorderLayout.EAST);
-
-		return topPanel;
+	private void removeMiddlePanel () {		
+		if (middlePanel != null) {
+			remove(middlePanel);
+			System.out.println("vm 155");
+		} 
+		System.out.println("vm 157");
+		middlePanel = placeHolderPanel();
+		add(middlePanel, BorderLayout.CENTER);
+		//refresh window
+		//updateUI();
 	}
-
+	
+	
 	/*****************************************************************
 
 
@@ -146,11 +167,12 @@ public class ViewMain extends JPanel {
 		}
 		System.out.println("vm 139");
 		accessPanel = panel;
-		accessPanel.setName("borderPanel");
-		accessPanel.setPreferredSize(new Dimension(
-				ProgramStyle.RENDER_WIDTH, ProgramStyle.MAIN_HEIGHT));	
+		
 
 		add(accessPanel, BorderLayout.WEST);
+		
+		//refresh window
+		//updateUI();
 	}
 
 	/*****************************************************************
@@ -163,17 +185,17 @@ public class ViewMain extends JPanel {
 			System.out.println("vm 155");
 		} 
 		System.out.println("vm 157");
-		accessPanel = null;
-
+		accessPanel = placeHolderPanel();
+		add(accessPanel, BorderLayout.WEST);
 		//refresh window
-		updateUI();
+		//updateUI();
 	}
 	
 	/*****************************************************************
 
 
 	 *****************************************************************/
-	private void setFocusPanel () {		
+	private void setFocusPanel (JPanel panel) {		
 		if (focusPanel != null) {
 			remove(focusPanel);
 			System.out.println("vm 75");
@@ -181,13 +203,28 @@ public class ViewMain extends JPanel {
 		
 		//updateUI();
 
-		focusPanel = new JPanel();
-		focusPanel.setName("backgroundPanel");
+		focusPanel = panel;
 
 		add(focusPanel, BorderLayout.EAST);
 
 		//refresh window
-		updateUI();
+		//updateUI();
+	}
+	
+	/*****************************************************************
+
+
+	 *****************************************************************/
+	private void removeFocusPanel () {		
+		if (focusPanel != null) {
+			remove(focusPanel);
+			System.out.println("vm 155");
+		} 
+		System.out.println("vm 157");
+		focusPanel = placeHolderPanel();
+		add(focusPanel, BorderLayout.EAST);
+		//refresh window
+		//updateUI();
 	}
 
 	/*****************************************************************
@@ -195,7 +232,7 @@ public class ViewMain extends JPanel {
 
 	@param user User to display the profile infor for.
 	 *****************************************************************/
-	public void resetSmallProfile (User user) {
+	private void resetSmallProfile (User user) {
 
 		topPanel.remove(topCenter);
 		topCenter = new SmallProfilePanel(user);
@@ -203,13 +240,13 @@ public class ViewMain extends JPanel {
 		topPanel.add(topCenter, BorderLayout.CENTER);
 
 		//refresh window
-		updateUI();
+		//updateUI();
 	}
 
 	/*****************************************************************
     Show the search panel in the main section.
 	 *****************************************************************/
-	public void showSearch() {
+	private void showSearch() {
 		
 		state = State.SEARCH;
 
@@ -219,23 +256,36 @@ public class ViewMain extends JPanel {
 		topPanel.add(topCenter, BorderLayout.CENTER);
 
 		//refresh window
-		updateUI();
+		//updateUI();
+	}
+
+	/*****************************************************************
+	Show the search panel in the main section.
+	 *****************************************************************/
+	private void showDM() {
+	
+		topPanel.remove(topCenter);
+		topCenter = new DMessageSendPanel();
+		topPanel.add(topCenter, BorderLayout.CENTER);
+	
+		//refresh window
+		//updateUI();
 	}
 
 	/*****************************************************************
 	
 
 	 *****************************************************************/
-	public void switchToTimeline (Status[] stati) {		
+	public void switchToTimeline (Status[] stati, User user) {		
 
 		if (state != State.TIMELINE) {
 			state = State.TIMELINE;
 
-			setMainPanel();
-			setFocusPanel();
-			middlePanel.add(new StatusList(stati));
+			setMiddlePanel(new StatusList(stati));
+			resetSmallProfile(user);
+			
 			removeAccessPanel();
-
+			removeFocusPanel();
 
 			//refresh window
 			updateUI();
@@ -253,15 +303,13 @@ public class ViewMain extends JPanel {
 		if(state != State.TRENDING) {
 			state = State.TRENDING;
 
-			setMainPanel();
+			removeMiddlePanel();
+			removeFocusPanel();
 
 			setAccessPanel(new WorldTrendsPanel(locals.getArray()));
 
-			//add new trending panel to main section
-			//add(mainPanel, BorderLayout.CENTER);
 
 			//refresh window
-			
 			updateUI();
 		}
 	}
@@ -270,7 +318,7 @@ public class ViewMain extends JPanel {
 
 
 	 *****************************************************************/
-	public void switchToDM (DirectMessage[] messages) {	
+	public void switchToDM (User[] users) {	
 
 		if (state != State.DIRECTMESSAGE) {
 			state = State.DIRECTMESSAGE;
@@ -279,15 +327,15 @@ public class ViewMain extends JPanel {
 			topCenter = new DMessageSendPanel();
 			topPanel.add(topCenter, BorderLayout.CENTER);
 			
-			removeAccessPanel();
-			setMainPanel();
-			
-			middlePanel.add(new DMessageReceivePanel(messages));
+			setAccessPanel(new UserList(users));
+			removeMiddlePanel();
+			removeFocusPanel();
 
 			showDM();
 
 		}
-
+		//refresh window
+		updateUI();
 	}
 	
 	/*****************************************************************
@@ -298,30 +346,20 @@ public class ViewMain extends JPanel {
 
 		if (state != State.SEARCH) {
 			state = State.SEARCH;
+			
+			showSearch();
 
-			removeAccessPanel();
-			setMainPanel();
+			//removeAccessPanel();
+			//setMainPanel();
 
-			showDM();
+			//showDM();
 
 		}
-
-	}
-
-
-	/*****************************************************************
-    Show the search panel in the main section.
-	 *****************************************************************/
-	private void showDM() {
-
-		topPanel.remove(topCenter);
-		topCenter = new DMessageSendPanel();
-		topPanel.add(topCenter, BorderLayout.CENTER);
-
 		//refresh window
 		updateUI();
 	}
-	
+
+
 	/*****************************************************************
 
 
@@ -329,7 +367,10 @@ public class ViewMain extends JPanel {
 	public void showProfile (User user) {	
 		
 		//show the user in the access panel with fancy styling.
-
+		setAccessPanel(new ProfilePanel(user));
+		
+		//refresh window
+		updateUI();
 	}
 
 	/*****************************************************************
@@ -343,9 +384,11 @@ public class ViewMain extends JPanel {
 
 		removeAccessPanel();
 
-		setAccessPanel(new ProfileEditPanel(user));
+		setMiddlePanel(new ProfileEditPanel(user));
 
 		//		}
+		//refresh window
+		updateUI();
 
 	}
 
@@ -357,28 +400,33 @@ public class ViewMain extends JPanel {
 
 		if (obj instanceof Status[]) {
 			if (state == State.TIMELINE) {
-				setFocusPanel();
-				focusPanel.add(new StatusList((Status[]) obj));
+				setFocusPanel(new StatusList((Status[]) obj));
+				
+			} else if (state == State.TRENDING) {
+				setFocusPanel(new StatusList((Status[]) obj));
+				
 			} else {
-				middlePanel.add(new StatusList((Status[]) obj));
+				setMiddlePanel(new StatusList((Status[]) obj));
 			}
 
 		} else if (obj instanceof User[]) {
+			
+			if (state == State.SEARCH) {
+				setMiddlePanel(new UserList((User[]) obj));
+			} 
 
-			middlePanel.add(new UserList((User[]) obj));
 
 		} else if (obj instanceof DirectMessage[]) {
-
-			middlePanel.add(new DMessageReceivePanel((DirectMessage[]) obj));
+			
+			setMiddlePanel(new DMessageReceivePanel((DMMessage[]) obj));
 
 		} else if (obj instanceof Trend[]) {
 
-			middlePanel.add(new TrendingList((Trend[]) obj, name));
+			setMiddlePanel(new TrendingList((Trend[]) obj, name));
 
 		}
 
 		//refresh window
-		middlePanel.updateUI();
 		updateUI();
 	}
 

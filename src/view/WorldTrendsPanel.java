@@ -82,8 +82,7 @@ public class WorldTrendsPanel extends JPanel{
 		JScrollPane scrollPane = new JScrollPane(main,
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setPreferredSize(new Dimension
-				(ProgramStyle.MAIN_ELEMENT_WIDTH, ProgramStyle.MAIN_HEIGHT));
+		scrollPane.setPreferredSize(ProgramStyle.MAIN_PANEL);
 		add(scrollPane);
 
 	}

@@ -35,12 +35,12 @@ public class TrendRenderPanel extends JPanel{
 	{
 		this.setName("statusPanel");
 
-		this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 60));
+		this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 40));
 		 try {
           Trend trend = ((Trend) value);
           
           JLabel title = new JLabel(trend.getName());
-          title.setName("H3");
+          //title.setName("H3");
           
           add(title);
 

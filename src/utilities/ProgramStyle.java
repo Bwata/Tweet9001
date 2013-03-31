@@ -52,8 +52,8 @@ public class ProgramStyle {
 
     /**The Size of the programs window.*/
     //Note: the eos computers are 1280 X 1024
-    public static final Dimension WINDOW_SIZE =
-            new Dimension(1200, 740);
+    public static final Dimension WINDOW_SIZE = windowSize();
+            //new Dimension(1200, 740);
 
     /**The Size of the programs top panel.*/
     public static final Dimension TOP_SIZE =
@@ -64,16 +64,16 @@ public class ProgramStyle {
             new Dimension(TOP_SIZE.width / 3, TOP_SIZE.height);
 
     /**The Height of the main panel elements.*/
-    public static final int MAIN_HEIGHT = ((int) windowSize().getHeight()-170);
+    //public static final int MAIN_HEIGHT = ((int) windowSize().getHeight()-170);
 
     /**The width of the main panel elements*/
-    public static final int MAIN_ELEMENT_WIDTH = (int) windowSize().getWidth()/3;
+    //public static final int MAIN_ELEMENT_WIDTH = (int) windowSize().getWidth()/3;
 
     /***/
     public static final int RENDER_WIDTH = 1200/3 - 20;
     
     /***/
-    public static final Dimension MAIN_PANEL = new Dimension(WINDOW_SIZE.width/3, MAIN_HEIGHT);
+    public static final Dimension MAIN_PANEL = new Dimension(WINDOW_SIZE.width/3, WINDOW_SIZE.height - TOP_SIZE.height- 40);
 
     //fill in all other colors, sizes, strings, and other design
     //and style variables
@@ -85,7 +85,11 @@ public class ProgramStyle {
      *****************************************************************/
     public static Dimension windowSize() {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        return new Dimension(dim.width, dim.height - 45);
+        if (dim.width > 1200 || dim.height > 740) {
+        	return new Dimension(1200, 740);
+        } else {
+        	return new Dimension(dim.width, dim.height - 45);
+        }
     }
 
     /*****************************************************************

@@ -44,7 +44,7 @@ public class TrendingList extends JPanel {
 
     	this.setName("voidPanel");
         setLayout(new BorderLayout());
-        setMaximumSize(new Dimension(ProgramStyle.RENDER_WIDTH, ProgramStyle.MAIN_HEIGHT));
+        setMaximumSize(ProgramStyle.MAIN_PANEL);
 
     	JLabel title = new JLabel(place);
     	title.setName("H3");

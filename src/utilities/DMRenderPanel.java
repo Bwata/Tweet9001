@@ -19,6 +19,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import model.DMGroups.DMMessage;
+
 import twitter4j.DirectMessage;
 import twitter4j.User;
 
@@ -45,7 +47,7 @@ public class DMRenderPanel extends JPanel{
 		this.setName("statusPanel");
 		
 		try {
-			DirectMessage directMessage = (DirectMessage) value;
+			DirectMessage directMessage = ((DMMessage) value).getMessage();
 			User user = directMessage.getSender();
 
 			//checks if selected
