@@ -73,7 +73,7 @@ public class ProgramStyle {
     public static final int RENDER_WIDTH = 1200/3 - 20;
     
     /***/
-    public static final Dimension MAIN_PANEL = new Dimension(WINDOW_SIZE.width/3, WINDOW_SIZE.height - TOP_SIZE.height- 40);
+    public static final Dimension MAIN_PANEL = new Dimension(WINDOW_SIZE.width/3-15, WINDOW_SIZE.height - TOP_SIZE.height- 40);
 
     //fill in all other colors, sizes, strings, and other design
     //and style variables

@@ -33,141 +33,141 @@ of the model.
  *****************************************************************/
 public class Controller {
 
-    /**The frame for the whole project.*/
-    private JFrame frame;
+	/**The frame for the whole project.*/
+	private JFrame frame;
 
-    /**MainView of the Whole layout.*/
-    private ViewMain mainView;
+	/**MainView of the Whole layout.*/
+	private ViewMain mainView;
 
-    /**The access class for the Project Model side.*/
-    private ModelMain mainModel;
+	/**The access class for the Project Model side.*/
+	private ModelMain mainModel;
 
-    /**User account info.*/
+	/**User account info.*/
 	//private User user;
 
-    /*****************************************************************
+	/*****************************************************************
     General constructor sets up all the attributes.
     Note: the eos computers are 1280 X 1024
-     *****************************************************************/
-    public Controller() {
+	 *****************************************************************/
+	public Controller() {
 
-        //Sets up the model
-    	User user;
-    	Status[] stati;
-        mainModel = new ModelMain();
-        try {
-            user = mainModel.getMainUser();
-            stati = mainModel.getHomeTimeline();
-        } catch (TwitterException e) {
-            user = null;
-            stati = null;
-            //e.printStackTrace();
-        }
+		//Sets up the model
+		User user;
+		Status[] stati;
+		mainModel = new ModelMain();
+		try {
+			user = mainModel.getMainUser();
+			stati = mainModel.getHomeTimeline();
+		} catch (TwitterException e) {
+			user = null;
+			stati = null;
+			//e.printStackTrace();
+		}
 
-        //Sets the listeners for the Buttons.
-        setListeners();
+		//Sets the listeners for the Buttons.
+		setListeners();
 
-        //Sets up the main frame and background of the whole program
-        frame = new JFrame("Tweet9001");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(true);
+		//Sets up the main frame and background of the whole program
+		frame = new JFrame("Tweet9001");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(true);
 
-        //show the main window
-        mainView = new ViewMain(user, stati);
+		//show the main window
+		mainView = new ViewMain(user, stati);
 
-        //Show Time line from the beginning
-        //showHomeTimeline();
+		//Show Time line from the beginning
+		//showHomeTimeline();
 
-        frame.getContentPane().add(((JPanel) mainView));
+		frame.getContentPane().add(((JPanel) mainView));
 
-        //show the background
-        frame.pack();
-        frame.setVisible(true);
-    }
+		//show the background
+		frame.pack();
+		frame.setVisible(true);
+	}
 
-    /*****************************************************************
+	/*****************************************************************
     Redisplay the small profile information.
-     *****************************************************************/
-//    private void refreshProfile() {
-//        mainView.resetSmallProfile(user);
-//    }
+	 *****************************************************************/
+	//    private void refreshProfile() {
+	//        mainView.resetSmallProfile(user);
+	//    }
 
-    /*****************************************************************
+	/*****************************************************************
     Get the user's home time line and send it to the view.
-     *****************************************************************/
-    private void showHomeTimeline() {
+	 *****************************************************************/
+	private void showHomeTimeline() {
 
-        Status[] stati;
-        try {
-        	
-        	mainView.switchToTimeline(mainModel.getHomeTimeline(),
-        			mainModel.getMainUser());
-            
-        } catch (TwitterException e) {
-            stati = null;
-            mainView.showError();
-            //e.printStackTrace();
-        }
-    }
+		Status[] stati;
+		try {
 
-    /*****************************************************************
+			mainView.switchToTimeline(mainModel.getHomeTimeline(),
+					mainModel.getMainUser());
+
+		} catch (TwitterException e) {
+			stati = null;
+			mainView.showError();
+			//e.printStackTrace();
+		}
+	}
+
+	/*****************************************************************
     Process to collect the post text and send it on to twitter then
     update the view's timeline.
 
     @param text String message to post.
-     *****************************************************************/
-    private void postTweet(String text) {
+	 *****************************************************************/
+	private void postTweet(String text) {
 
-        try {
-            mainModel.postTweet(text);
-            
-            showHomeTimeline();
-        } catch (TwitterException e) {
-            mainView.showError();
-            //e.printStackTrace();
-        }
-    }
+		try {
+			mainModel.postTweet(text);
 
-    /*****************************************************************
+			showHomeTimeline();
+		} catch (TwitterException e) {
+			mainView.showError();
+			//e.printStackTrace();
+		}
+	}
+
+	/*****************************************************************
     Take the String parameter, collect the image with a filechooser
     and post both to the twitters.
 
     @param text String message to post.
-     *****************************************************************/
-    private void postTweetAndImage(String text) {
+	 *****************************************************************/
+	private void postTweetAndImage(String text) {
 
-        try {
-            mainModel.postTweet(text, mainView.imageChooser());
-            //mainView.clearPost();
-            showHomeTimeline();
-        } catch (TwitterException e) {
-            mainView.showError();
-            //e.printStackTrace();
-        }
-    }
+		try {
+			mainModel.postTweet(text, mainView.imageChooser());
+			//mainView.clearPost();
+			showHomeTimeline();
+		} catch (TwitterException e) {
+			mainView.showError();
+			//e.printStackTrace();
+		}
+	}
 
-    /*****************************************************************
+	/*****************************************************************
     Get the Top Ten trends of a hard coded location and also display
     all the possible trending locaitons of Twitter.
     Local examples:
     united states - 23424977.
 	Detroit - 2391585
 	Chicago - 2379574
-     *****************************************************************/
-    private void getTrends() {
+	 *****************************************************************/
+	private void getTrends() {
 
-        //sends the trends to display
-        try {
+		//sends the trends to display
+		try {
 
-            mainView.switchToTrending(mainModel.getAllTrends());
-            mainView.addList(mainModel.getTrends(23424977), "USA");
-        } catch (TwitterException e) {
-            mainView.showError();
-            //e.printStackTrace();
-        }
-    }
+			mainView.switchToTrending(mainModel.getAllTrends());
+			mainView.addList(mainModel.getTrends(23424977), "USA");
+		} catch (TwitterException e) {
+			mainView.showError();
+			//e.printStackTrace();
+		}
+	}
 
-    /*****************************************************************
+	/*****************************************************************
     Gets the top ten trends for a parameter location.
     @throws TwitterException
 	 *****************************************************************/
@@ -177,7 +177,7 @@ public class Controller {
 		try {
 			//mainView.resetMainPanel();
 
-			
+
 			mainView.addList(mainModel.getTrends(
 					loc.getLocation().getWoeid()),
 					loc.getTownName());
@@ -187,21 +187,21 @@ public class Controller {
 		}
 	}
 
-    /*****************************************************************
+	/*****************************************************************
     Tells the view to show the search panel for the user.
-     *****************************************************************/
-    private void showSearchPanel() {
-        mainView.switchToSearch();
-    }
+	 *****************************************************************/
+	private void showSearchPanel() {
+		mainView.switchToSearch();
+	}
 
-    /*****************************************************************
+	/*****************************************************************
     Tells the view to show the Direct Message panel for the user.
     And displays the DM's sent to the user.
 	 *****************************************************************/
 	private void showDMSendPanel() {
-		
+
 		mainView.switchToDM(mainModel.getDMUsers());
-		
+
 	}
 
 	/*****************************************************************
@@ -213,201 +213,217 @@ public class Controller {
 	private void sendDM(String recipient, String words) {
 		mainModel.directMessaging(recipient, words);
 	}
+	
+	/*****************************************************************
 
-    /*****************************************************************
+
+	 *****************************************************************/
+	private void showDMMessages (User user) {		
+		
+		mainView.addList(mainModel.getDMMessages(user), "");
+		
+	}
+
+	/*****************************************************************
     Shows the search results if the user wants to search for tweets.
     @param searchText String to find results for.
-     *****************************************************************/
-    private void showSearchTweets(String searchText) {
+	 *****************************************************************/
+	private void showSearchTweets(String searchText) {
 
-        Status[] stati;
-        try {
-        	
-            mainView.switchToTimeline(mainModel.searchTweets(searchText), 
-            		mainModel.getMainUser());
+		try {
 
-        } catch (TwitterException e) {
-            stati = null;
-            mainView.showError();
-            //e.printStackTrace();
-        }
-    }
+			mainView.switchToSearchResult(mainModel.searchTweets(searchText), 
+					mainModel.getMainUser());
 
-    
-    /*****************************************************************
+		} catch (TwitterException e) {
+			mainView.showError();
+			//e.printStackTrace();
+		}
+	}
+
+
+	/*****************************************************************
     Shows the search results if the user wants to search for tweets.
     @param searchText String to find results for.
-     *****************************************************************/
-    private void showTrendTweets(String searchText) {
+	 *****************************************************************/
+	private void showTrendTweets(String searchText) {
 
-        Status[] stati;
-        try {
-        	
-            mainView.addList(mainModel.searchTweets(searchText), searchText);
+		try {
 
-        } catch (TwitterException e) {
-            stati = null;
-            mainView.showError();
-            //e.printStackTrace();
-        }
-    }
-    /*****************************************************************
+			mainView.addList(mainModel.searchTweets(searchText), searchText);
+
+		} catch (TwitterException e) {
+			mainView.showError();
+			//e.printStackTrace();
+		}
+	}
+	/*****************************************************************
     Shows the search results if the user wants to search for Users.
     @param searchText String to find results for.
-     *****************************************************************/
-    //private void showSearchUsers(String searchText) {
-//
-//        try {
-//            mainView.switchToTimeline();
-//            mainView.addList(mainModel.searchUsers(searchText), "");
-//        } catch (TwitterException e) {
-//            mainView.showError();
-//            //e.printStackTrace();
-//        }
-//    }
+	 *****************************************************************/
+	private void showSearchUsers(String searchText) {
 
-    /*****************************************************************
+		try {
 
+			mainView.switchToSearchResult(mainModel.searchUsers(searchText), 
+					mainModel.getMainUser());
 
-     *****************************************************************/
-    private void showProfileEdit() {
-    	//mainView.showProfileEdit(user);
-    }
-    
-    /*****************************************************************
+		} catch (TwitterException e) {
+			mainView.showError();
+			//e.printStackTrace();
+		}
+	}
+
+	/*****************************************************************
 
 
-     *****************************************************************/
-    private void showProfile(User user) {
-    	mainView.showProfile(user);
-    }
+	 *****************************************************************/
+	private void showProfileEdit() {
+		//mainView.showProfileEdit(user);
+	}
 
-    /*****************************************************************
+	/*****************************************************************
+
+
+	 *****************************************************************/
+	private void showProfile(User user) {
+		mainView.showProfile(user);
+	}
+	
+	/*****************************************************************
+
+
+	 *****************************************************************/
+	private void clearSides() {		
+		mainView.clearSides();
+	}
+
+	/*****************************************************************
 	Gives user a file chooser to edit the profile image.
-     *****************************************************************/
-    private void imageEdit () {		
-    	mainModel.updatePic(mainView.imageChooser());
-    }
+	 *****************************************************************/
+	private void imageEdit () {		
+		mainModel.updatePic(mainView.imageChooser());
+	}
 
-    /*****************************************************************
+	/*****************************************************************
 	Takes the info to edit the profile.
 	@param areas an array of JText areas used for editing profile info.
-     *****************************************************************/
-    private void editProfile(JTextArea[] areas) {
-    	mainModel.update(areas[0].getText(), areas[1].getText(),
-    			areas[2].getText(), areas[3].getText());
-    }
+	 *****************************************************************/
+	private void editProfile(JTextArea[] areas) {
+		mainModel.update(areas[0].getText(), areas[1].getText(),
+				areas[2].getText(), areas[3].getText());
+	}
 
-    /*****************************************************************
-     * Gets the conversations/replies from a status.
-     * @param statusID
-     * @throws TwitterException
-     *****************************************************************/
-    private void getConversations(long statusID) throws TwitterException{
+	/*****************************************************************
+	 * Gets the conversations/replies from a status.
+	 * @param statusID
+	 * @throws TwitterException
+	 *****************************************************************/
+	private void getConversations(long statusID) throws TwitterException{
 
 
-    	Status[] convo = mainModel.getConversations(statusID);
+		Status[] convo = mainModel.getConversations(statusID);
 
-    	if (convo.length > 1) {
-    		mainView.addList(convo, "");
-    	}
+		if (convo.length > 1) {
+			mainView.addList(convo, "");
+		}
 
-    }
+	}
 
-    /*****************************************************************
+	/*****************************************************************
     Adds the listeners from the subclasses to the Static Listeners
     class.
-     *****************************************************************/
-    private void setListeners() {
+	 *****************************************************************/
+	private void setListeners() {
 
-    	Listeners.addListener(new ButtonListener());
-        Listeners.addListener(new ListListener());
-    }
+		Listeners.addListener(new ButtonListener());
+		Listeners.addListener(new ListListener());
+	}
 
-    //################################################################
+	//################################################################
 
-    //these are the listeners. WOOOOOHOOOOOO
+	//these are the listeners. WOOOOOHOOOOOO
 
-    /*****************************************************************
+	/*****************************************************************
     Listener for the main buttons on the main panel.
-     *****************************************************************/
-    public class ButtonListener implements ActionListener {
+	 *****************************************************************/
+	public class ButtonListener implements ActionListener {
 
-    	/**The String determining the type of listener wanted.*/
-        //string has to match the enum
-        private String listenType = "Button";
+		/**The String determining the type of listener wanted.*/
+		//string has to match the enum
+		private String listenType = "Button";
 
-        /***************************************************************
+		/***************************************************************
         The action performed method, like you do.
 
         @param event ActionEvent containing all the info you will need
-         **************************************************************/
-        @Override
-        public void actionPerformed(ActionEvent event) {
+		 **************************************************************/
+		@Override
+		public void actionPerformed(ActionEvent event) {
 
-        	TButton button = (TButton) event.getSource();
-        	ButtonType type = ((TButton) event.getSource())
-        			.getButtonType();
+			TButton button = (TButton) event.getSource();
+			ButtonType type = ((TButton) event.getSource())
+					.getButtonType();
 
-            //Switch to Determine Pressed Button
-            switch (type) {
+			//Switch to Determine Pressed Button
+			switch (type) {
 
-            case HOMETIMELINE:
-                showHomeTimeline();
-            	//refreshProfile();
-                break;
-                
-            case SEARCH:
-                showSearchPanel();
-                break;
+			case HOMETIMELINE:
+				showHomeTimeline();
+				//refreshProfile();
+				break;
 
-            case TRENDING:
-                getTrends();
-                break;
-                
-            case DIRECT_MESSAGE:
+			case SEARCH:
+				showSearchPanel();
+				break;
+
+			case TRENDING:
+				getTrends();
+				break;
+
+			case DIRECT_MESSAGE:
 				showDMSendPanel();
 				break;
 
-            case POST_TWEET:
-            	String tweetText =
-                ((JTextArea) (button.getPassedObject())).getText();
-            	((JTextArea) (button.getPassedObject())).setText("");
-                postTweet(tweetText);
-                break;
+			case POST_TWEET:
+				String tweetText =
+				((JTextArea) (button.getPassedObject())).getText();
+				((JTextArea) (button.getPassedObject())).setText("");
+				postTweet(tweetText);
+				break;
 
-            case IMAGE:
-            	String message =
-            	((JTextArea) (button.getPassedObject())).getText();
-            	((JTextArea) (button.getPassedObject())).setText("");
-            	postTweetAndImage(message);
-            	break;
+			case IMAGE:
+				String message =
+				((JTextArea) (button.getPassedObject())).getText();
+				((JTextArea) (button.getPassedObject())).setText("");
+				postTweetAndImage(message);
+				break;
 
-            
 
-            case SEARCH_TWEET:
-            	String searchTweetText =
-                ((JTextArea) (button.getPassedObject())).getText();
-            	showSearchTweets(searchTweetText);
-            	
-            	break;
 
-            case SEARCH_USER:
-            	String searchUserText =
-                ((JTextArea) (button.getPassedObject())).getText();
-            	//showSearchUsers(searchUserText);
-            	
-            	break;
+			case SEARCH_TWEET:
+				String searchTweetText =
+				((JTextArea) (button.getPassedObject())).getText();
+				showSearchTweets(searchTweetText);
 
-            case WORLD_TRENDING:
+				break;
+
+			case SEARCH_USER:
+				String searchUserText =
+				((JTextArea) (button.getPassedObject())).getText();
+				showSearchUsers(searchUserText);
+
+				break;
+
+			case WORLD_TRENDING:
 
 				TrendLocation loc = ((TrendLocation)
 						(button.getPassedObject()));
 				getTrends(loc);
 
-            	break;
+				break;
 
-			
+
 
 			case SEND_DM:
 				JTextArea[] areas = ((JTextArea[])
@@ -436,68 +452,79 @@ public class Controller {
 
 			default:
 				break;
-            }
-        }
+			}
+		}
 
-        /***************************************************************
+		/***************************************************************
         This gets the determining String.
         @return String of the listener type.
-         **************************************************************/
-        @Override
-        public String toString() {
-            return listenType;
-        }
-    }
+		 **************************************************************/
+		@Override
+		public String toString() {
+			return listenType;
+		}
+	}
 
-    /*****************************************************************
+	/*****************************************************************
     Listener for the list objects.
-     *****************************************************************/
-    public class ListListener implements ActionListener {
+	 *****************************************************************/
+	public class ListListener implements ActionListener {
 
-        /**The String determining the type of listener wanted.*/
-        //string has to match the enum
-        private String listenType = "ListListener";
+		/**The String determining the type of listener wanted.*/
+		//string has to match the enum
+		private String listenType = "ListListener";
 
-        /***************************************************************
+		/***************************************************************
 		The action performed method, like you do.
 
 		@param event ActionEvent containing all the info you will need.
-         **************************************************************/
-        @Override
-        public void actionPerformed(ActionEvent event) {
+		 **************************************************************/
+		@Override
+		public void actionPerformed(ActionEvent event) {
 
-            Object obj = event.getSource();
+			Object obj = event.getSource();
+			String text = event.getActionCommand();
+			int id = event.getID();
+			
+			if (id == -1) {
+				clearSides();
+				
+			} else if (id == -2) {
+				showDMMessages((User) obj);
+				System.out.println("cont listlistener DMMessage");
+				
+			} else if (obj instanceof Trend) {
+				showTrendTweets(((Trend) obj).getName());
+				
+			} else if (obj instanceof Status) {
 
-            if (obj instanceof Trend) {
-                showTrendTweets(((Trend) obj).getName());
-            }
-
-            if (obj instanceof Status) {
-
-                try {
-				   getConversations(((Status) obj).getId());
-				   showProfile(((Status) obj).getUser());
+				try {
+					getConversations(((Status) obj).getId());
+					showProfile(((Status) obj).getUser());
 				} catch (TwitterException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
-            }
+			} else if (obj instanceof User) {
+				showProfile((User) obj);
+				
+			}
 
 
 
-//            if (obj instanceof Status) {
-//                //For future use.
-//            }
-        }
+			//            if (obj instanceof Status) {
+			//                //For future use.
+			//            }
+		}
 
-        /***************************************************************
+		/***************************************************************
 		This gets the determining String.
 		@return String of the listener type.
-         **************************************************************/
-        @Override
-        public String toString() {
-            return listenType;
-        }
-    }
+		 **************************************************************/
+		@Override
+		public String toString() {
+			return listenType;
+		}
+	}
 }

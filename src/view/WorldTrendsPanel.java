@@ -7,9 +7,7 @@ started March 3, 2013
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -27,8 +25,11 @@ public class WorldTrendsPanel extends JPanel{
 
 	//public WorldTrendsPanel(TreeSet<TrendLocation> locals) {
 	public WorldTrendsPanel(TrendLocation[] locals) {
+		
+		this.setName("voidPanel");
 
 		JPanel main = new JPanel();
+		main.setName("voidPanel");
 
 		main.setLayout(new BoxLayout
 				(main, javax.swing.BoxLayout.PAGE_AXIS));
@@ -40,7 +41,9 @@ public class WorldTrendsPanel extends JPanel{
 			TrendLocation loc = locals[i]; 
 
 			if (loc.getLocation().getPlaceCode() == 19) {
+				
 				countryPanel = new JPanel();
+				countryPanel.setName("voidPanel");
 
 				TButton button = new TButton(ButtonType.WORLD_TRENDING, loc.getName());
 				button.setPassedObject(loc);
@@ -48,6 +51,7 @@ public class WorldTrendsPanel extends JPanel{
 
 				countryPanel.add(button);
 				main.add(countryPanel);
+				
 			} else if (loc.getLocation().getPlaceCode() == 12) {
 				//country
 				countryPanel = new JPanel();
@@ -63,6 +67,7 @@ public class WorldTrendsPanel extends JPanel{
 
 				if (locals[i+1].getLocation().getPlaceCode() == 7) {
 					townPanel = new JPanel();
+					townPanel.setName("voidPanel");
 					townPanel.setLayout(new GridLayout(0,2));
 					countryPanel.add(townPanel, BorderLayout.CENTER);
 				}
@@ -76,13 +81,13 @@ public class WorldTrendsPanel extends JPanel{
 
 				townPanel.add(button);
 			}
-
 		}
 
 		JScrollPane scrollPane = new JScrollPane(main,
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setPreferredSize(ProgramStyle.MAIN_PANEL);
+		scrollPane.setOpaque(false);
 		add(scrollPane);
 
 	}

@@ -106,6 +106,10 @@ public class StatusList extends JPanel {
 				list.ensureIndexIsVisible(index);
 				listener.actionPerformed(
 				        new ActionEvent(item, index, ""));
+			} else {
+				listener.actionPerformed(
+						
+				        new ActionEvent(new Object(), -1, "clear"));
 			}
 		}
 	}

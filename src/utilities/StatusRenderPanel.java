@@ -57,7 +57,7 @@ public class StatusRenderPanel extends JPanel{
 			}
 
 			this.setLayout(new BorderLayout());
-			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH-10, 90));
+			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH-15, 90));
 
 			JLabel image = new JLabel(new ImageIcon(user.getProfileImageUrlHttps()));
 			add(image, BorderLayout.WEST);

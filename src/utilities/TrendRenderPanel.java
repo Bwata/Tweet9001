@@ -33,22 +33,26 @@ public class TrendRenderPanel extends JPanel{
 			final boolean isSelected,      // is the cell selected
 			final boolean cellHasFocus)    // does the cell have focus 
 	{
-		this.setName("statusPanel");
+		if (isSelected) {
+			this.setName("trendSelPanel");
+		} else {
+			this.setName("trendPanel"); 
+		}
 
 		this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 40));
-		 try {
-          Trend trend = ((Trend) value);
-          
-          JLabel title = new JLabel(trend.getName());
-          //title.setName("H3");
-          
-          add(title);
+		try {
+			Trend trend = ((Trend) value);
+
+			JLabel title = new JLabel(trend.getName());
+			//title.setName("H3");
+
+			add(title);
 
 
-		 } catch (NullPointerException e) {
-          //e.printStackTrace();
-      }
-		
-		
+		} catch (NullPointerException e) {
+			//e.printStackTrace();
+		}
+
+
 	}
 }

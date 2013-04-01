@@ -1,7 +1,7 @@
 /*****************************************************************
 Panel designed to show off a list of items in scroll panel. And
 the list contains a listener of double mouse clickes.
-This specific list panel shows off a Twitter4J User object.
+This specific list panel shows off a DMUser objects.
 
 started February 8, 2013
 @author Thomas Verstraete
@@ -25,7 +25,7 @@ import twitter4j.User;
 import utilities.Listeners;
 import utilities.ProgramStyle;
 
-public class UserList extends JPanel{
+public class DMUserList extends JPanel{
 
     /**The items in the list that are to be displayed.*/
     User[] items;
@@ -42,7 +42,7 @@ public class UserList extends JPanel{
 
     @param items Status[] array to show in the panel list.
      *****************************************************************/
-    public UserList(User[] items) {
+    public DMUserList(User[] items) {
 
     	this.setName("voidPanel");
     	
@@ -90,7 +90,7 @@ public class UserList extends JPanel{
                 ListModel dlm = list.getModel();
                 Object item = dlm.getElementAt(index);
                 list.ensureIndexIsVisible(index);
-                listener.actionPerformed(new ActionEvent(item, index, ""));
+                listener.actionPerformed(new ActionEvent(item, -2, "DM"));
             } else {
 				listener.actionPerformed(
 				        new ActionEvent(new Object(), -1, "clear"));

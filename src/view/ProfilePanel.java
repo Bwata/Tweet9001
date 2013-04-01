@@ -1,3 +1,9 @@
+/*****************************************************************
+
+started March 28, 2013
+@author Thomas Verstraete
+@version Winter 2013
+ *****************************************************************/
 package view;
 
 import javax.swing.JLabel;
@@ -20,5 +26,4 @@ public class ProfilePanel extends JPanel{
 		
 		
 	}
-
 }

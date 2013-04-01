@@ -36,16 +36,16 @@ public class ViewMain extends JPanel {
 
 	/**The main Panel.*/
 	private JPanel middlePanel;
-	
+
 	/***/
 	private JPanel focusPanel;
-	
+
 	//JScrollPane mainScrollPane;
 
 	/***/
 	private JPanel accessPanel;
 
-	private enum State {TIMELINE, TRENDING, PROFILE,  DIRECTMESSAGE, SEARCH};
+	private enum State {TIMELINE, TRENDING, PROFILE,  DIRECTMESSAGE, SEARCH, SEARCH_RESULT};
 
 	/***/
 	private State state;
@@ -61,7 +61,7 @@ public class ViewMain extends JPanel {
 
 		setPreferredSize(ProgramStyle.WINDOW_SIZE);
 		setName("backgroundPanel");
-		
+
 		this.setLayout(new BorderLayout());
 		add(setTopPanel(user), BorderLayout.NORTH);
 
@@ -75,32 +75,32 @@ public class ViewMain extends JPanel {
 	/*****************************************************************
 	Sets up the three panel sections at the top of the window and
 	returns it to display.
-	
+
 	@return JPanel
 	 *****************************************************************/
 	private JPanel setTopPanel (User user) {
-	
+
 		topPanel = new JPanel();
 		//set the size of the panel
 		topPanel.setPreferredSize(ProgramStyle.TOP_SIZE);
 		topPanel.setName("borderPanel");
-	
+
 		//sets up the three sections using BorderLayout method
 		topPanel.setLayout(new BorderLayout());
-	
+
 		//sets up the panels
 		JPanel postPanel = new PostingPanel();
 		topPanel.add(postPanel, BorderLayout.WEST);
-	
+
 		topCenter = new SmallProfilePanel(user);
 		topPanel.add(topCenter, BorderLayout.CENTER);
-	
+
 		JPanel buttonPanel = new ButtonPanel();
 		topPanel.add(buttonPanel, BorderLayout.EAST);
-	
+
 		return topPanel;
 	}
-	
+
 	/*****************************************************************
 
 	@return JPanel
@@ -110,7 +110,7 @@ public class ViewMain extends JPanel {
 		panel.setName("voidPanel");
 		panel.setPreferredSize(ProgramStyle.MAIN_PANEL);
 		return panel;
-		
+
 	}
 
 	/*****************************************************************
@@ -118,18 +118,18 @@ public class ViewMain extends JPanel {
 
 	 *****************************************************************/
 	private void setMiddlePanel (JPanel panel) {	
-		
+
 		System.out.println("VM 71");
 
 		if (middlePanel != null) {
 			remove(middlePanel);
 			System.out.println("vm 75");
 		}
-		
+
 		//updateUI();
 
 		middlePanel = panel;
-		
+
 
 
 		add(middlePanel, BorderLayout.CENTER);
@@ -153,8 +153,8 @@ public class ViewMain extends JPanel {
 		//refresh window
 		//updateUI();
 	}
-	
-	
+
+
 	/*****************************************************************
 
 
@@ -167,10 +167,10 @@ public class ViewMain extends JPanel {
 		}
 		System.out.println("vm 139");
 		accessPanel = panel;
-		
+
 
 		add(accessPanel, BorderLayout.WEST);
-		
+
 		//refresh window
 		//updateUI();
 	}
@@ -190,7 +190,7 @@ public class ViewMain extends JPanel {
 		//refresh window
 		//updateUI();
 	}
-	
+
 	/*****************************************************************
 
 
@@ -200,7 +200,7 @@ public class ViewMain extends JPanel {
 			remove(focusPanel);
 			System.out.println("vm 75");
 		}
-		
+
 		//updateUI();
 
 		focusPanel = panel;
@@ -210,7 +210,7 @@ public class ViewMain extends JPanel {
 		//refresh window
 		//updateUI();
 	}
-	
+
 	/*****************************************************************
 
 
@@ -247,7 +247,7 @@ public class ViewMain extends JPanel {
     Show the search panel in the main section.
 	 *****************************************************************/
 	private void showSearch() {
-		
+
 		state = State.SEARCH;
 
 		topPanel.remove(topCenter);
@@ -263,18 +263,32 @@ public class ViewMain extends JPanel {
 	Show the search panel in the main section.
 	 *****************************************************************/
 	private void showDM() {
-	
+
 		topPanel.remove(topCenter);
 		topCenter = new DMessageSendPanel();
 		topPanel.add(topCenter, BorderLayout.CENTER);
-	
+
 		//refresh window
 		//updateUI();
 	}
 
 	/*****************************************************************
-	
+	This clears the side panels or focus panel and access panel.
+	 *****************************************************************/
+	public void clearSides () {	
+		if (state == State.TIMELINE || state == State.SEARCH_RESULT) {
+		removeFocusPanel();
+		removeAccessPanel();
 
+		//refresh window
+		updateUI();
+		}
+	}
+
+	/*****************************************************************
+	Switches the view state to Timeline.
+
+	
 	 *****************************************************************/
 	public void switchToTimeline (Status[] stati, User user) {		
 
@@ -283,7 +297,7 @@ public class ViewMain extends JPanel {
 
 			setMiddlePanel(new StatusList(stati));
 			resetSmallProfile(user);
-			
+
 			removeAccessPanel();
 			removeFocusPanel();
 
@@ -326,7 +340,7 @@ public class ViewMain extends JPanel {
 			topPanel.remove(topCenter);
 			topCenter = new DMessageSendPanel();
 			topPanel.add(topCenter, BorderLayout.CENTER);
-			
+
 			setAccessPanel(new UserList(users));
 			removeMiddlePanel();
 			removeFocusPanel();
@@ -337,7 +351,7 @@ public class ViewMain extends JPanel {
 		//refresh window
 		updateUI();
 	}
-	
+
 	/*****************************************************************
 
 
@@ -346,13 +360,37 @@ public class ViewMain extends JPanel {
 
 		if (state != State.SEARCH) {
 			state = State.SEARCH;
-			
+
 			showSearch();
 
-			//removeAccessPanel();
-			//setMainPanel();
+		}
+		//refresh window
+		updateUI();
+	}
 
-			//showDM();
+	/*****************************************************************
+
+
+	 *****************************************************************/
+	public void switchToSearchResult (Object[] obj, User user) {	
+
+		if (state != State.SEARCH_RESULT) {
+			state = State.SEARCH_RESULT;
+
+			if (obj instanceof Status[]) {
+
+				setMiddlePanel(new StatusList((Status[]) obj));
+
+			} else {
+
+				setMiddlePanel(new UserList((User[]) obj));
+
+			}
+
+			resetSmallProfile(user);
+
+			removeAccessPanel();
+			removeFocusPanel();
 
 		}
 		//refresh window
@@ -365,10 +403,12 @@ public class ViewMain extends JPanel {
 
 	 *****************************************************************/
 	public void showProfile (User user) {	
-		
-		//show the user in the access panel with fancy styling.
-		setAccessPanel(new ProfilePanel(user));
-		
+
+		if (state != State.TRENDING) {
+			//show the user in the access panel with fancy styling.
+			setAccessPanel(new ProfilePanel(user));
+		}
+
 		//refresh window
 		updateUI();
 	}
@@ -401,23 +441,26 @@ public class ViewMain extends JPanel {
 		if (obj instanceof Status[]) {
 			if (state == State.TIMELINE) {
 				setFocusPanel(new StatusList((Status[]) obj));
-				
+
 			} else if (state == State.TRENDING) {
 				setFocusPanel(new StatusList((Status[]) obj));
-				
+
+			} else if (state == State.SEARCH_RESULT) {
+				setFocusPanel(new StatusList((Status[]) obj));
+
 			} else {
 				setMiddlePanel(new StatusList((Status[]) obj));
 			}
 
 		} else if (obj instanceof User[]) {
-			
+
 			if (state == State.SEARCH) {
 				setMiddlePanel(new UserList((User[]) obj));
 			} 
 
 
-		} else if (obj instanceof DirectMessage[]) {
-			
+		} else if (obj instanceof DMMessage[]) {
+
 			setMiddlePanel(new DMessageReceivePanel((DMMessage[]) obj));
 
 		} else if (obj instanceof Trend[]) {
@@ -462,19 +505,19 @@ public class ViewMain extends JPanel {
 		middlePanel = new JPanel();
 		middlePanel.setBackground(Color.RED);
 		middlePanel.setBorder(BorderFactory.createMatteBorder(20, 20, 20, 20,
-						ProgramStyle.BACKGROUND_COLOR));
-		
-				JLabel errorLabel = new JLabel("Twitter is Not Responding :(");
-				errorLabel.setFont(ProgramStyle.getFont(70));
-				middlePanel.add(errorLabel);
-		
-				JLabel errorDesc = new JLabel("Please check your internet access.");
-				errorDesc.setFont(ProgramStyle.getFont(15));
-				middlePanel.add(errorDesc);
-		
-				add(middlePanel, BorderLayout.CENTER);
-		
-				//refresh window
-				updateUI();
+				ProgramStyle.BACKGROUND_COLOR));
+
+		JLabel errorLabel = new JLabel("Twitter is Not Responding :(");
+		errorLabel.setFont(ProgramStyle.getFont(70));
+		middlePanel.add(errorLabel);
+
+		JLabel errorDesc = new JLabel("Please check your internet access.");
+		errorDesc.setFont(ProgramStyle.getFont(15));
+		middlePanel.add(errorDesc);
+
+		add(middlePanel, BorderLayout.CENTER);
+
+		//refresh window
+		updateUI();
 	}
 }
