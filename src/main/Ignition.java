@@ -1,5 +1,5 @@
 /*****************************************************************
-The flint to start the whole program.
+bmn The flint to start the whole program.
 Then the controller takes over.
 
 @author Thomas Verstraete

@@ -289,6 +289,20 @@
     <bind style="statusPanelStyle" key="statusPanel" type="name">  
 </bind> 
 
+<!-- STATUS PANELS SELECTED-->
+<style id="statusSelectPanelStyle">  
+       <opaque value="TRUE"/>
+       <imagePainter method="panelBackground" path="../utilities/Images/StatusBorderSelect.png"
+        	sourceInsets="10 10 10 10"/>
+        <state>  
+        	<color value="#345B79" type="BACKGROUND" />
+        	<insets top="2" left="0" right="2" bottom="0"/> 
+        </state>  
+
+</style>  
+    <bind style="statusSelectPanelStyle" key="statusSelPanel" type="name">  
+</bind> 
+
 <!-- TRENDING PANELS -->
 <style id="trendPanelStyle">  
        <opaque value="TRUE"/>

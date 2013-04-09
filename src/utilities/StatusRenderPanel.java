@@ -43,18 +43,20 @@ public class StatusRenderPanel extends JPanel{
 			final boolean cellHasFocus)    // does the cell have focus 
 	{
 		
-		this.setName("statusPanel");
+		//this.setName("statusPanel");
+		
+		if (isSelected) {
+			setName("statusSelPanel");
+		} else {
+			setName("statusPanel");
+		}
 
 		try {
 			Status status = ((Status) value);
 			User user = status.getUser();
 
 			//checks if selected
-			if (isSelected) {
-				setName("selectedPanel");
-			} else {
-				//nothing?
-			}
+			
 
 			this.setLayout(new BorderLayout());
 			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH-15, 90));

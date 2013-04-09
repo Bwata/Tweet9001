@@ -8,6 +8,7 @@ started March 3, 2013
 package utilities;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.Box;
@@ -17,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.border.MatteBorder;
 
 import twitter4j.User;
 
@@ -46,8 +48,15 @@ public class UserRenderPanel extends JPanel{
         * handle          .getScreenName()
         * description     .getDescription()
         * location        .getLocation()
-        * */		
-		this.setName("statusPanel");
+        * */	
+		
+		
+		if (isSelected) {
+			setName("statusSelPanel");
+		} else {
+			setName("statusPanel");
+		}
+		
 
 		 try {
            User user = ((User) value);
@@ -57,12 +66,7 @@ public class UserRenderPanel extends JPanel{
            
 			//this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 100));
 
-         //checks if selected
-			if (isSelected) {
-				setName("selectedPanel");
-			} else {
-				//nothing?
-			}
+         
 
            JLabel image = new JLabel(new ImageIcon(user.getProfileImageUrlHttps()));
            add(image, BorderLayout.WEST);

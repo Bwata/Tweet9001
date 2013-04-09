@@ -119,23 +119,13 @@ public class ViewMain extends JPanel {
 	 *****************************************************************/
 	private void setMiddlePanel (JPanel panel) {	
 
-		System.out.println("VM 71");
-
 		if (middlePanel != null) {
 			remove(middlePanel);
-			System.out.println("vm 75");
 		}
-
-		//updateUI();
 
 		middlePanel = panel;
 
-
-
 		add(middlePanel, BorderLayout.CENTER);
-
-		//refresh window
-		//updateUI();
 	}
 
 	/*****************************************************************
@@ -145,13 +135,9 @@ public class ViewMain extends JPanel {
 	private void removeMiddlePanel () {		
 		if (middlePanel != null) {
 			remove(middlePanel);
-			System.out.println("vm 155");
 		} 
-		System.out.println("vm 157");
 		middlePanel = placeHolderPanel();
 		add(middlePanel, BorderLayout.CENTER);
-		//refresh window
-		//updateUI();
 	}
 
 
@@ -162,17 +148,11 @@ public class ViewMain extends JPanel {
 	private void setAccessPanel (JPanel panel) {
 
 		if (accessPanel != null) {
-			System.out.println("vm 136");
 			remove(accessPanel);
 		}
-		System.out.println("vm 139");
 		accessPanel = panel;
 
-
 		add(accessPanel, BorderLayout.WEST);
-
-		//refresh window
-		//updateUI();
 	}
 
 	/*****************************************************************
@@ -182,13 +162,9 @@ public class ViewMain extends JPanel {
 	private void removeAccessPanel () {		
 		if (accessPanel != null) {
 			remove(accessPanel);
-			System.out.println("vm 155");
 		} 
-		System.out.println("vm 157");
 		accessPanel = placeHolderPanel();
 		add(accessPanel, BorderLayout.WEST);
-		//refresh window
-		//updateUI();
 	}
 
 	/*****************************************************************
@@ -198,17 +174,11 @@ public class ViewMain extends JPanel {
 	private void setFocusPanel (JPanel panel) {		
 		if (focusPanel != null) {
 			remove(focusPanel);
-			System.out.println("vm 75");
 		}
-
-		//updateUI();
 
 		focusPanel = panel;
 
 		add(focusPanel, BorderLayout.EAST);
-
-		//refresh window
-		//updateUI();
 	}
 
 	/*****************************************************************
@@ -218,13 +188,9 @@ public class ViewMain extends JPanel {
 	private void removeFocusPanel () {		
 		if (focusPanel != null) {
 			remove(focusPanel);
-			System.out.println("vm 155");
 		} 
-		System.out.println("vm 157");
 		focusPanel = placeHolderPanel();
 		add(focusPanel, BorderLayout.EAST);
-		//refresh window
-		//updateUI();
 	}
 
 	/*****************************************************************
@@ -238,9 +204,6 @@ public class ViewMain extends JPanel {
 		topCenter = new SmallProfilePanel(user);
 		topCenter.setName("voidPanel");
 		topPanel.add(topCenter, BorderLayout.CENTER);
-
-		//refresh window
-		//updateUI();
 	}
 
 	/*****************************************************************
@@ -254,9 +217,6 @@ public class ViewMain extends JPanel {
 		topCenter = new SearchPanel();
 		topCenter.setName("voidPanel");
 		topPanel.add(topCenter, BorderLayout.CENTER);
-
-		//refresh window
-		//updateUI();
 	}
 
 	/*****************************************************************
@@ -267,9 +227,6 @@ public class ViewMain extends JPanel {
 		topPanel.remove(topCenter);
 		topCenter = new DMessageSendPanel();
 		topPanel.add(topCenter, BorderLayout.CENTER);
-
-		//refresh window
-		//updateUI();
 	}
 
 	/*****************************************************************
@@ -322,7 +279,6 @@ public class ViewMain extends JPanel {
 
 			setAccessPanel(new WorldTrendsPanel(locals.getArray()));
 
-
 			//refresh window
 			updateUI();
 		}
@@ -341,13 +297,13 @@ public class ViewMain extends JPanel {
 			topCenter = new DMessageSendPanel();
 			topPanel.add(topCenter, BorderLayout.CENTER);
 
-			setAccessPanel(new UserList(users));
+			setAccessPanel(new DMUserList(users));
 			removeMiddlePanel();
 			removeFocusPanel();
 
 			showDM();
-
 		}
+		
 		//refresh window
 		updateUI();
 	}
@@ -417,16 +373,12 @@ public class ViewMain extends JPanel {
 
 
 	 *****************************************************************/
-	public void showProfileEdit (User user) {		
-
-		//		if (state != State.PROFILE_EDIT) {
-		//			state = State.PROFILE_EDIT;
+	public void showProfileEdit (User user) {
 
 		removeAccessPanel();
 
 		setMiddlePanel(new ProfileEditPanel(user));
 
-		//		}
 		//refresh window
 		updateUI();
 
@@ -479,7 +431,6 @@ public class ViewMain extends JPanel {
 	 *****************************************************************/
 	public File imageChooser(){
 
-		//System.out.println("VM 283");
 		int option;
 		JFileChooser imageChooser = new JFileChooser();
 

@@ -9,6 +9,7 @@ started February 8, 2013
  *****************************************************************/
 package view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.MatteBorder;
 
 import twitter4j.User;
 import utilities.Listeners;
@@ -46,6 +48,7 @@ public class DMUserList extends JPanel{
 
     	this.setName("voidPanel");
     	
+    	
         this.items = items;
         listener = Listeners.getListener("ListListener");
 
@@ -54,6 +57,8 @@ public class DMUserList extends JPanel{
         list.setCellRenderer(ProgramStyle.getUserListRenderer());
         list.addMouseListener(new ListClickListener(list));
         list.setOpaque(false);
+        //list.setBorder(new MatteBorder(2,2, 2, 2, Color.RED));
+
 
         //Place the JList into a scrollable window
         JScrollPane scrollPane = new JScrollPane(list,

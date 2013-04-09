@@ -491,7 +491,7 @@ public class Controller {
 				
 			} else if (id == -2) {
 				showDMMessages((User) obj);
-				System.out.println("cont listlistener DMMessage");
+				//System.out.println("cont listlistener DMMessage");
 				
 			} else if (obj instanceof Trend) {
 				showTrendTweets(((Trend) obj).getName());
