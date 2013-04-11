@@ -83,7 +83,7 @@ public class ViewMain extends JPanel {
 		topPanel = new JPanel();
 		//set the size of the panel
 		topPanel.setPreferredSize(ProgramStyle.TOP_SIZE);
-		topPanel.setName("borderPanel");
+		topPanel.setName("voidPanel");
 
 		//sets up the three sections using BorderLayout method
 		topPanel.setLayout(new BorderLayout());
@@ -215,7 +215,7 @@ public class ViewMain extends JPanel {
 
 		topPanel.remove(topCenter);
 		topCenter = new SearchPanel();
-		topCenter.setName("voidPanel");
+		//topCenter.setName("voidPanel");
 		topPanel.add(topCenter, BorderLayout.CENTER);
 	}
 

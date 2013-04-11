@@ -9,6 +9,7 @@ started February 3, 2013
 package model;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 import model.DMGroups.DMMessage;
@@ -205,11 +206,12 @@ public class ModelMain {
 
 			List<DirectMessage> messages;
 			messages = twitter.getDirectMessages();
-
+			
 			DirectMessage[] list = new DirectMessage[1];
 
 			return messages.toArray(list);
-
+			
+			
 		}
 		catch (TwitterException te) {
 			te.printStackTrace();

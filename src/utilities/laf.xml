@@ -175,6 +175,19 @@
 </style>
 <bind style="TextAreaWriteStyle" type="name" key="writeArea"/>
 
+<!-- BASIC TEXT AREA -->
+<style id="TextAreaBasicStyle">
+    <opaque value="TRUE"/>
+	<property key="TextArea.margin" type="insets" value="5 5 5 5"/>
+	
+	<state>
+		<imagePainter path="../utilities/Images/TextBorderSel.png" method="textareaBackground" sourceInsets="5 5 5 5"
+                  paintCenter="true" stretch="true"/>
+	</state>
+
+</style>
+<bind style="TextAreaBasicStyle" type="name" key="basicTextArea"/>
+
 <!-- DEFAULT TEXT AREA -->
 <style id="TextFieldStyle">
        <opaque value="TRUE"/>

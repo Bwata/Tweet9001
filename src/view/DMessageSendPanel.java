@@ -18,10 +18,11 @@ public class DMessageSendPanel extends JPanel{
 	public DMessageSendPanel() {
 
 		setPreferredSize(ProgramStyle.TOP_PANEL_SIZE);
+		this.setName("borderPanel");
 
 		setLayout(new BorderLayout());
 		JPanel topPanel = new JPanel();
-		topPanel.setName("void");
+		topPanel.setName("voidPanel");
 		topPanel.setLayout(new BorderLayout());
 
 		JTextArea[] textAreas = new JTextArea[2];
