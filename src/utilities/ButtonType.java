@@ -9,7 +9,14 @@ started March 3, 2013
 package utilities;
 
 public enum ButtonType {
-
+	
+	//LOGIN ITEMS
+	LOGIN ("Login"),
+	
+	REGISTER ("Register"),
+	
+	
+	//MAIN BUTTONS
 	/**Show the basic home timeline.*/
     HOMETIMELINE ("Timeline"),
 

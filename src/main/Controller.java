@@ -25,6 +25,7 @@ import utilities.ButtonType;
 import utilities.Listeners;
 import utilities.TButton;
 import utilities.TrendLocations.TrendLocation;
+import view.ViewLogin;
 import view.ViewMain;
 
 /*****************************************************************
@@ -51,6 +52,41 @@ public class Controller {
 	 *****************************************************************/
 	public Controller() {
 
+		//Sets up the main frame and background of the whole program
+		frame = new JFrame("Tweet9001");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(true);
+
+		//Sets the listeners for the Buttons.
+		setListeners();
+		
+		mainModel = new ModelMain();
+
+		ViewLogin loginView = new ViewLogin();
+
+		frame.getContentPane().add(((JPanel) loginView));
+
+		//show the background
+		frame.pack();
+		frame.setVisible(true);
+
+	}
+
+	/*****************************************************************
+
+
+	 *****************************************************************/
+	private void login(String username, String password) {	
+		
+		
+
+	}
+
+	/*****************************************************************
+
+	 *****************************************************************/
+	private void setUpMain() {
+
 		//Sets up the model
 		User user;
 		Status[] stati;
@@ -63,14 +99,6 @@ public class Controller {
 			stati = null;
 			//e.printStackTrace();
 		}
-
-		//Sets the listeners for the Buttons.
-		setListeners();
-
-		//Sets up the main frame and background of the whole program
-		frame = new JFrame("Tweet9001");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(true);
 
 		//show the main window
 		mainView = new ViewMain(user, stati);
@@ -213,15 +241,15 @@ public class Controller {
 	private void sendDM(String recipient, String words) {
 		mainModel.directMessaging(recipient, words);
 	}
-	
+
 	/*****************************************************************
 
 
 	 *****************************************************************/
 	private void showDMMessages (User user) {		
-		
+
 		mainView.addList(mainModel.getDMMessages(user), "");
-		
+
 	}
 
 	/*****************************************************************
@@ -289,7 +317,7 @@ public class Controller {
 	private void showProfile(User user) {
 		mainView.showProfile(user);
 	}
-	
+
 	/*****************************************************************
 
 
@@ -485,17 +513,17 @@ public class Controller {
 			Object obj = event.getSource();
 			String text = event.getActionCommand();
 			int id = event.getID();
-			
+
 			if (id == -1) {
 				clearSides();
-				
+
 			} else if (id == -2) {
 				showDMMessages((User) obj);
 				//System.out.println("cont listlistener DMMessage");
-				
+
 			} else if (obj instanceof Trend) {
 				showTrendTweets(((Trend) obj).getName());
-				
+
 			} else if (obj instanceof Status) {
 
 				try {
@@ -508,7 +536,7 @@ public class Controller {
 
 			} else if (obj instanceof User) {
 				showProfile((User) obj);
-				
+
 			}
 
 
@@ -527,7 +555,7 @@ public class Controller {
 			return listenType;
 		}
 	}
-	
+
 	/*****************************************************************
     Listener for the main buttons on the main panel.
 	 *****************************************************************/
@@ -552,7 +580,7 @@ public class Controller {
 			//Switch to Determine Pressed Button
 			switch (type) {
 
-			
+
 			default:
 				break;
 			}
@@ -567,5 +595,61 @@ public class Controller {
 			return listenType;
 		}
 	}
+
+	/*****************************************************************
+    Listener for the main buttons on the main panel.
+	 *****************************************************************/
+	public class loginButtonListener implements ActionListener {
+
+		/**The String determining the type of listener wanted.*/
+		//string has to match the enum
+		private String listenType = "Login";
+
+		/***************************************************************
+        The action performed method, like you do.
+
+        @param event ActionEvent containing all the info you will need
+		 **************************************************************/
+		@Override
+		public void actionPerformed(ActionEvent event) {
+
+			TButton button = (TButton) event.getSource();
+			ButtonType type = ((TButton) event.getSource())
+					.getButtonType();
+
+			//Switch to Determine Pressed Button
+			switch (type) {
+
+			case LOGIN:
+				
+				JTextArea[] areas = ((JTextArea[])
+						(button.getPassedObject()));
+				login(areas[0].getText(), areas[1].getText());
+				
+				break;
+
+			case REGISTER:
+
+				JTextArea[] areas1 = ((JTextArea[])
+						(button.getPassedObject()));
+				sendDM(areas1[0].getText(), areas1[1].getText());
+				
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		/***************************************************************
+        This gets the determining String.
+        @return String of the listener type.
+		 **************************************************************/
+		@Override
+		public String toString() {
+			return listenType;
+		}
+	}
+
 
 }

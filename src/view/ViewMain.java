@@ -45,7 +45,7 @@ public class ViewMain extends JPanel {
 	/***/
 	private JPanel accessPanel;
 
-	private enum State {TIMELINE, TRENDING, PROFILE,  DIRECTMESSAGE, SEARCH, SEARCH_RESULT};
+	private enum State {TIMELINE, TRENDING, PROFILE,  DIRECTMESSAGE, SEARCH, SEARCH_RESULT, GROUPS};
 
 	/***/
 	private State state;
