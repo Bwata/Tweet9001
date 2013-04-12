@@ -1,0 +1,15 @@
+CIS350
+twitterninethousand
+debug=false
+oauth.consumerKey=MuduhIJnfFwChxhBE0Cg
+oauth.consumerSecret=JzwPq8hzac3YGWX65uZg6xHCJzkMarDSVpx5x27jbnU
+oauth.accessToken=1090079623-HkkpHj2In33qR06DnsMlMZwsx1sKMrGCJB5WgIk
+oauth.accessTokenSecret=FMPwWc0RxjhFCQULxKesAOB6LeIpkrIyfkwB87Em0Ts
+
+OctagoncowPC
+tweet9001
+oauth.consumerKey=PVa0f9dmuTo3hr67CejSQ
+oauth.consumerSecret=jrqhKhbOtVV8mlV02X0U5d8M9B5PGa9qySt3yUIZmA
+oauth.accessToken=1317103272-tPJpzdT5krZDizsmcWmIkv2FpXlKBCOOeFKwyDZ
+oauth.accessTokenSecret=DAS8UofgxGELrrtMyn025P3PMSrPqLXNGG6RwzssQ
+

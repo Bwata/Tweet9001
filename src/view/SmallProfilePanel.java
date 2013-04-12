@@ -45,8 +45,6 @@ public class SmallProfilePanel extends JPanel {
     SmallProfilePanel(final User userPassed) {
 
     	setPreferredSize(ProgramStyle.TOP_PANEL_SIZE);
-		this.setName("borderPanel");
-
 
     	//check if user is valid
       if (userPassed == null) {

@@ -44,7 +44,7 @@ public class PostingPanel extends JPanel {
 	public PostingPanel() {
 
 		//Sets panel properties
-		this.setName("borderPanel");
+		this.setName("voidPanel");
 		setPreferredSize(ProgramStyle.TOP_PANEL_SIZE);
 		setLayout(new BorderLayout());
 

@@ -555,6 +555,7 @@ public class Controller {
 			return listenType;
 		}
 	}
+<<<<<<< HEAD
 
 	/*****************************************************************
     Listener for the main buttons on the main panel.
@@ -652,4 +653,6 @@ public class Controller {
 	}
 
 
+=======
+>>>>>>> abaa4cc122c3fd006bd31d1c06e11cbca446ffa7
 }

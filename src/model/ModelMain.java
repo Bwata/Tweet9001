@@ -8,13 +8,27 @@ started February 3, 2013
  *****************************************************************/
 package model;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
+
+import javax.security.auth.login.Configuration;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import model.DMGroups.DMMessage;
 import twitter4j.DirectMessage;
 import twitter4j.Location;
+import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.RelatedResults;
@@ -27,13 +41,16 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
+import twitter4j.auth.AccessToken;
+import twitter4j.auth.RequestToken;
+import twitter4j.conf.ConfigurationBuilder;
 import utilities.TrendLocations;
 
 /*****************************************************************
 The main model of the program. This updates the view.
  *****************************************************************/
 public class ModelMain {
-	
+	 AccessToken accessToken;
 	DMGroups groups;
 
     /**The Twitter object to access all the twitter information.*/
@@ -56,7 +73,8 @@ public class ModelMain {
 
 		List<Status> statuses;
 
-		statuses = twitter.getHomeTimeline();
+		Paging paging = new Paging(1, 40);
+		statuses = twitter.getHomeTimeline(paging);
 
 		Status[] list = new Status[1];
 
@@ -206,12 +224,11 @@ public class ModelMain {
 
 			List<DirectMessage> messages;
 			messages = twitter.getDirectMessages();
-			
+
 			DirectMessage[] list = new DirectMessage[1];
 
 			return messages.toArray(list);
-			
-			
+
 		}
 		catch (TwitterException te) {
 			te.printStackTrace();
@@ -315,6 +332,187 @@ public class ModelMain {
     	    conversations.add(originalStatus);
     	}
 
+    	Collections.reverse(conversations);
         return conversations.toArray(list);
     }
+    
+    public final void authenticate() 
+    		throws IllegalStateException, TwitterException, IOException {
+    	
+    	 ConfigurationBuilder cb;
+    	
+    	 TwitterFactory tf; 
+    	
+    	 JFrame frame = new JFrame();
+    	
+    	 RequestToken requestToken;
+    	
+    	 User user; 
+    		
+    			cb = new ConfigurationBuilder();
+    		        
+    		    cb.setDebugEnabled(true)
+    		    .setOAuthConsumerKey("UP8vf0xlwUkPHvikkEBXQ")
+    		    .setOAuthConsumerSecret("62H0idR3HypsRitEUQI3j2ugqTINXybjeBSLr4QH78");
+    		        
+    		    tf = new TwitterFactory(cb.build());
+    		    twitter = tf.getInstance();
+    		        
+    		    String username = JOptionPane.showInputDialog(frame, "User Name");
+    		   
+    		    File file;
+    		        
+
+    		    	file = new File("loginInformation.txt");
+
+    		    Scanner scanner;
+    		    try{
+    		    scanner = new Scanner(file);
+    		    }
+    			catch(java.io.FileNotFoundException e){
+    			file = new File("loginInformation.txt");
+    			file.createNewFile();
+    			scanner = new Scanner(file);
+    		    }
+    			while (scanner.hasNextLine()) {
+    					
+    				String line = scanner.nextLine();
+    					
+    				String[] s = line.split(", ");
+
+    					
+    				if (s[0].equals(username)) {
+    					System.out.println("username is recognized");
+    					accessToken = new AccessToken(s[1], s[2]);
+    					twitter.setOAuthAccessToken(accessToken);
+    				}
+    					
+    			}
+    			//favorites.loadFavorites(username);			
+    			if (accessToken != null) {
+    				scanner.close();
+    				return;
+    			} else {
+    					
+    				
+    		    try {
+    		           
+    		    	try {
+    	// get request token.
+    	// this will throw IllegalStateException if access token is already available
+    		            requestToken = twitter.getOAuthRequestToken();
+    		 
+    		            accessToken = null;
+    		 
+    		                
+    		                 
+    		            while (null == accessToken) {
+    		                	
+    		            	URL url = new URL(requestToken.getAuthenticationURL());
+    		                	
+    		                openWebpage(url);
+
+    		                String pin = JOptionPane.showInputDialog(frame, 
+    		                	"Enter the PIN(if available) and hit ok.");
+    		                
+    		                try {
+    		                    if (pin.length() > 0) {
+    		                    	accessToken = twitter
+    		                    		.getOAuthAccessToken(requestToken, pin);
+    		                    } else {
+    		                    	accessToken = twitter
+    		                    			.getOAuthAccessToken(requestToken);
+    		                    }
+    		                } catch (TwitterException te) {
+    		                    if (401 == te.getStatusCode()) {
+    		                        	
+    		                    	JOptionPane.showMessageDialog(frame,
+    		                       		"Unable to get the access token.",
+    		                        	"Inane error",
+    		                        	JOptionPane.ERROR_MESSAGE);
+    		                    		te.printStackTrace();
+    		                        	
+    		                  // System.out.println("Unable to get the access token.");
+    		                        } else {
+    		                            te.printStackTrace();
+    		                        }
+    		                    }
+    		            }
+    		                 
+    		        } catch (IllegalStateException ie) {
+    		    // access token is already available, or consumer key/secret is not set.
+    		        	if (!twitter.getAuthorization().isEnabled()) {
+    		                System.out.println("OAuth consumer key/secret is not set.");
+    		                System.exit(-1);
+    		            }
+    		        }
+    		             
+    		    	} catch (NullPointerException np) {
+    		        	System.out.println("Exiting");
+    		        	System.exit(0);
+    		        }
+    		        
+    		        //user = twitter.showUser(twitter.getId());
+    		        
+    		    	PrintWriter out = new PrintWriter(
+    		    		new FileWriter("./loginInformation.txt", true));
+    		    	String saveFile = "";
+
+    		    	user = twitter.showUser(twitter.getId());
+    				
+    				
+    		    	saveFile += user.getScreenName() + ", " 
+    		    		+ accessToken.getToken() + ", " + accessToken.getTokenSecret();
+    				scanner.close();
+    		    	out.println();
+    		    	out.print(saveFile);
+    		    	out.close();
+    			}
+    		}
+    			
+
+    		
+    		public final void logout() {
+    			twitter.setOAuthAccessToken(null);
+    			//favorites.saveFavorites();
+    			accessToken = null;
+    		}
+    		
+    		public static void openWebpage(final URI uri) {
+    			Desktop desktop = null;
+    			if (Desktop.isDesktopSupported()) {
+    				desktop = Desktop.getDesktop();
+    			}
+    		    if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+    		        try {
+    		            desktop.browse(uri);
+    		        } catch (Exception e) {
+    		            e.printStackTrace();
+    		        }
+    		    }
+    		}
+
+    		public static void openWebpage(final URL url) {
+    		    try {
+    		        openWebpage(url.toURI());
+    		    } catch (URISyntaxException e) {
+    		        e.printStackTrace();
+    		    }
+    		}
+    		
+    		public Status[] getStati(){
+    			//gets the statuses
+    			//convert status to array
+    			//have a comparable method in tweetGroups class and even in the main class
+    			return null;
+    		}
+    		
+    		public User[] getUsers(){
+    			//returns the users in group
+    			
+    			//TODO: finish this
+    		}
+    		
+    		//TODO: create get user favorites, get user followers, get user followings
+    		
 }
