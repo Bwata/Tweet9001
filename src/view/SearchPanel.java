@@ -27,7 +27,6 @@ public class SearchPanel extends JPanel {
     SearchPanel() {
 
         setPreferredSize(ProgramStyle.TOP_PANEL_SIZE);
-		this.setName("borderPanel");
 
 
         setLayout(new BorderLayout());

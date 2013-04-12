@@ -527,45 +527,4 @@ public class Controller {
 			return listenType;
 		}
 	}
-	
-	/*****************************************************************
-    Listener for the main buttons on the main panel.
-	 *****************************************************************/
-	public class FButtonListener implements ActionListener {
-
-		/**The String determining the type of listener wanted.*/
-		//string has to match the enum
-		private String listenType = "FButton";
-
-		/***************************************************************
-        The action performed method, like you do.
-
-        @param event ActionEvent containing all the info you will need
-		 **************************************************************/
-		@Override
-		public void actionPerformed(ActionEvent event) {
-
-			TButton button = (TButton) event.getSource();
-			ButtonType type = ((TButton) event.getSource())
-					.getButtonType();
-
-			//Switch to Determine Pressed Button
-			switch (type) {
-
-			
-			default:
-				break;
-			}
-		}
-
-		/***************************************************************
-        This gets the determining String.
-        @return String of the listener type.
-		 **************************************************************/
-		@Override
-		public String toString() {
-			return listenType;
-		}
-	}
-
 }

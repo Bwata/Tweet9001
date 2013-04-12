@@ -8,6 +8,7 @@ started March 28, 2013
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.TreeSet;
 
 import twitter4j.DirectMessage;
@@ -46,7 +47,7 @@ public class DMGroups {
 				users.get(index1).addMessage(mess);
 			}
 		}
-
+		
 		//Received messages
 		for (DirectMessage mess: received) {
 
@@ -62,6 +63,7 @@ public class DMGroups {
 				users.get(index1).addMessage(mess);
 			}
 		}
+		
 	}
 	
 	
@@ -91,10 +93,6 @@ public class DMGroups {
 		
 		return users.get(index).getMessages();
 	}
-
-
-
-
 
 
 	/*****************************************************************
@@ -175,7 +173,7 @@ public class DMGroups {
 		 *****************************************************************/
 		public int compareTo(Object arg0) {
 			DirectMessage other = ((DMMessage) arg0).getMessage();
-			return message.getCreatedAt().compareTo(other.getCreatedAt());
+			return -message.getCreatedAt().compareTo(other.getCreatedAt());
 		}
 
 		/*****************************************************************

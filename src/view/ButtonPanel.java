@@ -25,7 +25,6 @@ public class ButtonPanel extends JPanel{
 
         //Sets panel properties
         setPreferredSize(ProgramStyle.TOP_PANEL_SIZE);
-        this.setName("borderPanel");
 
         //grid layout with three rows and two columns
         this.setLayout(new GridLayout(3,2));
