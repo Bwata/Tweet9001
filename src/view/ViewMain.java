@@ -352,6 +352,48 @@ public class ViewMain extends JPanel {
 		//refresh window
 		updateUI();
 	}
+	
+	/*****************************************************************
+
+	@param groupNames String[]
+	@param groupStati Status[][]
+
+	 *****************************************************************/
+	public void switchToGroups (String[] groupNames, Status[][] groupStati) {		
+
+		if (state != State.GROUPS) {
+			state = State.GROUPS;
+
+			if (middlePanel != null) {
+				remove(middlePanel);
+			} 
+			
+			if (accessPanel != null) {
+				remove(accessPanel);
+			}
+			
+			if (focusPanel != null) {
+				remove(focusPanel);
+			} 
+			
+			
+			
+			JPanel groupLists = new GroupsLists(groupNames, groupStati);
+			setMiddlePanel(groupLists);
+
+			//Add all the parts together
+			//add(scrollPane, BorderLayout.CENTER);
+			
+			
+
+		}
+		//refresh window
+		updateUI();
+	}
+		
+		
+		
+	
 
 
 	/*****************************************************************

@@ -63,6 +63,7 @@ public class ProfilePanel extends JPanel{
 		add(Box.createVerticalStrut(300));
 		
 		
+		
 	}
 	
 	/*****************************************************************

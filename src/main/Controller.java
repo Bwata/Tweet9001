@@ -185,6 +185,11 @@ public class Controller {
 
 		//show the main window
 		mainView = new ViewMain(user, stati);
+		
+		mainModel.setGroups();
+		String[] groupNames = mainModel.getGroupNames();
+		mainView.switchToGroups(groupNames, mainModel.getAllGroupStati());
+		
 
 		//Show Time line from the beginning
 		//showHomeTimeline();

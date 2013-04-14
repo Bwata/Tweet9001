@@ -261,13 +261,15 @@ public class TweetGroups {
 		// convert status to array
 		// have a comparable method in tweetGroups class and even in the main
 		// class
+		
+		return groups.get(group).getStati();
 
-		for (Twtgrp twtgrp : groups.values()) {
-			if (twtgrp.groupName.equals(group)) {
-				return twtgrp.getStati();
-			}
-		}
-		return null;
+//		for (Twtgrp twtgrp : groups.values()) {
+//			if (twtgrp.groupName.equals(group)) {
+//				return twtgrp.getStati();
+//			}
+//		}
+//		return null;
 
 	}
 

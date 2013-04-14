@@ -57,7 +57,7 @@ public class ModelMain {
 
 	/**The Twitter object to access all the twitter information.*/
 	private Twitter twitter;
-	
+
 	/***/
 	private TweetGroups tweetGroups;
 
@@ -67,6 +67,7 @@ public class ModelMain {
 	public ModelMain() {
 
 		//twitter =  TwitterFactory.getSingleton();
+
 	}
 
 	/*****************************************************************
@@ -78,32 +79,32 @@ public class ModelMain {
 	 *****************************************************************/
 	public Status[] getHomeTimeline() throws TwitterException, IllegalStateException, IOException {
 
+		//		List<Status> statuses;
+		//
+		//		Paging paging = new Paging(1, 40);
+		//		statuses = twitter.getHomeTimeline(paging);
+		//
+		//		Status[] list = new Status[1];
+		//		
+		//		tweetGroups = new TweetGroups(twitter.getScreenName());
+		//		
+		//		tweetGroups.parseTimeLine(statuses.toArray(list));
+		//		
+		//		list = tweetGroups.getStati("Group");
+		//
+		//		
+		//		
+		//		return list;
+
+		//******************
 		List<Status> statuses;
 
-		Paging paging = new Paging(1, 40);
+		Paging paging = new Paging(1, 200);
 		statuses = twitter.getHomeTimeline(paging);
 
 		Status[] list = new Status[1];
-		
-		tweetGroups = new TweetGroups(twitter.getScreenName());
-		
-		tweetGroups.parseTimeLine(statuses.toArray(list));
-		
-		list = tweetGroups.getStati("Group");
 
-		
-		
-		return list;
-		
-		//******************
-//		List<Status> statuses;
-//
-//		Paging paging = new Paging(1, 40);
-//		statuses = twitter.getHomeTimeline(paging);
-//
-//		Status[] list = new Status[1];
-//
-//		return statuses.toArray(list);
+		return statuses.toArray(list);
 	}
 
 	/*****************************************************************
@@ -368,7 +369,7 @@ public class ModelMain {
 		ConfigurationBuilder cb;
 		TwitterFactory tf; 
 		//JFrame frame = new JFrame();
-		
+
 
 		User user; 
 
@@ -397,7 +398,7 @@ public class ModelMain {
 		while (scanner.hasNextLine()) {
 
 			String line = scanner.nextLine();
-			
+
 			System.out.println("MM 379: " + line);
 
 			String[] s = line.split(", ");
@@ -423,17 +424,17 @@ public class ModelMain {
 			return false;
 		}
 	}
-	
+
 	public URL getRequestURL() throws TwitterException, MalformedURLException {
 		requestToken = twitter.getOAuthRequestToken();
 		return new URL(requestToken.getAuthenticationURL());
-		
+
 	}
-	
-	
+
+
 
 	public boolean setOAuthCode (String[] inputs) throws TwitterException, IOException   {
-		
+
 		//RequestToken requestToken;
 		User user;
 		try {
@@ -500,73 +501,123 @@ public class ModelMain {
 
 		//user = twitter.showUser(twitter.getId());
 
-		
+
 		saveFile += inputs[0] + ", " + inputs[1] + ", " 
 				+ accessToken.getToken() + ", " + accessToken.getTokenSecret();
 		//scanner.close();
 		out.println();
 		out.print(saveFile);
 		out.close();
-	
-	return true;
-}
 
-
-
-public final void logout() {
-	twitter.setOAuthAccessToken(null);
-	//favorites.saveFavorites();
-	accessToken = null;
-}
-
-public static void openWebpage(final URI uri) {
-	Desktop desktop = null;
-	if (Desktop.isDesktopSupported()) {
-		desktop = Desktop.getDesktop();
+		return true;
 	}
-	if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+
+
+
+	public final void logout() {
+		twitter.setOAuthAccessToken(null);
+		//favorites.saveFavorites();
+		accessToken = null;
+	}
+
+	public static void openWebpage(final URI uri) {
+		Desktop desktop = null;
+		if (Desktop.isDesktopSupported()) {
+			desktop = Desktop.getDesktop();
+		}
+		if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+			try {
+				desktop.browse(uri);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static void openWebpage(final URL url) {
 		try {
-			desktop.browse(uri);
-		} catch (Exception e) {
+			openWebpage(url.toURI());
+		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 	}
-}
 
-public static void openWebpage(final URL url) {
-	try {
-		openWebpage(url.toURI());
-	} catch (URISyntaxException e) {
-		e.printStackTrace();
+	public Status[] getGroupStati(String group){
+		//gets the statuses
+		//convert status to array
+		//have a comparable method in tweetGroups class and even in the main class
+		return tweetGroups.getStati(group);
+
 	}
-}
 
-public Status[] getStati(String group){
-	//gets the statuses
-	//convert status to array
-	//have a comparable method in tweetGroups class and even in the main class
-	return tweetGroups.getStati(group);
+	/*****************************************************************
 
-}
+@return Status[][]
+	 *****************************************************************/
+	public Status[][] getAllGroupStati () {		
+		
+		String [] groupNames = tweetGroups.getGroupNames();
+		Status[][] rVal= new Status[groupNames.length][1];
+		
+		for (int i = 0; i < groupNames.length; i++) {
+			rVal[i] = tweetGroups.getStati(groupNames[i]);
+		}
 
-public User[] getUsers(String group) throws TwitterException{
-	//returns the users in group
+		return rVal;
+	}
+
+	/*****************************************************************
+
+
+	 *****************************************************************/
+	public void setGroups () {		
+		try {
+			tweetGroups = new TweetGroups(twitter.getScreenName());
+			tweetGroups.parseTimeLine(getHomeTimeline());
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+
+	/*****************************************************************
+
+	@return String[]
+	 *****************************************************************/
+	public String[] getGroupNames () {		
+		return tweetGroups.getGroupNames();
+	}
+
+	/*****************************************************************
+
+	 *****************************************************************/
+	public User[] getGroupUsers(String group) throws TwitterException{
+		//returns the users in group
 		String[] userStrings = tweetGroups.getUsers(group);
 		User[] users = new User[userStrings.length];
 
-	for (int i =0; i < userStrings.length; i++) {
-		users[i] = twitter.showUser(userStrings[i]);
-	}
+		for (int i =0; i < userStrings.length; i++) {
+			users[i] = twitter.showUser(userStrings[i]);
+		}
 
 		//TODO: finish this
 		return users;
-}
+	}
 
-//public boolean login(String username, String password) {
-//	// TODO Auto-generated method stub
-//	return false;
-//}
+	//public boolean login(String username, String password) {
+	//	// TODO Auto-generated method stub
+	//	return false;
+	//}
 
-//TODO: create get user favorites, get user followers, get user followings
+	//TODO: create get user favorites, get user followers, get user followings
 
 }
