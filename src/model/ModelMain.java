@@ -52,6 +52,7 @@ The main model of the program. This updates the view.
  *****************************************************************/
 public class ModelMain {
 	AccessToken accessToken;
+	RequestToken requestToken;
 	DMGroups groups;
 
 	/**The Twitter object to access all the twitter information.*/
@@ -160,7 +161,7 @@ public class ModelMain {
     @throws TwitterException
 	 *****************************************************************/
 	public User getMainUser() throws TwitterException {
-		return twitter.showUser("CIS350");
+		return twitter.showUser(twitter.getId());
 	}
 
 	/*****************************************************************
@@ -353,8 +354,8 @@ public class ModelMain {
 		cb = new ConfigurationBuilder();
 
 		cb.setDebugEnabled(true)
-		.setOAuthConsumerKey("MuduhIJnfFwChxhBE0Cg")
-		.setOAuthConsumerSecret("JzwPq8hzac3YGWX65uZg6xHCJzkMarDSVpx5x27jbnU");
+		.setOAuthConsumerKey("UP8vf0xlwUkPHvikkEBXQ")
+		.setOAuthConsumerSecret("62H0idR3HypsRitEUQI3j2ugqTINXybjeBSLr4QH78");
 
 		tf = new TwitterFactory(cb.build());
 		twitter = tf.getInstance();
@@ -375,6 +376,8 @@ public class ModelMain {
 		while (scanner.hasNextLine()) {
 
 			String line = scanner.nextLine();
+			
+			System.out.println("MM 379: " + line);
 
 			String[] s = line.split(", ");
 			//[0] == username
@@ -401,7 +404,7 @@ public class ModelMain {
 	}
 	
 	public URL getRequestURL() throws TwitterException, MalformedURLException {
-		RequestToken requestToken = twitter.getOAuthRequestToken();
+		requestToken = twitter.getOAuthRequestToken();
 		return new URL(requestToken.getAuthenticationURL());
 		
 	}
@@ -420,7 +423,7 @@ public class ModelMain {
 
 				accessToken = null;
 
-				RequestToken requestToken = twitter.getOAuthRequestToken();
+				//RequestToken requestToken = twitter.getOAuthRequestToken();
 
 				while (null == accessToken) {
 
