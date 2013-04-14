@@ -15,7 +15,7 @@ import java.util.List;
 import twitter4j.Status;
 
 public class TweetGroups {
-	HashMap<String, Twtgrp> groups = new HashMap<String, Twtgrp>();
+	private HashMap<String, Twtgrp> groups;
 	private String user;
 
 	/*****************************************************************
@@ -29,6 +29,9 @@ public class TweetGroups {
 		// this is where you load the file and parse out information
 		// user is concatenated onto the group name so it can be used for
 		// multiple users
+		
+		groups = new HashMap<String, Twtgrp>();
+		
 		this.user = user;
 		BufferedReader br;
 		String fileName = user + "Groups.txt";
@@ -57,7 +60,8 @@ public class TweetGroups {
 				System.out.println("TG 57: " + groupMember);
 				newGroup.addUser(groupMember);
 			}
-			groups.put(groupMember, newGroup);
+			System.out.println("TG 63: " + parsedArrayList.get(i)[0]);
+			groups.put(parsedArrayList.get(i)[0], newGroup);
 		}
 		br.close();
 	}
@@ -91,11 +95,17 @@ public class TweetGroups {
 
 			for (int j = 0; j < possibleGroups.length; j++) {
 				
+				if (possibleGroups[j] != null) {
+				
 				System.out.println("TG 94: Adding " + stati[i].getUser().getScreenName() + " to Group: " + possibleGroups[j]);
+				
+				Twtgrp addGroup = groups.get(possibleGroups[j]);
+				
+				System.out.println("TG 101: " + addGroup);
 				
 				groups.get(possibleGroups[j]).addStatus(stati[i]);
 				
-				
+				}
 				
 //				// seeing if our list of possible groups contains the selected
 //				// group
@@ -378,6 +388,9 @@ public class TweetGroups {
 		 *            the status which is being added
 		 *****************************************************************/
 		private void addStatus(Status status) {
+			
+			System.out.println("TG 382: " + status.getUser().getScreenName());
+			
 			// adds a status to the array list
 			stati.add(status);
 		}
