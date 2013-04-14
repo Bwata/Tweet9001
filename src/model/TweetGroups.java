@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import twitter4j.Status;
@@ -39,9 +40,14 @@ public class TweetGroups {
 			groups.add(newGroup);
 		}
 		br.close();
+		
+		
+		
+		HashMap<String, Twtgrp> hmGroups = new HashMap<String, Twtgrp>();
+		
 	}
 	
-	public void parseTimeLine(Status[] stati, String groupName){
+	public void parseTimeLine(Status[] stati){
 		//parse out stati into different groups
 		//creating a list of all users in a group
 		ArrayList<Status> filteredStatuses = new ArrayList<Status>();
@@ -140,12 +146,17 @@ public class TweetGroups {
 		//convert status to array
 		//have a comparable method in tweetGroups class and even in the main class
 		
-		for(int i = 0; i<groups.size(); i++){
-			if(groups.get(i).groupName.equals(group)){
+		//gets the statuses
+				//convert status to array
+				//have a comparable method in tweetGroups class and even in the main class
+				
+				for(int i = 0; i<groups.size(); i++){
+					if(groups.get(i).groupName.equals(group)){
+						return groups.get(i).getStati();
+						
+					}
+				}
 				return null;
-			}
-		}
-		return groups.get(1).getStati();
 	}
 	
 	public String[] getUsers(String group){

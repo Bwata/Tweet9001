@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -55,6 +56,9 @@ public class ModelMain {
 
 	/**The Twitter object to access all the twitter information.*/
 	private Twitter twitter;
+	
+	/***/
+	private TweetGroups tweetGroups;
 
 	/*****************************************************************
     Sets up the needed material for the Model side of the program.
@@ -289,7 +293,7 @@ public class ModelMain {
 	updates profile picture
 	 *****************************************************************/
 	public void updatePic(File img){
-		System.out.println("MM 232");
+		//System.out.println("MM 232");
 		try {
 			twitter.updateProfileImage(img);
 		} catch (TwitterException e) {
@@ -349,8 +353,8 @@ public class ModelMain {
 		cb = new ConfigurationBuilder();
 
 		cb.setDebugEnabled(true)
-		.setOAuthConsumerKey("UP8vf0xlwUkPHvikkEBXQ")
-		.setOAuthConsumerSecret("62H0idR3HypsRitEUQI3j2ugqTINXybjeBSLr4QH78");
+		.setOAuthConsumerKey("MuduhIJnfFwChxhBE0Cg")
+		.setOAuthConsumerSecret("JzwPq8hzac3YGWX65uZg6xHCJzkMarDSVpx5x27jbnU");
 
 		tf = new TwitterFactory(cb.build());
 		twitter = tf.getInstance();
@@ -382,45 +386,55 @@ public class ModelMain {
 				System.out.println("username is recognized");
 				accessToken = new AccessToken(s[2], s[3]);
 				twitter.setOAuthAccessToken(accessToken);
+				break;
 			}
 
 		}
 		//favorites.loadFavorites(username);			
 		if (accessToken != null) {
 			scanner.close();
-			return false;
-		} else {
 			return true;
+		} else {
+			scanner.close();
+			return false;
 		}
 	}
-
-	public boolean setOAuthCode (String[] inputs) {
+	
+	public URL getRequestURL() throws TwitterException, MalformedURLException {
+		RequestToken requestToken = twitter.getOAuthRequestToken();
+		return new URL(requestToken.getAuthenticationURL());
 		
-		RequestToken requestToken;
+	}
+	
+	
+
+	public boolean setOAuthCode (String[] inputs) throws TwitterException, IOException   {
+		
+		//RequestToken requestToken;
 		User user;
 		try {
 			try {
 				// get request token.
 				// this will throw IllegalStateException if access token is already available
-				requestToken = twitter.getOAuthRequestToken();
+				//requestToken = twitter.getOAuthRequestToken();
 
 				accessToken = null;
 
-
+				RequestToken requestToken = twitter.getOAuthRequestToken();
 
 				while (null == accessToken) {
 
-					URL url = new URL(requestToken.getAuthenticationURL());
+					//URL url = new URL(requestToken.getAuthenticationURL());
 
-					openWebpage(url);
+					//openWebpage(url);
 
-					String pin = ""; // = JOptionPane.showInputDialog(frame, 
+					//String pin = ""; // = JOptionPane.showInputDialog(frame, 
 					//"Enter the PIN(if available) and hit ok.");
 
 					try {
-						if (pin.length() > 0) {
+						if (inputs[2].length() > 0) {
 							accessToken = twitter
-									.getOAuthAccessToken(requestToken, pin);
+									.getOAuthAccessToken(requestToken, inputs[2]);
 						} else {
 							accessToken = twitter
 									.getOAuthAccessToken(requestToken);
@@ -460,10 +474,10 @@ public class ModelMain {
 				new FileWriter("./loginInformation.txt", true));
 		String saveFile = "";
 
-		user = twitter.showUser(twitter.getId());
+		//user = twitter.showUser(twitter.getId());
 
 		
-		saveFile += user.getScreenName() + ", " 
+		saveFile += inputs[0] + ", " + inputs[1] + ", " 
 				+ accessToken.getToken() + ", " + accessToken.getTokenSecret();
 		//scanner.close();
 		out.println();
@@ -503,24 +517,31 @@ public static void openWebpage(final URL url) {
 	}
 }
 
-public Status[] getStati(){
+public Status[] getStati(String group){
 	//gets the statuses
 	//convert status to array
 	//have a comparable method in tweetGroups class and even in the main class
-	return null;
+	return tweetGroups.getStati(group);
+
 }
 
-public User[] getUsers(){
+public User[] getUsers(String group) throws TwitterException{
 	//returns the users in group
+		String[] userStrings = tweetGroups.getUsers(group);
+		User[] users = new User[userStrings.length];
 
-	//TODO: finish this
-	return null;
+	for (int i =0; i < userStrings.length; i++) {
+		users[i] = twitter.showUser(userStrings[i]);
+	}
+
+		//TODO: finish this
+		return users;
 }
 
-public boolean login(String username, String password) {
-	// TODO Auto-generated method stub
-	return false;
-}
+//public boolean login(String username, String password) {
+//	// TODO Auto-generated method stub
+//	return false;
+//}
 
 //TODO: create get user favorites, get user followers, get user followings
 

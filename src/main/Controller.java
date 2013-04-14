@@ -10,6 +10,10 @@ package main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -42,6 +46,8 @@ public class Controller {
 
 	/**The access class for the Project Model side.*/
 	private ModelMain mainModel;
+	
+	ViewLogin loginView;
 
 	/**User account info.*/
 	//private User user;
@@ -62,7 +68,7 @@ public class Controller {
 		
 		mainModel = new ModelMain();
 
-		ViewLogin loginView = new ViewLogin();
+		loginView = new ViewLogin();
 
 		frame.getContentPane().add(((JPanel) loginView));
 
@@ -72,14 +78,83 @@ public class Controller {
 
 	}
 
+	/**
+	 * @throws TwitterException 
+	 * @throws MalformedURLException ***************************************************************
+
+
+	 *****************************************************************/
+	private void login(String username, String password){	
+		
+		boolean logedIn = false;
+		System.out.println("controller 90: first login : " + logedIn);
+		try {
+			logedIn = mainModel.authenticate(username, password);
+		} catch (IllegalStateException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (TwitterException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		if (logedIn) {
+			setUpMain();
+		} else {
+			URL url = null;
+			try {
+				url = mainModel.getRequestURL();
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TwitterException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			loginView.setPinRequest(url);
+		}
+		//String [] inputs = loginView.getInputs();
+
+	}
+	
 	/*****************************************************************
 
 
 	 *****************************************************************/
-	private void login(String username, String password) {	
-		
-		
+	private void registerLogin (JTextArea[] inputs) {		
 
+		boolean logedIn = false;
+		String[] inputStrings = new String[inputs.length];
+		
+		for (int i = 0; i < inputs.length; i++) {
+			inputStrings[i] = inputs[i].getText();
+		}
+		
+		try {
+			logedIn = mainModel.setOAuthCode(inputStrings);
+			
+			if (logedIn) {
+				
+				
+			}
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if (logedIn) {
+			setUpMain();
+			
+		} else {
+			loginView.showError();
+		}
+		
 	}
 
 	/*****************************************************************
@@ -106,6 +181,8 @@ public class Controller {
 		//Show Time line from the beginning
 		//showHomeTimeline();
 
+		frame.remove(loginView);
+		
 		frame.getContentPane().add(((JPanel) mainView));
 
 		//show the background
@@ -366,6 +443,7 @@ public class Controller {
 
 		Listeners.addListener(new ButtonListener());
 		Listeners.addListener(new ListListener());
+		Listeners.addListener(new loginButtonListener());
 	}
 
 	//################################################################
@@ -632,7 +710,8 @@ public class Controller {
 
 				JTextArea[] areas1 = ((JTextArea[])
 						(button.getPassedObject()));
-				sendDM(areas1[0].getText(), areas1[1].getText());
+				
+				registerLogin(areas1);
 				
 				break;
 
