@@ -15,212 +15,307 @@ import java.util.List;
 import twitter4j.Status;
 
 public class TweetGroups {
-	ArrayList<Twtgrp> groups;
+	HashMap<String, Twtgrp> groups = new HashMap<String, Twtgrp>();
 	private String user;
-	public TweetGroups(String user) throws IOException{
-		//this is where you load the file and parse out information
-		//user is concatenated onto the group name so it can be used for multiple users
+
+	/*****************************************************************
+	 * The constructor for TweetGroups
+	 * This also loads the current text file into the project
+	 * 
+	 * @param user
+	 *            the user of the set of groups
+	 *****************************************************************/
+	public TweetGroups(String user) throws IOException {
+		// this is where you load the file and parse out information
+		// user is concatenated onto the group name so it can be used for
+		// multiple users
 		this.user = user;
-		String fileName = user+"Groups.txt";
+		String fileName = user + "Groups.txt";
 		String currentLine;
 		String[] parsedLine;
 		ArrayList<String[]> parsedArrayList = new ArrayList<String[]>();
-		BufferedReader br = new  BufferedReader (new FileReader(fileName));
-		while((currentLine = br.readLine()) != null){
+		BufferedReader br = new BufferedReader(new FileReader(fileName));
+		while ((currentLine = br.readLine()) != null) {
 			parsedLine = currentLine.split(", ");
 			parsedArrayList.add(parsedLine);
 		}
-		for(int i = 0; i<parsedArrayList.size(); i++){
-			String groupMember;
+		for (int i = 0; i < parsedArrayList.size(); i++) {
+			String groupMember = "";
 			Twtgrp newGroup = new Twtgrp(parsedArrayList.get(i)[0]);
-			for(int j = 1; i<parsedArrayList.get(i).length; j++){
+			for (int j = 1; i < parsedArrayList.get(i).length; j++) {
 				groupMember = parsedArrayList.get(i)[j];
 				newGroup.addUser(groupMember);
 			}
-			groups.add(newGroup);
+			groups.put(groupMember, newGroup);
 		}
 		br.close();
-		
-		
-		
-		HashMap<String, Twtgrp> hmGroups = new HashMap<String, Twtgrp>();
-		
 	}
-	
-	public void parseTimeLine(Status[] stati){
-		//parse out stati into different groups
-		//creating a list of all users in a group
-		ArrayList<Status> filteredStatuses = new ArrayList<Status>();
-		String[] groupMembers = new String[1];
-		String screenName;
-		
-		for(int i = 0; i<groups.size(); i++){
-			if(groups.get(i).groupName.equals(groupName)){
-				groupMembers = new String[groups.get(i).getUsers().length];
-			}
-		}
-		//checking to see if the list of statuses contains any of the users in the group
-		for(int i = 0; i<stati.length; i++){
-			screenName = stati[i].getUser().getScreenName();
-				if(Arrays.asList(groupMembers).contains(screenName))
-					filteredStatuses.add(stati[i]);
-		}
-		//replacing the original stati with the filtered stati
-		stati = (Status[])filteredStatuses.toArray();
-	}
-	
-	public String[] checkUser(String user){
-		//check ALL the groups for the user
-		//returns the array of group names the user is in
-		ArrayList<String> userGroups = new ArrayList<String>();
-		for(int i = 0; i<groups.size(); i++){
-			if(Arrays.asList(groups.get(i).getUsers()).contains(user)){
-				userGroups.add(groups.get(i).groupName);
-			}
-		}
-		return (String[])userGroups.toArray();
-	}
-	
-	public String[] getGroupNames(){
-		ArrayList<String> groupNames = new ArrayList<String>();
-		for(int i = 0; i<groups.size(); i++){
-			groupNames.add(groups.get(i).groupName);
-		}
-		return (String[])groupNames.toArray();
-	}
-	
-	public void addToGroup(String group, String user){
-		//adds the user to the group specified
-		for(int i = 0; i<groups.size(); i++){
-			if(groups.get(i).groupName.equals(group)){
-				groups.get(i).addUser(user);
-			}
-		}
-	}
-	
-	public void removeFromGroup(String group, String user){
 
-		//removes the user from the group
-		for(int i = 0; i<groups.size(); i++){
-			//makes the array of users into a list to use contains and remove on it.
-			if(Arrays.asList(groups.get(i).getUsers()).contains(user)){
-				Arrays.asList(groups.get(i).getUsers()).remove(user);
+	/*****************************************************************
+	 * This parses out the timeline so all groups are created.
+	 * 
+	 * @param stati
+	 *            the array of statuses for the home timeline
+	 *****************************************************************/
+	public void parseTimeLine(Status[] stati) {
+		String[] possibleGroups;
+
+		// look at one status in a for loop
+		for (int i = 0; i < stati.length; i++) {
+			possibleGroups = checkUser(stati[i].getUser().getScreenName());
+			// possibleGroups contains an array of all groups the status belongs
+			// in
+
+			// for loop of all groups
+			// I would want to check all existing groups and if the existing
+			// group
+			// matches a group in the array, we would add it.
+
+			for (int j = 0; j < possibleGroups.length; j++) {
+				// seeing if our list of possible groups contains the selected
+				// group
+				Twtgrp addGroup = groups.get(possibleGroups[i]);
+				if (addGroup != null) {
+					addGroup.addStatus(stati[i]);
+				}
 			}
 		}
 	}
-	
-	public void createGroup(String groupName){
-		//creates a group with the specified name
-		 Twtgrp newGroup = new Twtgrp(groupName);
-		groups.add(newGroup);
-		
-	}
-	
-	public void destroyGroup(String group){
-		for(int i = 0; i<groups.size(); i++){
-			if(groups.get(i).groupName.equals(group)){
-				groups.remove(i);
+
+	/*****************************************************************
+	 * Checks to see what groups a user is in
+	 * 
+	 * @param user
+	 *            the user to check for
+	 * @return String[] an array of strings for the groups
+	 *****************************************************************/
+	public String[] checkUser(String user) {
+		// check ALL the groups for the user
+		// returns the array of group names the user is in
+		ArrayList<String> userGroups = new ArrayList<String>();
+		String[] groupNames;
+		groupNames = getGroupNames();
+		for (int i = 0; i < groups.size(); i++) {
+
+			if (Arrays.asList(groups.get(groupNames[i]).getUsers()).contains(
+					user)) {
+				userGroups.add(groupNames[i]);
 			}
 		}
+		return (String[]) userGroups.toArray();
 	}
-	
-	public void save() throws IOException{
-		//saves all information with groups and whatnot
-		File file = new File(user+"groups.txt");
-		//if the file doesn't already exist, create it.
-		if(!file.exists()){
+
+	/*****************************************************************
+	 * this gets the name of all groups
+	 * 
+	 * @return String[] an array of all group names.
+	 *****************************************************************/
+	public String[] getGroupNames() {
+		ArrayList<String> groupNames = new ArrayList<String>();
+		for (Twtgrp name : groups.values()) {
+			groupNames.add(name.groupName);
+		}
+		return (String[]) groupNames.toArray();
+	}
+
+	/*****************************************************************
+	 * adds a user to a Twtgrp
+	 * 
+	 * @param user
+	 *            the user who is being added to a group
+	 * @param group
+	 *            the group which the user is being added to
+	 *****************************************************************/
+	public void addToGroup(String group, String user) {
+		// adds the user to the group specified
+		groups.get(group).addUser(user);
+	}
+
+	/*****************************************************************
+	 * removes a user from a group
+	 * 
+	 * @param user
+	 *            the user to be removed
+	 * @param group
+	 *            the group which the user is being removed from
+	 *****************************************************************/
+	public void removeFromGroup(String group, String user) {
+		groups.get(group).removeUser(user);
+	}
+
+	/*****************************************************************
+	 * creates a group when given a name
+	 * 
+	 * @param groupName
+	 *            the name of the group
+	 *****************************************************************/
+	public void createGroup(String groupName) {
+		// creates a group with the specified name
+		// apparently the following line isn't necessary?
+		// Twtgrp newGroup = new Twtgrp(groupName);
+		groups.put(groupName, new Twtgrp(groupName));
+
+	}
+
+	/*****************************************************************
+	 * destroyes a group
+	 * 
+	 * @param group
+	 *            the group to be destroyed
+	 *****************************************************************/
+	public void destroyGroup(String group) {
+		groups.remove(group);
+	}
+
+	/*****************************************************************
+	 * Saves the information from all groups to a text file. The format is
+	 * "groupName, user, user, user..."
+	 *****************************************************************/
+	public void save() throws IOException {
+		// saves all information with groups and whatnot
+		File file = new File(user + "groups.txt");
+		// if the file doesn't already exist, create it.
+		if (!file.exists()) {
 			file.createNewFile();
 		}
-		
+
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
 		BufferedWriter bw = new BufferedWriter(fw);
-		for(int i = 0; i<groups.size(); i++){
-			bw.write(groups.get(i).groupName+", "+groups.get(i).getUsers());
+
+		for (Twtgrp twtgrp : groups.values()) {
+			bw.write(twtgrp.groupName + ", " + twtgrp.getUsers());
 		}
 		bw.close();
-		
-		
+
 	}
-	public Status[] getStati(String group){
-		//gets the statuses
-		//convert status to array
-		//have a comparable method in tweetGroups class and even in the main class
-		
-		//gets the statuses
-				//convert status to array
-				//have a comparable method in tweetGroups class and even in the main class
-				
-				for(int i = 0; i<groups.size(); i++){
-					if(groups.get(i).groupName.equals(group)){
-						return groups.get(i).getStati();
-						
-					}
-				}
-				return null;
+
+	/*****************************************************************
+	 * returns a list of all statuses in a group
+	 * 
+	 * @param group
+	 *            the name of the group which you want statuses from
+	 * @return Status[] an array of statuses from the group
+	 *****************************************************************/
+	public Status[] getStati(String group) {
+		// gets the statuses
+		// convert status to array
+		// have a comparable method in tweetGroups class and even in the main
+		// class
+
+		for (Twtgrp twtgrp : groups.values()) {
+			if (twtgrp.groupName.equals(group)) {
+				return twtgrp.getStati();
+			}
+		}
+		return null;
+
 	}
-	
-	public String[] getUsers(String group){
-		//returns the users in group
-		for(int i = 0; i<groups.size(); i++){
-			if(groups.get(i).groupName.equals(group)){
-				return groups.get(i).getUsers();
+
+	/*****************************************************************
+	 * This returns a list of all users in a group
+	 * 
+	 * @param group
+	 *            the group to get users from
+	 * @return String[] a list of all users in a group
+	 *****************************************************************/
+	public String[] getUsers(String group) {
+		// returns the users in group
+		for (Twtgrp twtgrp : groups.values()) {
+			if (twtgrp.groupName.equals(group)) {
+				return twtgrp.getUsers();
 			}
 		}
 		return null;
 	}
-	
-	
-	
-	
-	
-private class Twtgrp{
-	private String groupName;
-	private ArrayList<String> users;
-	private ArrayList<Status> stati;
-	
-	Twtgrp(String groupName){
-		//instantiates the name for the list and sets the parameter to the variable
-		this.groupName = groupName;
-	}
-	
-	private void addUser(String user){
-		//adds the user to the group
-		users.add(user);
-	}
-	
-	private void removeUser(String user){
-		//removes a user from the group
-		users.remove(user);
-	}
-	
-	private boolean checkUser(String user){
-		//checks to see if the user is in the group(array list)
-		if( users.contains(user))
-			return true;
-		else
-			return false;
-	}
-	
-	private Status[] getStati(){
-		//gets the statuses
-		//convert status to array
-		//have a comparable method in tweetGroups class and even in the main class
-		
-		return (Status[]) stati.toArray();
-	}
-	
-	private String[] getUsers(){
-		//returns the users in group
-		return (String[]) users.toArray();
-	}
-	
-	private void addStatus(Status status){
-		//adds a status to the array list
-		stati.add(status);
-	
-	}
-	
 
-}
+	private class Twtgrp {
+		private String groupName;
+		private ArrayList<String> users;
+		private ArrayList<Status> stati;
+
+		/*****************************************************************
+		 * The constructor for a Twtgrp
+		 * 
+		 * @param groupName
+		 *            the name of the group
+		 *****************************************************************/
+		Twtgrp(String groupName) {
+			// instantiates the name for the list and sets the parameter to the
+			// variable
+			this.groupName = groupName;
+		}
+
+		/*****************************************************************
+		 * adds a user to a Twtgrp
+		 * 
+		 * @param user
+		 *            the user to be added
+		 *****************************************************************/
+		private void addUser(String user) {
+			// adds the user to the group
+			users.add(user);
+		}
+
+		/*****************************************************************
+		 * removes a user from a Twtgrp
+		 * 
+		 * @param user the user to be removed from a Twtgrp
+		 *****************************************************************/
+		private void removeUser(String user) {
+			// removes a user from the group
+			users.remove(user);
+		}
+
+		/*****************************************************************
+		 * checks to see if a user is within a group array list
+		 * 
+		 * @param user
+		 *            the user being searched for
+		 * @return true if the user exists. False if not.
+		 *****************************************************************/
+		private boolean checkUser(String user) {
+			// checks to see if the user is in the group(array list)
+			if (users.contains(user))
+				return true;
+			else
+				return false;
+		}
+
+		/*****************************************************************
+		 * gets the statuses of a Twtgrp
+		 * 
+		 * @return Status[] the statuses of a group
+		 *****************************************************************/
+		private Status[] getStati() {
+			// gets the statuses
+			// convert status to array
+			// have a comparable method in tweetGroups class and even in the
+			// main class
+
+			return (Status[]) stati.toArray();
+		}
+
+		/*****************************************************************
+		 * returns the users in a group
+		 * 
+		 * @return String[] the users in a group
+		 *****************************************************************/
+		private String[] getUsers() {
+			// returns the users in group
+			return (String[]) users.toArray();
+		}
+
+		/*****************************************************************
+		 * adds a status to a Twtgrp
+		 * 
+		 * @param status
+		 *            the status which is being added
+		 *****************************************************************/
+		private void addStatus(Status status) {
+			// adds a status to the array list
+			stati.add(status);
+		}
+
+	}
 
 }
