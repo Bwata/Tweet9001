@@ -202,7 +202,7 @@ public class ViewMain extends JPanel {
 
 		topPanel.remove(topCenter);
 		topCenter = new SmallProfilePanel(user);
-		topCenter.setName("voidPanel");
+		topCenter.setName("stdPanel");
 		topPanel.add(topCenter, BorderLayout.CENTER);
 	}
 
@@ -215,7 +215,7 @@ public class ViewMain extends JPanel {
 
 		topPanel.remove(topCenter);
 		topCenter = new SearchPanel();
-		topCenter.setName("voidPanel");
+		topCenter.setName("stdPanel");
 		topPanel.add(topCenter, BorderLayout.CENTER);
 	}
 

@@ -28,52 +28,55 @@ public class GroupsLists extends JPanel {
 
 		//this.setName("borderPanel");
 		//this.setPreferredSize(ProgramStyle.MAIN_PANEL);
-		
+
 		JPanel mainPanel = new JPanel();
 		mainPanel.setName("voidPanel");
-		
+
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.LINE_AXIS));
 
 
 		//for loop to do something
 		for (int i = 0; i < groupNames.length ; i++) {
-			
-			JPanel panel = new JPanel();
-			panel.setName("voidPanel");
-			panel.setLayout(new BorderLayout());
-			
-			JLabel groupNm = new JLabel(groupNames[i]);
-			groupNm.setName("H3");
-			
-			panel.add(groupNm, BorderLayout.NORTH);
-			
-			System.out.println("GroupLists: Number of Stati in list: " + groupStati[i].length);
-			
-			JPanel statusPanel = new StatusList(groupStati[i]);
-			Dimension dim = ProgramStyle.MAIN_PANEL;
-			statusPanel.setPreferredSize(new Dimension (dim.width, dim.height - 50));
-			
-			panel.add(statusPanel, BorderLayout.CENTER);
-			
-			mainPanel.add(panel);
-			
+
+
+			if (groupStati[0] == null) {
+				JPanel panel = new JPanel();
+				panel.setName("voidPanel");
+				panel.setLayout(new BorderLayout());
+
+				JLabel groupNm = new JLabel(groupNames[i]);
+				groupNm.setName("H3");
+
+				panel.add(groupNm, BorderLayout.NORTH);
+
+				System.out.println("GroupLists: Number of Stati in list: " + groupStati[i].length);
+
+				JPanel statusPanel = new StatusList(groupStati[i]);
+				Dimension dim = ProgramStyle.MAIN_PANEL;
+				statusPanel.setPreferredSize(new Dimension (dim.width, dim.height - 50));
+
+				panel.add(statusPanel, BorderLayout.CENTER);
+
+				mainPanel.add(panel);
+			}
+
 		}
-		
+
 		JScrollPane scrollPane = new JScrollPane(mainPanel,
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-				
-				Dimension dim = ProgramStyle.WINDOW_SIZE;
-				
-				dim = new Dimension(dim.width, (dim.height - ProgramStyle.TOP_SIZE.height));
-				
-				scrollPane.setPreferredSize(dim);
-				scrollPane.setOpaque(false);
-				//eliminates the default border
-				//scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		
-		
-				this.add(scrollPane);
+
+		Dimension dim = ProgramStyle.WINDOW_SIZE;
+
+		dim = new Dimension(dim.width, (dim.height - ProgramStyle.TOP_SIZE.height));
+
+		scrollPane.setPreferredSize(dim);
+		scrollPane.setOpaque(false);
+		//eliminates the default border
+		//scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+
+		this.add(scrollPane);
 
 	}
 

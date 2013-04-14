@@ -73,6 +73,40 @@ public class StatusList extends JPanel {
 		//Add all the parts together
 		add(scrollPane);
 	}
+   
+   /*****************************************************************
+   Constructs the JList and ScrollPane that contains the list of
+   Statuses.
+
+   @param itemsPassed Status[] array to show in the panel list.
+    *****************************************************************/
+  public StatusList(Status[] itemsPassed, Dimension dim) {
+
+	   this.setName("voidPanel");
+      setMaximumSize(dim);
+ 
+	   
+       this.items = itemsPassed;
+       listener = Listeners.getListener("ListListener");
+
+       //Sets up the JList to display the items
+		list = new JList(items);
+		list.setCellRenderer(ProgramStyle.getStatusListRenderer());
+		list.addMouseListener(new ListClickListener(list));
+		list.setOpaque(false);
+
+		//Place the JList into a scrollable window
+		JScrollPane scrollPane = new JScrollPane(list,
+		ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setPreferredSize(ProgramStyle.MAIN_PANEL);
+		scrollPane.setOpaque(false);
+		//eliminates the default border
+		scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+		//Add all the parts together
+		add(scrollPane);
+	}
 
 	/*****************************************************************
 	Class listener when user clicks on an item in the list.

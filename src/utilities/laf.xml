@@ -230,7 +230,7 @@
        <opaque value="TRUE"/>
         <state>  
         	<insets top="5" left="5" right="5" bottom="5"/>
-            <color value="#8DA3B5" type="BACKGROUND" />  
+            <color value="#345B79" type="BACKGROUND" />  
         </state>  
       
 </style>  
@@ -331,6 +331,17 @@
       
 </style>  
     <bind style="trendSelectPanelStyle" key="trendSelPanel" type="name">  
+</bind> 
+
+<!-- STANDARD PANELS -->
+<style id="voidPanelStyle">  
+       <opaque value="true"/>
+        <state>
+        	<color value="#8DA3B5" type="BACKGROUND" />
+        </state>  
+      
+</style>  
+    <bind style="voidPanelStyle" key="stdPanel" type="name">  
 </bind> 
 
 <!-- VOID PANELS -->
