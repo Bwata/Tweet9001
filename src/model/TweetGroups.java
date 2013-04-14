@@ -48,7 +48,6 @@ public class TweetGroups {
 			br = new BufferedReader(new FileReader(fileName));
 		}
 		while ((currentLine = br.readLine()) != null) {
-			System.out.println("TG 48: " + currentLine);
 			parsedLine = currentLine.split(", ");
 			parsedArrayList.add(parsedLine);
 		}
@@ -57,10 +56,8 @@ public class TweetGroups {
 			Twtgrp newGroup = new Twtgrp(parsedArrayList.get(i)[0]);
 			for (int j = 1; j < parsedArrayList.get(i).length; j++) {
 				groupMember = parsedArrayList.get(i)[j];
-				System.out.println("TG 57: " + groupMember);
 				newGroup.addUser(groupMember);
 			}
-			System.out.println("TG 63: " + parsedArrayList.get(i)[0]);
 			groups.put(parsedArrayList.get(i)[0], newGroup);
 		}
 		br.close();
@@ -88,20 +85,17 @@ public class TweetGroups {
 			// matches a group in the array, we would add it.
 			
 			for (int j = 0; j < possibleGroups.length; j++) {
-				System.out.println("TG 87: " + possibleGroups[j]);
 			}
 			
-			System.out.println("TG 84: " + possibleGroups.length + " " + i);
 
 			for (int j = 0; j < possibleGroups.length; j++) {
 				
 				if (possibleGroups[j] != null) {
 				
-				System.out.println("TG 94: Adding " + stati[i].getUser().getScreenName() + " to Group: " + possibleGroups[j]);
+				
 				
 				Twtgrp addGroup = groups.get(possibleGroups[j]);
 				
-				System.out.println("TG 101: " + addGroup);
 				
 				groups.get(possibleGroups[j]).addStatus(stati[i]);
 				
@@ -233,7 +227,8 @@ public class TweetGroups {
 	 *****************************************************************/
 	public void save() throws IOException {
 		// saves all information with groups and whatnot
-		File file = new File(user + "groups.txt");
+		File file = new File(user + "Groups.txt");
+		String groupMembers;
 		// if the file doesn't already exist, create it.
 		if (!file.exists()) {
 			file.createNewFile();
@@ -243,7 +238,11 @@ public class TweetGroups {
 		BufferedWriter bw = new BufferedWriter(fw);
 
 		for (Twtgrp twtgrp : groups.values()) {
-			bw.write(twtgrp.groupName + ", " + twtgrp.getUsers());
+			groupMembers = Arrays.toString(twtgrp.getUsers());
+			//removing the brackets from the arrays
+			groupMembers = groupMembers.replace("[", "");
+			groupMembers = groupMembers.replace("]", "");
+			bw.write(twtgrp.groupName + ", "+groupMembers);
 		}
 		bw.close();
 
@@ -261,15 +260,13 @@ public class TweetGroups {
 		// convert status to array
 		// have a comparable method in tweetGroups class and even in the main
 		// class
-		
-		return groups.get(group).getStati();
 
-//		for (Twtgrp twtgrp : groups.values()) {
-//			if (twtgrp.groupName.equals(group)) {
-//				return twtgrp.getStati();
-//			}
-//		}
-//		return null;
+		for (Twtgrp twtgrp : groups.values()) {
+			if (twtgrp.groupName.equals(group)) {
+				return twtgrp.getStati();
+			}
+		}
+		return null;
 
 	}
 
@@ -317,6 +314,8 @@ public class TweetGroups {
 		 *****************************************************************/
 		private void addUser(String user) {
 			// adds the user to the group
+			
+			if(!users.contains(user) && user!= null);
 			users.add(user);
 		}
 
@@ -373,13 +372,9 @@ public class TweetGroups {
 		private String[] getUsers() {
 			// returns the users in group
 			
-			System.out.println("TG 323: " + users.get(0));
-			
-			
 			String[] list = new String[1];
 			
 			list = users.toArray(list);
-			
 			return (list);
 		}
 
@@ -391,7 +386,6 @@ public class TweetGroups {
 		 *****************************************************************/
 		private void addStatus(Status status) {
 			
-			System.out.println("TG 382: " + status.getUser().getScreenName());
 			
 			// adds a status to the array list
 			stati.add(status);
