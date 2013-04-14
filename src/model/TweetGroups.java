@@ -30,26 +30,38 @@ public class TweetGroups {
 		// user is concatenated onto the group name so it can be used for
 		// multiple users
 		this.user = user;
+		BufferedReader br;
 		String fileName = user + "Groups.txt";
 		String currentLine;
 		String[] parsedLine;
 		ArrayList<String[]> parsedArrayList = new ArrayList<String[]>();
-		BufferedReader br = new BufferedReader(new FileReader(fileName));
+		try{
+		br = new BufferedReader(new FileReader(fileName));
+		}
+		catch(java.io.FileNotFoundException e){
+			File file = new File(fileName);
+			
+			file.createNewFile();
+			br = new BufferedReader(new FileReader(fileName));
+		}
 		while ((currentLine = br.readLine()) != null) {
+			System.out.println("TG 48: " + currentLine);
 			parsedLine = currentLine.split(", ");
 			parsedArrayList.add(parsedLine);
 		}
 		for (int i = 0; i < parsedArrayList.size(); i++) {
 			String groupMember = "";
 			Twtgrp newGroup = new Twtgrp(parsedArrayList.get(i)[0]);
-			for (int j = 1; i < parsedArrayList.get(i).length; j++) {
+			for (int j = 1; j < parsedArrayList.get(i).length; j++) {
 				groupMember = parsedArrayList.get(i)[j];
+				System.out.println("TG 57: " + groupMember);
 				newGroup.addUser(groupMember);
 			}
 			groups.put(groupMember, newGroup);
 		}
 		br.close();
 	}
+
 
 	/*****************************************************************
 	 * This parses out the timeline so all groups are created.
@@ -70,14 +82,27 @@ public class TweetGroups {
 			// I would want to check all existing groups and if the existing
 			// group
 			// matches a group in the array, we would add it.
+			
+			for (int j = 0; j < possibleGroups.length; j++) {
+				System.out.println("TG 87: " + possibleGroups[j]);
+			}
+			
+			System.out.println("TG 84: " + possibleGroups.length + " " + i);
 
 			for (int j = 0; j < possibleGroups.length; j++) {
-				// seeing if our list of possible groups contains the selected
-				// group
-				Twtgrp addGroup = groups.get(possibleGroups[i]);
-				if (addGroup != null) {
-					addGroup.addStatus(stati[i]);
-				}
+				
+				System.out.println("TG 94: Adding " + stati[i].getUser().getScreenName() + " to Group: " + possibleGroups[j]);
+				
+				groups.get(possibleGroups[j]).addStatus(stati[i]);
+				
+				
+				
+//				// seeing if our list of possible groups contains the selected
+//				// group
+//				Twtgrp addGroup = groups.get(possibleGroups[j]);
+//				if (addGroup != null) {
+//					addGroup.addStatus(stati[i]);
+//				}
 			}
 		}
 	}
@@ -95,14 +120,34 @@ public class TweetGroups {
 		ArrayList<String> userGroups = new ArrayList<String>();
 		String[] groupNames;
 		groupNames = getGroupNames();
-		for (int i = 0; i < groups.size(); i++) {
-
-			if (Arrays.asList(groups.get(groupNames[i]).getUsers()).contains(
-					user)) {
-				userGroups.add(groupNames[i]);
+		
+		for (Twtgrp group: groups.values()) {
+			if (group.checkUser(user)) {
+				userGroups.add(group.groupName);
 			}
 		}
-		return (String[]) userGroups.toArray();
+
+
+		
+		String[] list = new String[1];
+		
+		list = userGroups.toArray(list);
+		
+		return (list);
+		
+		
+		
+//		for (int i = 0; i < groups.size(); i++) {
+//
+//			if (Arrays.asList(groups.get(groupNames[i]).getUsers()).contains(
+//					user)) {
+//				userGroups.add(groupNames[i]);
+//			}
+//		}
+		
+		
+		
+		//return (String[]) userGroups.toArray();
 	}
 
 	/*****************************************************************
@@ -115,7 +160,12 @@ public class TweetGroups {
 		for (Twtgrp name : groups.values()) {
 			groupNames.add(name.groupName);
 		}
-		return (String[]) groupNames.toArray();
+		
+		String[] list = new String[1];
+		
+		list = groupNames.toArray(list);
+		
+		return (list);
 	}
 
 	/*****************************************************************
@@ -243,6 +293,8 @@ public class TweetGroups {
 			// instantiates the name for the list and sets the parameter to the
 			// variable
 			this.groupName = groupName;
+			users = new ArrayList<String>();
+			stati = new ArrayList<Status>();
 		}
 
 		/*****************************************************************
@@ -291,8 +343,14 @@ public class TweetGroups {
 			// convert status to array
 			// have a comparable method in tweetGroups class and even in the
 			// main class
+			
+			
+			Status[] list = new Status[1];
+			
+			list = stati.toArray(list);
+			
+			return (list);
 
-			return (Status[]) stati.toArray();
 		}
 
 		/*****************************************************************
@@ -302,7 +360,15 @@ public class TweetGroups {
 		 *****************************************************************/
 		private String[] getUsers() {
 			// returns the users in group
-			return (String[]) users.toArray();
+			
+			System.out.println("TG 323: " + users.get(0));
+			
+			
+			String[] list = new String[1];
+			
+			list = users.toArray(list);
+			
+			return (list);
 		}
 
 		/*****************************************************************
@@ -315,7 +381,5 @@ public class TweetGroups {
 			// adds a status to the array list
 			stati.add(status);
 		}
-
 	}
-
 }

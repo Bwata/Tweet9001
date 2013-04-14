@@ -66,15 +66,17 @@ public class ModelMain {
 	 *****************************************************************/
 	public ModelMain() {
 
-		twitter =  TwitterFactory.getSingleton();
+		//twitter =  TwitterFactory.getSingleton();
 	}
 
 	/*****************************************************************
     Creates a list of statuses for the users to see.
     @return An array of Statuses.
     @throws TwitterException
+	 * @throws IOException 
+	 * @throws IllegalStateException 
 	 *****************************************************************/
-	public Status[] getHomeTimeline() throws TwitterException {
+	public Status[] getHomeTimeline() throws TwitterException, IllegalStateException, IOException {
 
 		List<Status> statuses;
 
@@ -82,8 +84,26 @@ public class ModelMain {
 		statuses = twitter.getHomeTimeline(paging);
 
 		Status[] list = new Status[1];
+		
+		tweetGroups = new TweetGroups(twitter.getScreenName());
+		
+		tweetGroups.parseTimeLine(statuses.toArray(list));
+		
+		list = tweetGroups.getStati("Group");
 
-		return statuses.toArray(list);
+		
+		
+		return list;
+		
+		//******************
+//		List<Status> statuses;
+//
+//		Paging paging = new Paging(1, 40);
+//		statuses = twitter.getHomeTimeline(paging);
+//
+//		Status[] list = new Status[1];
+//
+//		return statuses.toArray(list);
 	}
 
 	/*****************************************************************
@@ -161,6 +181,7 @@ public class ModelMain {
     @throws TwitterException
 	 *****************************************************************/
 	public User getMainUser() throws TwitterException {
+		System.out.println("getMainUser()");
 		return twitter.showUser(twitter.getId());
 	}
 

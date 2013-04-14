@@ -17,6 +17,9 @@ public enum ButtonType {
 	
 	
 	//MAIN BUTTONS
+	
+	GROUPS ("Groups"),
+	
 	/**Show the basic home timeline.*/
     HOMETIMELINE ("Timeline"),
 
@@ -50,7 +53,7 @@ public enum ButtonType {
     /**Search for a user button.*/
     SEARCH_USER("Search User"),
 
-
+    
 
 
     /**show the World Trends.*/

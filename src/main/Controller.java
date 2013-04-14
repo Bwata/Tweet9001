@@ -87,7 +87,7 @@ public class Controller {
 	private void login(String username, String password){	
 		
 		boolean logedIn = false;
-		System.out.println("controller 90: first login : " + logedIn);
+		
 		try {
 			logedIn = mainModel.authenticate(username, password);
 		} catch (IllegalStateException e1) {
@@ -100,6 +100,8 @@ public class Controller {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		System.out.println("controller 90: first login : " + logedIn);
 		
 		if (logedIn) {
 			setUpMain();
@@ -163,9 +165,9 @@ public class Controller {
 	private void setUpMain() {
 
 		//Sets up the model
-		User user;
-		Status[] stati;
-		mainModel = new ModelMain();
+		User user = null;
+		Status[] stati = null;
+		//mainModel = new ModelMain();
 		try {
 			user = mainModel.getMainUser();
 			stati = mainModel.getHomeTimeline();
@@ -173,6 +175,12 @@ public class Controller {
 			user = null;
 			stati = null;
 			//e.printStackTrace();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		//show the main window
@@ -212,6 +220,12 @@ public class Controller {
 			stati = null;
 			mainView.showError();
 			//e.printStackTrace();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
