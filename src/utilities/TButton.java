@@ -1,20 +1,20 @@
+package utilities;
+
+import javax.swing.JButton;
+
 /*****************************************************************
-Button that is able to capture 
+Button that is able to capture.
 
 started March 14, 2013
 @author Thomas Verstraete
 @version Winter 2013
  *****************************************************************/
-package utilities;
+public class TButton extends JButton {
 
-import javax.swing.JButton;
-
-public class TButton extends JButton{
-
-	/**The ButtonType enum of this button*/
+	/**The ButtonType enum of this button.*/
 	ButtonType type;
 
-	/**The object attached for passing to the listener*/
+	/**The object attached for passing to the listener.*/
 	Object passedObject;
 
 	/*****************************************************************

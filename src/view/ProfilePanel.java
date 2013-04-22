@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.Arrays;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -20,17 +21,23 @@ import javax.swing.JTextArea;
 import javax.swing.border.MatteBorder;
 
 import twitter4j.User;
+import utilities.ButtonType;
+import utilities.Listeners;
 import utilities.ProgramStyle;
+import utilities.TButton;
 
 public class ProfilePanel extends JPanel{
 	
-	/***/
+	/**the user*/
 	private User user;
 	
 	/*****************************************************************
-
+	creates a profilePanel
+	@param user USer the user
+	@param memberGroups String[] the group members.
+	@param allGroups String[] all groups.
 	 *****************************************************************/
-	public ProfilePanel(User user) {
+	public ProfilePanel(User user, String[] memberGroups, String[] allGroups) {
 		
 		this.user = user;
 		this.setName("voidPanel");
@@ -45,39 +52,23 @@ public class ProfilePanel extends JPanel{
 		
 		add(setfNumbers());
 		
+		add(groupsPanel(memberGroups, allGroups));
 		
-		
-		//add(new JLabel(user.getScreenName()));
-		//add(new JLabel(user.getBiggerProfileImageURL()));
-		//JLabel image = new JLabel(new ImageIcon(user.getProfileImageUrlHttps()));
-		//add(image);
-		//add(new JLabel(user.getDescription()));
-		//add(new JLabel("favs: " + user.getFavouritesCount()+""));
-		//add(new JLabel("followers: " + user.getFollowersCount()+""));
-		//add(new JLabel("following: " + user.getFriendsCount()+""));
-		//add(new JLabel(user.getLocation()));
-		//add(new JLabel(user.getName()));
-		//add(new JLabel(user.getScreenName()));
-		add(new JLabel("status count: " + user.getStatusesCount()+""));
-		add(new JLabel(user.isFollowRequestSent()+""));
 		add(Box.createVerticalStrut(300));
-		
-		
-		
 	}
 	
 	/*****************************************************************
-
-	@param user User
+	@param user User the user
 	@return JPanel
 	 *****************************************************************/
-	private JPanel setTopPanel () {		
+	private JPanel setTopPanel () {
 		JPanel panel = new JPanel();
 		panel.setName("borderPanel");
 		panel.setLayout(new BorderLayout());
 		//panel.setBorder(new MatteBorder(1, 1, 1, 1, Color.RED));
 		
-		JLabel image = new JLabel(new ImageIcon(user.getProfileImageUrlHttps()));
+		JLabel image = new JLabel(new ImageIcon(
+				user.getProfileImageUrlHttps()));
 		panel.add(image, BorderLayout.WEST);
 		
 		JPanel sub = new JPanel();
@@ -105,7 +96,7 @@ public class ProfilePanel extends JPanel{
 
 	@return JPanel
 	 *****************************************************************/
-	private JPanel setDescription ( ) {	
+	private JPanel setDescription() {
 		JPanel panel = new JPanel();
 		panel.setName("borderPanel");
 		//panel.setLayout(new BorderLayout());
@@ -155,6 +146,7 @@ public class ProfilePanel extends JPanel{
     private JPanel profileNumbers(String title, int value) {
 
         JPanel main = new JPanel();
+        main.setName("stdPanel");
 
         main.setLayout(new GridLayout(2, 1));
         JLabel titleLabel = new JLabel(title);
@@ -165,6 +157,45 @@ public class ProfilePanel extends JPanel{
         main.add(valueLabel);
 
         return main;
+    }
+    /*****************************************************************
+	creates the groupsPanel.
+	@param memberGroups
+	@param allGroups
+	@return JPanel the JPanel
+     *****************************************************************/
+    private JPanel groupsPanel(String[] memberGroups, String[] allGroups) {
+    	
+    	JPanel panel = new JPanel();
+    	panel.setName("borderPanel");
+    	panel.setLayout(new GridLayout(0, 2));
+    	
+    	for (int i = 0; i < allGroups.length; i++) {
+    		
+    		if (Arrays.asList(memberGroups).contains(allGroups[i])) {
+    			
+    			TButton minusButton = new TButton(
+    					ButtonType.REMOVE_FROM_GROUP, "- " + allGroups[i]);
+    			minusButton.setPassedObject(user);
+    			minusButton.addActionListener(
+    					Listeners.getListener("GroupButton"));
+    			panel.add(minusButton);
+    		} else {
+    			
+    			TButton addButton = new TButton(
+    					ButtonType.Add_TO_GROUP, "+ " + allGroups[i]);
+    			addButton.setPassedObject(user);
+    			addButton.addActionListener(
+    					Listeners.getListener("GroupButton"));
+    			panel.add(addButton);
+    			
+    			
+    		}
+
+    	}
+
+    	return panel;
+
     }
 	
 }

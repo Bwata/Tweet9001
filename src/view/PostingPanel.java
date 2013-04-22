@@ -7,17 +7,11 @@ started March 13, 2013
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -44,7 +38,7 @@ public class PostingPanel extends JPanel {
 	public PostingPanel() {
 
 		//Sets panel properties
-		this.setName("voidPanel");
+		this.setName("borderPanel");
 		setPreferredSize(ProgramStyle.TOP_PANEL_SIZE);
 		setLayout(new BorderLayout());
 
@@ -59,10 +53,12 @@ public class PostingPanel extends JPanel {
 		postArea.addKeyListener(new KeyboardListener());
 
 		//text character counter
-		charCount = new JLabel(" " + (140-CharacterUtil.count(postArea.getText())));
+		charCount = new JLabel(" " + (
+				140 - CharacterUtil.count(postArea.getText())));
 		charCount.setHorizontalTextPosition(JLabel.CENTER);
 
 		JPanel side = new JPanel();
+		side.setName("stdPanel");
 		side.setLayout(new BoxLayout(side, BoxLayout.PAGE_AXIS));
 		TButton post = new TButton(ButtonType.POST_TWEET);
 		post.setPassedObject(postArea);

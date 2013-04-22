@@ -21,9 +21,13 @@ import utilities.ProgramStyle;
 import utilities.TButton;
 import utilities.TrendLocations.TrendLocation;
 
-public class WorldTrendsPanel extends JPanel{
+public class WorldTrendsPanel extends JPanel {
 
 	//public WorldTrendsPanel(TreeSet<TrendLocation> locals) {
+	/*****************************************************************
+	world trend panel.
+	@param locals the locals.
+	 *****************************************************************/
 	public WorldTrendsPanel(TrendLocation[] locals) {
 		
 		this.setName("voidPanel");
@@ -43,9 +47,10 @@ public class WorldTrendsPanel extends JPanel{
 			if (loc.getLocation().getPlaceCode() == 19) {
 				
 				countryPanel = new JPanel();
-				countryPanel.setName("voidPanel");
+				countryPanel.setName("borderPanel");
 
-				TButton button = new TButton(ButtonType.WORLD_TRENDING, loc.getName());
+				TButton button = new TButton(
+						ButtonType.WORLD_TRENDING, loc.getName());
 				button.setPassedObject(loc);
 				button.addActionListener(Listeners.getListener("Button"));
 
@@ -55,17 +60,19 @@ public class WorldTrendsPanel extends JPanel{
 			} else if (loc.getLocation().getPlaceCode() == 12) {
 				//country
 				countryPanel = new JPanel();
+				countryPanel.setName("borderPanel");
 				countryPanel.setLayout(new BorderLayout());
 				countryPanel.setBorder
-					(BorderFactory.createEmptyBorder(20,0,0,0));
+					(BorderFactory.createEmptyBorder(10,0,10,0));
 
-				TButton button = new TButton(ButtonType.WORLD_TRENDING, loc.getName());
+				TButton button = new TButton(
+						ButtonType.WORLD_TRENDING, loc.getName());
 				button.setPassedObject(loc);
 				button.addActionListener(Listeners.getListener("Button"));
 
 				countryPanel.add(button, BorderLayout.NORTH);
 
-				if (locals[i+1].getLocation().getPlaceCode() == 7) {
+				if (locals[i + 1].getLocation().getPlaceCode() == 7) {
 					townPanel = new JPanel();
 					townPanel.setName("voidPanel");
 					townPanel.setLayout(new GridLayout(0,2));
@@ -75,7 +82,8 @@ public class WorldTrendsPanel extends JPanel{
 				main.add(countryPanel);
 			} else { //town
 
-				TButton button = new TButton(ButtonType.WORLD_TRENDING, loc.getName());
+				TButton button = new TButton(
+						ButtonType.WORLD_TRENDING, loc.getName());
 				button.setPassedObject(loc);
 				button.addActionListener(Listeners.getListener("Button"));
 

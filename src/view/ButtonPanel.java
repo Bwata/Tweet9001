@@ -16,7 +16,7 @@ import utilities.Listeners;
 import utilities.ProgramStyle;
 import utilities.TButton;
 
-public class ButtonPanel extends JPanel{
+public class ButtonPanel extends JPanel {
 
     /*****************************************************************
     Basic Constructor to set up all the main buttons.
@@ -25,6 +25,7 @@ public class ButtonPanel extends JPanel{
 
         //Sets panel properties
         setPreferredSize(ProgramStyle.TOP_PANEL_SIZE);
+        setName("borderPanel");
 
         //grid layout with three rows and two columns
         this.setLayout(new GridLayout(3,2));
@@ -55,11 +56,9 @@ public class ButtonPanel extends JPanel{
         ep.setName("navButtons");
         add(ep);
 
-        TButton bl = new TButton(ButtonType.BLANK);
-        bl.setName("navButtons");
-        add(bl);
-
-
-
+        TButton gp = new TButton(ButtonType.GROUPS);
+        gp.addActionListener(Listeners.getListener("Button"));
+        gp.setName("navButtons");
+        add(gp);
     }
 }

@@ -1,11 +1,12 @@
+package main;
+
 /*****************************************************************
-bmn The flint to start the whole program.
+The flint to start the whole program.
 Then the controller takes over.
 
 @author Thomas Verstraete
 @version Fall 2012
  *****************************************************************/
-package main;
 
 import java.text.ParseException;
 import java.util.Scanner;
@@ -27,20 +28,22 @@ public class Ignition {
 
 //        this stops the program at the beginning to
 //        allow code cover to get more
+    	 
 //        Scanner scanner = new Scanner(System.in);
 //        System.out.print("Press Enter key to continue...");
 //        scanner.nextLine();
 
         SynthLookAndFeel laf = new SynthLookAndFeel();
  		try {
-			laf.load(Ignition.class.getResourceAsStream("../utilities/laf.xml"), Ignition.class);
+			laf.load(Ignition.class.getResourceAsStream("../utilities/laf.xml")
+														, Ignition.class);
 		} catch (ParseException e1) {
-			//e1.printStackTrace();
+			e1.printStackTrace();
 		}
  		try {
 			UIManager.setLookAndFeel(laf);
 		} catch (UnsupportedLookAndFeelException e1) {
-			//e1.printStackTrace();
+			e1.printStackTrace();
 		}
 
         Controller control;

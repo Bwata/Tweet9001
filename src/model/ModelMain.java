@@ -17,14 +17,9 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
-
-import javax.security.auth.login.Configuration;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import model.DMGroups.DMMessage;
 import twitter4j.DirectMessage;
@@ -51,8 +46,17 @@ import utilities.TrendLocations;
 The main model of the program. This updates the view.
  *****************************************************************/
 public class ModelMain {
+	/*****************************************************************
+	The user's access token.
+	 *****************************************************************/
 	AccessToken accessToken;
+	/*****************************************************************
+	The user's request token.
+	 *****************************************************************/
 	RequestToken requestToken;
+	/*****************************************************************
+	The group of direct messages.
+	 *****************************************************************/
 	DMGroups groups;
 
 	/**The Twitter object to access all the twitter information.*/
@@ -65,9 +69,6 @@ public class ModelMain {
     Sets up the needed material for the Model side of the program.
 	 *****************************************************************/
 	public ModelMain() {
-
-		//twitter =  TwitterFactory.getSingleton();
-
 	}
 
 	/*****************************************************************
@@ -75,9 +76,11 @@ public class ModelMain {
     @return An array of Statuses.
     @throws TwitterException
 	 * @throws IOException 
+	 * @throws TwitterException
 	 * @throws IllegalStateException 
 	 *****************************************************************/
-	public Status[] getHomeTimeline() throws TwitterException, IllegalStateException, IOException {
+	public Status[] getHomeTimeline() throws TwitterException,
+		IllegalStateException, IOException {
 
 		//		List<Status> statuses;
 		//
@@ -109,8 +112,8 @@ public class ModelMain {
 
 	/*****************************************************************
     Posts a tweet in the users account.
+    @throws TwitterException.
     @param postText The string of text to be posted as a status.
-    @throws TwitterException
 	 *****************************************************************/
 	public void postTweet(String postText) throws TwitterException {
 
@@ -126,7 +129,7 @@ public class ModelMain {
 	public void postTweet(String message, File image)
 			throws TwitterException {
 
-		if(image != null){
+		if (image != null) {
 			StatusUpdate status = new StatusUpdate(message);
 			status.setMedia(image);
 			twitter.updateStatus(status);
@@ -182,7 +185,6 @@ public class ModelMain {
     @throws TwitterException
 	 *****************************************************************/
 	public User getMainUser() throws TwitterException {
-		System.out.println("getMainUser()");
 		return twitter.showUser(twitter.getId());
 	}
 
@@ -205,7 +207,7 @@ public class ModelMain {
 	@return TrendLocations Collection of All trend locations.
 	@throws TwitterException
 	 *****************************************************************/
-	public TrendLocations getAllTrends () throws TwitterException {
+	public TrendLocations getAllTrends() throws TwitterException {
 
 		ResponseList<Location> locations = twitter.getAvailableTrends();
 		return new TrendLocations(locations);
@@ -221,8 +223,8 @@ public class ModelMain {
 	 *****************************************************************/
 	public boolean directMessaging(String recipient, String words) {
 
-		if(!recipient.substring(0,1).equals("@")){
-			recipient= "@"+recipient;
+		if (!recipient.substring(0, 1).equals("@")) {
+			recipient = "@" + recipient;
 		}
 
 		if (recipient.length() < 2) {
@@ -255,11 +257,8 @@ public class ModelMain {
 			DirectMessage[] list = new DirectMessage[1];
 
 			return messages.toArray(list);
-
-		}
-		catch (TwitterException te) {
+			} catch (TwitterException te) {
 			te.printStackTrace();
-			System.out.println("Failed to get messages: " + te.getMessage());
 			System.exit(-1);
 		}
 		return null;
@@ -268,7 +267,7 @@ public class ModelMain {
 	 * Gets a list of the users which have a direct message.
 	 * @return a list of users
 	 *****************************************************************/
-	public User[] getDMUsers(){
+	public User[] getDMUsers() {
 		//Sets the parameters of a DM group
 		DirectMessage[] rlist = new DirectMessage[1];
 		DirectMessage[] slist = new DirectMessage[1];
@@ -286,7 +285,6 @@ public class ModelMain {
 		}
 		catch (TwitterException te) {
 			te.printStackTrace();
-			System.out.println("Failed to get messages: " + te.getMessage());
 			System.exit(-1);
 		}
 		//Creating a new group 
@@ -294,15 +292,24 @@ public class ModelMain {
 		return groups.getUsers();
 
 	}
-	/**This returns the messages related to a user */
-	public DMMessage[] getDMMessages(User user){
+	
+	/*****************************************************************
+	This returns the messages related to a user.
+	@param user the user you're getting messages from
+	@return DMMessage[] a list of direct messages
+	 *****************************************************************/
+	public DMMessage[] getDMMessages(User user) {
 		return groups.getMessages(user);
 	}
 
 	/*****************************************************************
 	used to update profile information.
+	@param nam the name of the string
+	@param url the url of the string
+	@param loc the location of the string
+	@param des the description
 	 *****************************************************************/
-	public void update(String nam, String url, String loc, String des){
+	public void update(String nam, String url, String loc, String des) {
 
 		try {
 			twitter.updateProfile(nam, url, loc, des);
@@ -313,10 +320,10 @@ public class ModelMain {
 	}
 
 	/*****************************************************************
-	updates profile picture
+	updates profile picture.
+	@param img the file of the image
 	 *****************************************************************/
-	public void updatePic(File img){
-		//System.out.println("MM 232");
+	public void updatePic(File img) {
 		try {
 			twitter.updateProfileImage(img);
 		} catch (TwitterException e) {
@@ -327,11 +334,11 @@ public class ModelMain {
 
 	/*****************************************************************
 	 * method for getting the replies to a status.
-	 * @param statusID
+	 * @param statusID long the ID of the status
 	 * @return Status[] an array of statuses/replies
 	 * @throws TwitterException
 	 *****************************************************************/
-	public Status[] getConversations(long statusID) throws TwitterException{
+	public Status[] getConversations(long statusID) throws TwitterException {
 
 		RelatedResults results = twitter.getRelatedResults(statusID);
 		List<Status> conversations = results.getTweetsWithConversation();
@@ -340,12 +347,10 @@ public class ModelMain {
 
 		Status originalStatus = twitter.showStatus(statusID);
 		//    	if (conversations.isEmpty()) {
-		//    		System.out.println("MM 262");
 		//    	    conversations = results.getTweetsWithReply();
 		//    	}
 		//
 		//    	if (conversations.isEmpty()) {
-		//    		System.out.println("mm 267");
 		//    	    conversations = new ArrayList<Status>();
 		//    	    Status status = originalStatus;
 		//    	    while (status.getInReplyToStatusId() > 0) {
@@ -355,7 +360,6 @@ public class ModelMain {
 		//    	}
 
 		if (!conversations.isEmpty()) {
-			System.out.println("mm 277");
 			conversations.add(originalStatus);
 		}
 
@@ -363,6 +367,12 @@ public class ModelMain {
 		return conversations.toArray(list);
 	}
 
+	/*****************************************************************
+	Authenticates the user.
+	@param username String the username of the user.
+	@param password String the password of the user.
+	@return true if the user is authenticated.
+	 *****************************************************************/
 	public boolean authenticate(String username, String password) 
 			throws IllegalStateException, TwitterException, IOException {
 
@@ -387,10 +397,9 @@ public class ModelMain {
 		File file = new File("loginInformation.txt");
 
 		Scanner scanner;
-		try{
-			scanner = new Scanner(file);
-		}
-		catch(java.io.FileNotFoundException e){
+		try {
+			scanner = new Scanner(file); 
+			} catch (java.io.FileNotFoundException e) {
 			file = new File("loginInformation.txt");
 			file.createNewFile();
 			scanner = new Scanner(file);
@@ -399,7 +408,6 @@ public class ModelMain {
 
 			String line = scanner.nextLine();
 
-			System.out.println("MM 379: " + line);
 
 			String[] s = line.split(", ");
 			//[0] == username
@@ -408,7 +416,6 @@ public class ModelMain {
 			//[3] == secret
 
 			if (s[0].equals(username) && s[1].equals(password)) {
-				System.out.println("username is recognized");
 				accessToken = new AccessToken(s[2], s[3]);
 				twitter.setOAuthAccessToken(accessToken);
 				break;
@@ -425,6 +432,12 @@ public class ModelMain {
 		}
 	}
 
+	/*****************************************************************
+	requests a URL to be given.
+	@return URL the url to be given.
+	@throws MalformedURLException MalformedURLException 
+	@throws TwitterException TwitterException
+	 *****************************************************************/
 	public URL getRequestURL() throws TwitterException, MalformedURLException {
 		requestToken = twitter.getOAuthRequestToken();
 		return new URL(requestToken.getAuthenticationURL());
@@ -432,15 +445,23 @@ public class ModelMain {
 	}
 
 
-
-	public boolean setOAuthCode (String[] inputs) throws TwitterException, IOException   {
+	/*****************************************************************
+	Sets the authentication code.
+	@param inputs String[] the string of inputs
+	@return true if the authentication code was set.
+	@throws TwitterException TwitterException
+	@throws IOException IOException
+	 *****************************************************************/
+	public boolean setOAuthCode(String[] inputs)
+			throws TwitterException, IOException   {
 
 		//RequestToken requestToken;
 		User user;
 		try {
 			try {
 				// get request token.
-				// this will throw IllegalStateException if access token is already available
+				// this will throw IllegalStateException
+				     //if access token is already available
 				//requestToken = twitter.getOAuthRequestToken();
 
 				accessToken = null;
@@ -459,7 +480,7 @@ public class ModelMain {
 					try {
 						if (inputs[2].length() > 0) {
 							accessToken = twitter
-									.getOAuthAccessToken(requestToken, inputs[2]);
+								 .getOAuthAccessToken(requestToken, inputs[2]);
 						} else {
 							accessToken = twitter
 									.getOAuthAccessToken(requestToken);
@@ -467,13 +488,13 @@ public class ModelMain {
 					} catch (TwitterException te) {
 						if (401 == te.getStatusCode()) {
 
-							//								JOptionPane.showMessageDialog(frame,
-							//										"Unable to get the access token.",
-							//										"Inane error",
-							//										JOptionPane.ERROR_MESSAGE);
+							//JOptionPane.showMessageDialog(frame,
+							//"Unable to get the access token.",
+							//"Inane error",
+							//JOptionPane.ERROR_MESSAGE);
 							te.printStackTrace();
 
-							// System.out.println("Unable to get the access token.");
+
 						} else {
 							te.printStackTrace();
 						}
@@ -481,15 +502,15 @@ public class ModelMain {
 				}
 
 			} catch (IllegalStateException ie) {
-				// access token is already available, or consumer key/secret is not set.
+				// access token is already available,
+				//or consumer key/secret is not set.
 				if (!twitter.getAuthorization().isEnabled()) {
-					System.out.println("OAuth consumer key/secret is not set.");
 					System.exit(-1);
 				}
 			}
 
 		} catch (NullPointerException np) {
-			System.out.println("Exiting");
+
 			System.exit(0);
 		}
 
@@ -514,12 +535,19 @@ public class ModelMain {
 
 
 
+	/*****************************************************************
+	Logs the user out.
+	 *****************************************************************/
 	public final void logout() {
 		twitter.setOAuthAccessToken(null);
 		//favorites.saveFavorites();
 		accessToken = null;
 	}
 
+	/*****************************************************************
+	Opens the webpage given a uri.
+	@param uri the url to open
+	 *****************************************************************/
 	public static void openWebpage(final URI uri) {
 		Desktop desktop = null;
 		if (Desktop.isDesktopSupported()) {
@@ -534,6 +562,10 @@ public class ModelMain {
 		}
 	}
 
+	/*****************************************************************
+	Opens the webpage given a url.
+	@param url the url to be opened.
+	 *****************************************************************/
 	public static void openWebpage(final URL url) {
 		try {
 			openWebpage(url.toURI());
@@ -542,19 +574,49 @@ public class ModelMain {
 		}
 	}
 
-	public Status[] getGroupStati(String group){
+	/*****************************************************************
+	Gets a group of statuses.
+	@param group String the group to get statuses from.
+	@return Status[] the statuses from a group.
+	 *****************************************************************/
+	public Status[] getGroupStati(String group) {
 		//gets the statuses
 		//convert status to array
-		//have a comparable method in tweetGroups class and even in the main class
+		try {
+			tweetGroups.parseTimeLine(getHomeTimeline());
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return tweetGroups.getStati(group);
 
 	}
 
 	/*****************************************************************
-
-@return Status[][]
+	Gets all statuses from the group.
+	@return Status[][]
 	 *****************************************************************/
-	public Status[][] getAllGroupStati () {		
+	public Status[][] getAllGroupStati() {	
+		
+		try {
+			tweetGroups.parseTimeLine(getHomeTimeline());
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		String [] groupNames = tweetGroups.getGroupNames();
 		Status[][] rVal= new Status[groupNames.length][1];
@@ -567,10 +629,9 @@ public class ModelMain {
 	}
 
 	/*****************************************************************
-
-
+	sets the groups.
 	 *****************************************************************/
-	public void setGroups () {		
+	public void setGroups() {		
 		try {
 			tweetGroups = new TweetGroups(twitter.getScreenName());
 			tweetGroups.parseTimeLine(getHomeTimeline());
@@ -590,29 +651,77 @@ public class ModelMain {
 	
 
 	/*****************************************************************
-
+	Gets the group names.
 	@return String[]
 	 *****************************************************************/
-	public String[] getGroupNames () {		
+	public String[] getGroupNames() {		
 		return tweetGroups.getGroupNames();
 	}
 
 	/*****************************************************************
-
+	 Gets the users in a group.
+	 @param group String the group you want users from
+	 @return User[] the array of users in a group.
+	 @throws TwitterException TwitterException
 	 *****************************************************************/
-	public User[] getGroupUsers(String group) throws TwitterException{
+	public User[] getGroupUsers(String group) throws TwitterException {
 		//returns the users in group
 		String[] userStrings = tweetGroups.getUsers(group);
 		User[] users = new User[userStrings.length];
 
-		for (int i =0; i < userStrings.length; i++) {
+		for (int i = 0; i < userStrings.length; i++) {
 			users[i] = twitter.showUser(userStrings[i]);
 		}
 
 		//TODO: finish this
 		return users;
 	}
-
+	
+	/*****************************************************************
+	 Gets the user groups.
+	 @return String[] the list of groups the user is in.
+	 @param userScreenName String the user screen name.	 
+	 *****************************************************************/
+	public String[] getUserGroups(String userSceenName) {
+		return tweetGroups.checkUser(userSceenName);
+	}
+	
+	
+	/*****************************************************************
+	Removes the user from a group.
+	@param group String the group to remove from.
+	@param user String the user to remove.
+	 *****************************************************************/
+	public void removeFromGroup(String group, String user) {
+		tweetGroups.removeFromGroup(group, user);
+		
+	}
+	
+	/*****************************************************************
+	adds a user to a group.
+	@param group String the group to add to
+	@param user the user to add to a group.
+	 *****************************************************************/
+	public void addToGroup(String group, String user) {
+		tweetGroups.addToGroup(group, user);
+	}
+	
+	/*****************************************************************
+	Creates a new group.
+	@param group String the name of the group.
+	 *****************************************************************/
+	public void newGroup(String group) {
+		tweetGroups.createGroup(group);
+	}
+	
+	/*****************************************************************
+	Deletes the group.
+	@param group String the name of the group.
+	 *****************************************************************/
+	public void deleteGroup(String group) {
+		tweetGroups.destroyGroup(group);
+	}
+	
 	//public boolean login(String username, String password) {
 	//	// TODO Auto-generated method stub
 	//	return false;

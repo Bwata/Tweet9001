@@ -44,6 +44,7 @@ public class SmallProfilePanel extends JPanel {
      *****************************************************************/
     SmallProfilePanel(final User userPassed) {
 
+    	setName("borderPanel");
     	setPreferredSize(ProgramStyle.TOP_PANEL_SIZE);
 
     	//check if user is valid
@@ -67,6 +68,7 @@ public class SmallProfilePanel extends JPanel {
      *****************************************************************/
     private JPanel setTopHalf() {
         JPanel main = new JPanel();
+        main.setName("stdPanel");
         main.setOpaque(false);
         main.setLayout(new BorderLayout());
 
@@ -85,6 +87,7 @@ public class SmallProfilePanel extends JPanel {
      *****************************************************************/
     private JPanel setProfileImage() {
         JPanel main = new JPanel();
+        main.setName("stdPanel");
         main.setOpaque(false);
         main.setLayout(new BorderLayout());
 
@@ -112,12 +115,13 @@ public class SmallProfilePanel extends JPanel {
      *****************************************************************/
     private JPanel setTopRight() {
         JPanel main = new JPanel();
-
+        main.setName("stdPanel");
         main.setOpaque(false);
         main.setLayout(new BorderLayout());
         main.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         JPanel names = new JPanel();
+        names.setName("stdPanel");
         names.setLayout(new BorderLayout());
         names.setOpaque(false);
 
@@ -143,7 +147,7 @@ public class SmallProfilePanel extends JPanel {
      *****************************************************************/
     private JPanel setBottomHalf() {
         JPanel main = new JPanel();
-        main.setName("voidPanel");
+        main.setName("borderPanel");
         main.setLayout(new GridLayout(1, 3));
 
         main.add(profileNumbers("Following", user.getFriendsCount()));
@@ -165,6 +169,7 @@ public class SmallProfilePanel extends JPanel {
     private JPanel profileNumbers(String title, int value) {
 
         JPanel main = new JPanel();
+        main.setName("stdPanel");
 
         main.setLayout(new GridLayout(2, 1));
         JLabel titleLabel = new JLabel(title);

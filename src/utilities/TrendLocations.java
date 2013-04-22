@@ -1,3 +1,10 @@
+package utilities;
+
+import java.util.TreeSet;
+
+import twitter4j.Location;
+import twitter4j.ResponseList;
+
 /*****************************************************************
 Collects all the trending locations for Twitter and sorts them
 by country then town. Saves them to have access.
@@ -6,16 +13,9 @@ started March 10, 2013
 @author Thomas Verstraete
 @version Winter 2013
  *****************************************************************/
-package utilities;
-
-import java.util.TreeSet;
-
-import twitter4j.Location;
-import twitter4j.ResponseList;
-
 public class TrendLocations {
 
-	/**Collection of locations*/
+	/**Collection of locations.*/
 	private TreeSet<TrendLocation> locations;
 
 	/*****************************************************************
@@ -24,7 +24,7 @@ public class TrendLocations {
 
 	@param locals ResponseList<Location> List of trend locations
 	 *****************************************************************/
-	public TrendLocations (ResponseList<Location> locals) {
+	public TrendLocations(ResponseList<Location> locals) {
 
 		locations = new TreeSet<TrendLocation>();
 
@@ -35,6 +35,7 @@ public class TrendLocations {
 
 	/*****************************************************************
 	Returns the collection of locations.
+	@return locations 
 	 *****************************************************************/
 	public TreeSet<TrendLocation> getLocations() {
 		return locations;
@@ -63,15 +64,15 @@ public class TrendLocations {
 	/*****************************************************************
 	Specific Location that contains the Twitter Information.
 	 *****************************************************************/
-	public class TrendLocation implements Comparable{
+	public class TrendLocation implements Comparable {
 
-		/**Code for the Country Location is in*/
+		/**Code for the Country Location is in.*/
 		private String countryCode;
 
-		/**Name to be used for comparison*/
+		/**Name to be used for comparison.*/
 		private String compareName;
 
-		/**Location Information*/
+		/**Location Information.*/
 		private Location locationTrend;
 
 		/*****************************************************************
@@ -103,7 +104,7 @@ public class TrendLocations {
 
 		@return String of the country code.
 		 *****************************************************************/
-		public String getCountryCode () {
+		public String getCountryCode() {
 			return countryCode;
 		}
 
@@ -112,7 +113,7 @@ public class TrendLocations {
 
 		@param loc Location from Twitter.
 		 *****************************************************************/
-		public void setLocation (Location loc) {
+		public void setLocation(Location loc) {
 			locationTrend = loc;
 		}
 
@@ -121,7 +122,7 @@ public class TrendLocations {
 
 		@return String Name of location.
 		 *****************************************************************/
-		public String getName () {
+		public String getName() {
 			return locationTrend.getName();
 		}
 
@@ -130,7 +131,7 @@ public class TrendLocations {
 
 		@return String formatted to town, country.
 		 *****************************************************************/
-		public String getTownName () {
+		public String getTownName() {
 			return locationTrend.getName() + ", " + locationTrend.getCountryName();
 		}
 
@@ -144,7 +145,7 @@ public class TrendLocations {
 		}
 
 		/*****************************************************************
-		toString method formated name: place code
+		toString method formated name: place code.
 
 		@return String formatted and such.
 		 *****************************************************************/
@@ -158,7 +159,7 @@ public class TrendLocations {
 		@param obj Object should be country code passed.
 		@return boolean true if comparing country codes.
 		 *****************************************************************/
-		public boolean equals (Object obj) {
+		public boolean equals(Object obj) {
 			return countryCode.equals(obj);
 		}
 

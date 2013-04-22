@@ -1,10 +1,3 @@
-/*****************************************************************
-List Rendering Panel for Statuses.
-
-started March 3, 2013
-@author Thomas Verstraete
-@version Winter 2013
- *****************************************************************/
 package utilities;
 
 import java.awt.BorderLayout;
@@ -23,6 +16,13 @@ import javax.swing.JTextArea;
 import twitter4j.Status;
 import twitter4j.User;
 
+/*****************************************************************
+List Rendering Panel for Statuses.
+
+started March 3, 2013
+@author Thomas Verstraete
+@version Winter 2013
+ *****************************************************************/
 public class StatusRenderPanel extends JPanel{
 
 	/*****************************************************************
@@ -35,13 +35,12 @@ public class StatusRenderPanel extends JPanel{
 	@param isSelected boolean if the item is selected in the GUI
 	@param cellHasFocus boolean if the item has focus.
 	 *****************************************************************/
-	public StatusRenderPanel (
+	public StatusRenderPanel(
 			final JList list,              // the list
 			final Object value,            // value to display
 			final int index,               // cell index
 			final boolean isSelected,      // is the cell selected
-			final boolean cellHasFocus)    // does the cell have focus 
-	{
+			final boolean cellHasFocus) {  // does the cell have focus 
 		
 		//this.setName("statusPanel");
 		
@@ -59,9 +58,11 @@ public class StatusRenderPanel extends JPanel{
 			
 
 			this.setLayout(new BorderLayout());
-			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH-15, 90));
+			this.setPreferredSize(new Dimension(
+					ProgramStyle.RENDER_WIDTH-15, 90));
 
-			JLabel image = new JLabel(new ImageIcon(user.getProfileImageUrlHttps()));
+			JLabel image = new JLabel(new ImageIcon(
+					user.getProfileImageUrlHttps()));
 			add(image, BorderLayout.WEST);
 
 			JPanel textPanel = new JPanel();
@@ -89,8 +90,8 @@ public class StatusRenderPanel extends JPanel{
 
 			Date date = status.getCreatedAt();
 
-			JLabel timeStamp = new JLabel(((date.getMonth() + 1) + "/" + date.getDate()
-					+ "/" + (date.getYear() - 100)));
+			JLabel timeStamp = new JLabel(((date.getMonth() + 1)
+					+ "/" + date.getDate() + "/" + (date.getYear() - 100)));
 			timeStamp.setName("H6");
 			userInfo.add(timeStamp);
 

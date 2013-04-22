@@ -1,16 +1,7 @@
-/*****************************************************************
-List Rendering Panel for Statuses.
-
-started March 3, 2013
-@author Thomas Verstraete
-@version Winter 2013
- *****************************************************************/
 package utilities;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -18,10 +9,15 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.border.MatteBorder;
-
 import twitter4j.User;
 
+/*****************************************************************
+List Rendering Panel for Statuses.
+
+started March 3, 2013
+@author Thomas Verstraete
+@version Winter 2013
+ *****************************************************************/
 public class UserRenderPanel extends JPanel{
 
 	/*****************************************************************
@@ -34,13 +30,13 @@ public class UserRenderPanel extends JPanel{
 	@param isSelected boolean if the item is selected in the GUI
 	@param cellHasFocus boolean if the item has focus.
 	 *****************************************************************/
-	public UserRenderPanel (
+	public UserRenderPanel(
             final JList list,              // the list
             final Object value,            // value to display
             final int index,               // cell index
             final boolean isSelected,      // is the cell selected
-            final boolean cellHasFocus)    // does the cell have focus 
-	{
+            final boolean cellHasFocus) {    // does the cell have focus 
+	
 		/* Items to show from user
         *
         * Image           .getMiniProfileImageURL()
@@ -64,11 +60,13 @@ public class UserRenderPanel extends JPanel{
            this.setLayout(new BorderLayout());
 			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 90));
            
-			//this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 100));
+			//this.setPreferredSize(
+			//new Dimension(ProgramStyle.RENDER_WIDTH, 100));
 
          
 
-           JLabel image = new JLabel(new ImageIcon(user.getProfileImageUrlHttps()));
+           JLabel image = new JLabel(new ImageIcon(
+        		   user.getProfileImageUrlHttps()));
            add(image, BorderLayout.WEST);
 
            JPanel textPanel = new JPanel();

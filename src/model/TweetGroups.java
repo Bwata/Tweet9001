@@ -1,29 +1,37 @@
 package model;
+/*****************************************************************
+The primary class for creating tweet groups
 
+started February 10, 2013
+@author Thomas Verstraete, Tyler Hutek, Rui Takagi, Andrew Jarvis
+@version Winter 2013
+ *****************************************************************/
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-
 import twitter4j.Status;
-
+/*****************************************************************
+The primary class for Tweet groups. This manages all Twtgrps.
+ *****************************************************************/
 public class TweetGroups {
+	/** The hashmap for the tweet groups. */
 	private HashMap<String, Twtgrp> groups;
+/** The user of the groups. */
 	private String user;
 
 	/*****************************************************************
-	 * The constructor for TweetGroups
+	 * The constructor for TweetGroups.
 	 * This also loads the current text file into the project
 	 * 
 	 * @param user
 	 *            the user of the set of groups
+	 * @throws IOException IOEception;
 	 *****************************************************************/
 	public TweetGroups(String user) throws IOException {
 		// this is where you load the file and parse out information
@@ -38,10 +46,9 @@ public class TweetGroups {
 		String currentLine;
 		String[] parsedLine;
 		ArrayList<String[]> parsedArrayList = new ArrayList<String[]>();
-		try{
+		try {
 		br = new BufferedReader(new FileReader(fileName));
-		}
-		catch(java.io.FileNotFoundException e){
+		 } catch (java.io.FileNotFoundException e) {
 			File file = new File(fileName);
 			
 			file.createNewFile();
@@ -69,9 +76,15 @@ public class TweetGroups {
 	 * 
 	 * @param stati
 	 *            the array of statuses for the home timeline
+	 * 
 	 *****************************************************************/
 	public void parseTimeLine(Status[] stati) {
 		String[] possibleGroups;
+		
+		
+		for (Twtgrp group: groups.values()) {
+			group.resetStati();
+		}
 
 		// look at one status in a for loop
 		for (int i = 0; i < stati.length; i++) {
@@ -83,9 +96,9 @@ public class TweetGroups {
 			// I would want to check all existing groups and if the existing
 			// group
 			// matches a group in the array, we would add it.
-			
-			for (int j = 0; j < possibleGroups.length; j++) {
-			}
+//			
+//			for (int j = 0; j < possibleGroups.length; j++) {
+//			}
 			
 
 			for (int j = 0; j < possibleGroups.length; j++) {
@@ -112,7 +125,7 @@ public class TweetGroups {
 	}
 
 	/*****************************************************************
-	 * Checks to see what groups a user is in
+	 * Checks to see what groups a user is in.
 	 * 
 	 * @param user
 	 *            the user to check for
@@ -155,7 +168,7 @@ public class TweetGroups {
 	}
 
 	/*****************************************************************
-	 * this gets the name of all groups
+	 * this gets the name of all groups.
 	 * 
 	 * @return String[] an array of all group names.
 	 *****************************************************************/
@@ -173,7 +186,7 @@ public class TweetGroups {
 	}
 
 	/*****************************************************************
-	 * adds a user to a Twtgrp
+	 * adds a user to a Twtgrp.
 	 * 
 	 * @param user
 	 *            the user who is being added to a group
@@ -183,10 +196,16 @@ public class TweetGroups {
 	public void addToGroup(String group, String user) {
 		// adds the user to the group specified
 		groups.get(group).addUser(user);
+		try {
+			save();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*****************************************************************
-	 * removes a user from a group
+	 * removes a user from a group.
 	 * 
 	 * @param user
 	 *            the user to be removed
@@ -195,10 +214,16 @@ public class TweetGroups {
 	 *****************************************************************/
 	public void removeFromGroup(String group, String user) {
 		groups.get(group).removeUser(user);
+		try {
+			save();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*****************************************************************
-	 * creates a group when given a name
+	 * creates a group when given a name.
 	 * 
 	 * @param groupName
 	 *            the name of the group
@@ -207,23 +232,39 @@ public class TweetGroups {
 		// creates a group with the specified name
 		// apparently the following line isn't necessary?
 		// Twtgrp newGroup = new Twtgrp(groupName);
+
 		groups.put(groupName, new Twtgrp(groupName));
+		
+		try {
+			save();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
 	/*****************************************************************
-	 * destroyes a group
+	 * Destroyes a group.
 	 * 
 	 * @param group
 	 *            the group to be destroyed
 	 *****************************************************************/
 	public void destroyGroup(String group) {
 		groups.remove(group);
+		
+		try {
+			save();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*****************************************************************
 	 * Saves the information from all groups to a text file. The format is
 	 * "groupName, user, user, user..."
+	 * @throws IOException IOException
 	 *****************************************************************/
 	public void save() throws IOException {
 		// saves all information with groups and whatnot
@@ -239,17 +280,22 @@ public class TweetGroups {
 
 		for (Twtgrp twtgrp : groups.values()) {
 			groupMembers = Arrays.toString(twtgrp.getUsers());
-			//removing the brackets from the arrays
-			groupMembers = groupMembers.replace("[", "");
-			groupMembers = groupMembers.replace("]", "");
-			bw.write(twtgrp.groupName + ", "+groupMembers);
+			if (groupMembers != null) {
+				//removing the brackets from the arrays
+				groupMembers = groupMembers.replace("[", "");
+				groupMembers = groupMembers.replace("]", "");
+				bw.write(twtgrp.groupName + ", " + groupMembers + "\n");
+			} else {
+				bw.write(twtgrp.groupName + "\n");
+			}
+			
 		}
 		bw.close();
 
 	}
 
 	/*****************************************************************
-	 * returns a list of all statuses in a group
+	 * returns a list of all statuses in a group.
 	 * 
 	 * @param group
 	 *            the name of the group which you want statuses from
@@ -271,7 +317,7 @@ public class TweetGroups {
 	}
 
 	/*****************************************************************
-	 * This returns a list of all users in a group
+	 * This returns a list of all users in a group.
 	 * 
 	 * @param group
 	 *            the group to get users from
@@ -293,7 +339,7 @@ public class TweetGroups {
 		private ArrayList<Status> stati;
 
 		/*****************************************************************
-		 * The constructor for a Twtgrp
+		 * The constructor for a Twtgrp.
 		 * 
 		 * @param groupName
 		 *            the name of the group
@@ -307,7 +353,7 @@ public class TweetGroups {
 		}
 
 		/*****************************************************************
-		 * adds a user to a Twtgrp
+		 * adds a user to a Twtgrp.
 		 * 
 		 * @param user
 		 *            the user to be added
@@ -320,7 +366,7 @@ public class TweetGroups {
 		}
 
 		/*****************************************************************
-		 * removes a user from a Twtgrp
+		 * removes a user from a Twtgrp.
 		 * 
 		 * @param user the user to be removed from a Twtgrp
 		 *****************************************************************/
@@ -330,7 +376,7 @@ public class TweetGroups {
 		}
 
 		/*****************************************************************
-		 * checks to see if a user is within a group array list
+		 * checks to see if a user is within a group array list.
 		 * 
 		 * @param user
 		 *            the user being searched for
@@ -338,14 +384,15 @@ public class TweetGroups {
 		 *****************************************************************/
 		private boolean checkUser(String user) {
 			// checks to see if the user is in the group(array list)
-			if (users.contains(user))
+			if (users.contains(user)){
 				return true;
-			else
+			} else {
 				return false;
+				}
 		}
 
 		/*****************************************************************
-		 * gets the statuses of a Twtgrp
+		 * gets the statuses of a Twtgrp.
 		 * 
 		 * @return Status[] the statuses of a group
 		 *****************************************************************/
@@ -365,7 +412,7 @@ public class TweetGroups {
 		}
 
 		/*****************************************************************
-		 * returns the users in a group
+		 * returns the users in a group.
 		 * 
 		 * @return String[] the users in a group
 		 *****************************************************************/
@@ -379,7 +426,7 @@ public class TweetGroups {
 		}
 
 		/*****************************************************************
-		 * adds a status to a Twtgrp
+		 * adds a status to a Twtgrp.
 		 * 
 		 * @param status
 		 *            the status which is being added
@@ -389,6 +436,12 @@ public class TweetGroups {
 			
 			// adds a status to the array list
 			stati.add(status);
+		}
+		/*****************************************************************
+		Resets all of the statuses.
+		 *****************************************************************/
+		private void resetStati() {
+			stati = new ArrayList<Status>();
 		}
 	}
 }

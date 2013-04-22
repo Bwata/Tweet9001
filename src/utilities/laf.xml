@@ -102,7 +102,7 @@
 
 <!-- NAVAGATOR BUTTONS -->
 <style id="navButtons">
-       <opaque value="TRUE"/>
+       <opaque value="FALSE"/>
 
 	<font idref="H5"/>
 	<state>
@@ -114,9 +114,9 @@
 
 
 <!-- BUTTONS -->
-<style id="mainButtonStyle">
- 	<property key="Button.textShiftOffset" type="integer" value="2"/>
-       <opaque value="TRUE"/>
+	<style id="mainButtonStyle">
+ 	   <property key="Button.textShiftOffset" type="integer" value="2"/>
+       <opaque value="FALSE"/>
  	<insets top="8" left="8" right="8" bottom="8"/>
  	
  	<!-- STANDARD STATE -->
@@ -159,7 +159,7 @@
 
 <!-- Writing  TEXT AREA -->
 <style id="TextAreaWriteStyle">
-    <opaque value="TRUE"/>
+    <opaque value="FALSE"/>
 	<property key="TextArea.margin" type="insets" value="5 5 5 5"/>
 	
 	<state>
@@ -177,7 +177,7 @@
 
 <!-- DEFAULT TEXT AREA -->
 <style id="TextFieldStyle">
-       <opaque value="TRUE"/>
+       <opaque value="FALSE"/>
 	<property key="TextArea.margin" type="insets" value="5 5 5 5"/>
 	
 	<state>
@@ -224,6 +224,19 @@
 
 <!-- **************** PANELS **************** -->
 
+<!-- LOGO PANELS -->
+<style id="LogoPanelStyle">  
+       <opaque value="TRUE"/>
+       <imagePainter method="panelBackground" path="../utilities/Images/Tweet9001LogoXL.png"
+        	sourceInsets="0 0 0 0"/>
+        <state>  
+        	<color value="#345B79" type="BACKGROUND" />
+        	<insets top="5" left="5" right="5" bottom="5"/> 
+        </state>  
+      
+</style>  
+    <bind style="LogoPanelStyle" key="logoPanel" type="name">  
+</bind> 
 
 <!-- BASIC PANELS -->
 <style id="basicPanelStyle">  
@@ -334,14 +347,14 @@
 </bind> 
 
 <!-- STANDARD PANELS -->
-<style id="voidPanelStyle">  
+<style id="panelPanel">  
        <opaque value="true"/>
         <state>
         	<color value="#8DA3B5" type="BACKGROUND" />
         </state>  
       
 </style>  
-    <bind style="voidPanelStyle" key="stdPanel" type="name">  
+    <bind style="panelPanel" key="stdPanel" type="name">  
 </bind> 
 
 <!-- VOID PANELS -->

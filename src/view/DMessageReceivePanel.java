@@ -7,7 +7,6 @@ started March 16, 2013
  *****************************************************************/
 package view;
 
-import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
 import javax.swing.JList;
@@ -17,19 +16,18 @@ import javax.swing.ScrollPaneConstants;
 
 import model.DMGroups.DMMessage;
 
-import twitter4j.DirectMessage;
 import utilities.Listeners;
 import utilities.ProgramStyle;
 
 public class DMessageReceivePanel extends JPanel {
 
-    /**Array of DirectMessages*/
+    /**Array of DirectMessages.*/
 	private DMMessage[] items;
 
-	/**List displayed*/
+	/**List displayed.*/
 	private JList list;
 
-	/**listener for double clicks*/
+	/**listener for double clicks.*/
 	private ActionListener listener;
 
 	/*****************************************************************
@@ -37,7 +35,7 @@ public class DMessageReceivePanel extends JPanel {
 
 	@param dmessages DirectMessage[] Array of the messages to show.
 	 *****************************************************************/
-	public DMessageReceivePanel(DMMessage[] dmessages){
+	public DMessageReceivePanel(DMMessage[] dmessages) {
 
 		this.setName("voidPanel");
 		

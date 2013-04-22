@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -18,9 +19,11 @@ import utilities.TButton;
 
 
 
-
+/*****************************************************************
+shows the login view.
+ *****************************************************************/
 public class ViewLogin extends JPanel{
-	
+	/** text field area*/
 	private JTextArea[] textFields;
 	
 //	private JTextArea username;
@@ -28,19 +31,20 @@ public class ViewLogin extends JPanel{
 //	private JTextArea password;
 //	
 //	private JTextArea code;
-	
+	/** creates loginPanel. */
 	private JPanel loginPanel;
-	
+	/** creates pin panel. */
 	private JPanel pinPanel;
-	
-	public ViewLogin () {
+	/**create view login.*/
+	public ViewLogin() {
 		
 		setName("voidPanel");
 		
 		JPanel logo = new JPanel();
-		logo.setName("borderPanel");
-		
+		logo.setName("logoPanel");
 		logo.setPreferredSize(new Dimension(300, 300));
+//		JLabel logoImage = new JLabel(new ImageIcon("Tweet9001Logo.png"));
+//		logo.add(logoImage);
 		
 		setLayout(new BorderLayout());
 		
@@ -48,8 +52,8 @@ public class ViewLogin extends JPanel{
 		
 		textFields = new JTextArea[3];
 		
-		JTextArea username = new JTextArea("CIS350");
-		JTextArea password = new JTextArea("twitterninethousand");
+		JTextArea username = new JTextArea();
+		JTextArea password = new JTextArea();
 		JTextArea pin = new JTextArea();
 		
 		textFields[0] = username;
@@ -69,7 +73,7 @@ public class ViewLogin extends JPanel{
 		
 		
 	}
-	
+	/**sets login*/
 	private void setLogin() {
 		
 		loginPanel = new JPanel();
@@ -87,7 +91,7 @@ public class ViewLogin extends JPanel{
 		
 		loginPanel.add(loginButton);
 	}
-	
+	/**sets pin request. */
 	public void setPinRequest(URL url) {
 		
 		
@@ -126,7 +130,7 @@ public class ViewLogin extends JPanel{
 //		
 //		return null;
 //	}
-	
+	/**opens the webpage */
 	public static void openWebpage(final URI uri) {
 		Desktop desktop = null;
 		if (Desktop.isDesktopSupported()) {
@@ -140,7 +144,7 @@ public class ViewLogin extends JPanel{
 			}
 		}
 	}
-
+	/** open webpage. */
 	public static void openWebpage(final URL url) {
 		try {
 			openWebpage(url.toURI());
@@ -148,7 +152,8 @@ public class ViewLogin extends JPanel{
 			e.printStackTrace();
 		}
 	}
-
+	
+	/** shows errors. */
 	public void showError() {
 		// TODO Auto-generated method stub
 		System.out.println("log in failed.");

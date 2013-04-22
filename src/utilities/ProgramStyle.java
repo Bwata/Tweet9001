@@ -169,36 +169,41 @@ public class ProgramStyle {
         {
         	return new TrendRenderPanel (list, value, index, isSelected, cellHasFocus); //{
 
-//                public void paintComponent(Graphics g) {
-//                    super.paintComponent(g);
-//
-//                    //set the size of the panel
-//                    setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 50));
-//
-//                    //paint the background if selected or not
-//                    if (isSelected) {
-//                        g.setColor(SELECT_COLOR);
-//                    }
-//                    else {
-//                        g.setColor(PANEL_COLOR);
-//                    }
-//                    g.fillRect(0, 0, getWidth(), getHeight());
-//
-//                    Trend trend = ((Trend) value);
-//
-//                    //set the font style and size
-//                    g.setFont(ProgramStyle.getFont(20));
-//
-//                    //set the color of the string and draw it
-//                    g.setColor(ProgramStyle.TEXT_COLOR);
-//                    g.drawString(trend.getName(), 5, 30);
-//
-//                }
-//
-//                public Dimension getPreferredSize() {
-//                    return new Dimension(ProgramStyle.RENDER_WIDTH, 50);
-//                }
-//            };
+        }
+    }
+    
+    /*****************************************************************
+    Accesses the Trend List Renderer to paint the list of trend items.
+
+    @return ListCellRenderer used to paint the list items.
+     *****************************************************************/
+    public static ListCellRenderer getGroupListRenderer() {
+        ProgramStyle temp = new ProgramStyle();
+        return temp.new GroupListRenderer();
+    }
+
+
+    /*****************************************************************
+    The ListRenderer object that is used to paint items in a list.
+    For this one it is the trending topics in twitter.
+     *****************************************************************/
+    class GroupListRenderer extends JPanel implements ListCellRenderer {
+
+        /*****************************************************************
+        One of two required methods to use to Paint list items.
+
+        @return Returns the ListCellRendererComponent.
+         *****************************************************************/
+        @Override
+        public Component getListCellRendererComponent(
+                final JList list,              // the list
+                final Object value,            // value to display
+                final int index,               // cell index
+                final boolean isSelected,      // is the cell selected
+                final boolean cellHasFocus)    // does the cell have focus
+        {
+        	return new GroupRenderPanel (list, value, index, isSelected, cellHasFocus); //{
+
         }
     }
 

@@ -44,8 +44,11 @@ public class ViewMain extends JPanel {
 
 	/***/
 	private JPanel accessPanel;
-
-	private enum State {TIMELINE, TRENDING, PROFILE,  DIRECTMESSAGE, SEARCH, SEARCH_RESULT, GROUPS};
+	/*****************************************************************
+	states of timeline.
+	 *****************************************************************/
+	private enum State {TIMELINE, TRENDING, PROFILE,
+		DIRECTMESSAGE, SEARCH, SEARCH_RESULT, GROUPS};
 
 	/***/
 	private State state;
@@ -83,7 +86,7 @@ public class ViewMain extends JPanel {
 		topPanel = new JPanel();
 		//set the size of the panel
 		topPanel.setPreferredSize(ProgramStyle.TOP_SIZE);
-		topPanel.setName("borderPanel");
+		topPanel.setName("voidPanel");
 
 		//sets up the three sections using BorderLayout method
 		topPanel.setLayout(new BorderLayout());
@@ -105,7 +108,7 @@ public class ViewMain extends JPanel {
 
 	@return JPanel
 	 *****************************************************************/
-	private JPanel placeHolderPanel () {		
+	private JPanel placeHolderPanel() {
 		JPanel panel = new JPanel();
 		panel.setName("voidPanel");
 		panel.setPreferredSize(ProgramStyle.MAIN_PANEL);
@@ -114,10 +117,11 @@ public class ViewMain extends JPanel {
 	}
 
 	/*****************************************************************
-
+	sets middle panel.
+	@param panel JPanel JPanel.
 
 	 *****************************************************************/
-	private void setMiddlePanel (JPanel panel) {	
+	private void setMiddlePanel(JPanel panel) {
 
 		if (middlePanel != null) {
 			remove(middlePanel);
@@ -129,10 +133,9 @@ public class ViewMain extends JPanel {
 	}
 
 	/*****************************************************************
-
-
+	Removes middle panel.
 	 *****************************************************************/
-	private void removeMiddlePanel () {		
+	private void removeMiddlePanel() {
 		if (middlePanel != null) {
 			remove(middlePanel);
 		} 
@@ -142,8 +145,8 @@ public class ViewMain extends JPanel {
 
 
 	/*****************************************************************
-
-
+	sets access panel.
+	@param panel JPanel.
 	 *****************************************************************/
 	private void setAccessPanel (JPanel panel) {
 
@@ -156,10 +159,10 @@ public class ViewMain extends JPanel {
 	}
 
 	/*****************************************************************
-
+	removes the access panel.
 
 	 *****************************************************************/
-	private void removeAccessPanel () {		
+	private void removeAccessPanel () {
 		if (accessPanel != null) {
 			remove(accessPanel);
 		} 
@@ -168,10 +171,9 @@ public class ViewMain extends JPanel {
 	}
 
 	/*****************************************************************
-
-
+	 sets the focus panel.
 	 *****************************************************************/
-	private void setFocusPanel (JPanel panel) {		
+	private void setFocusPanel (JPanel panel) {
 		if (focusPanel != null) {
 			remove(focusPanel);
 		}
@@ -182,10 +184,9 @@ public class ViewMain extends JPanel {
 	}
 
 	/*****************************************************************
-
-
+	removes the focus panel.
 	 *****************************************************************/
-	private void removeFocusPanel () {		
+	private void removeFocusPanel() {
 		if (focusPanel != null) {
 			remove(focusPanel);
 		} 
@@ -198,7 +199,7 @@ public class ViewMain extends JPanel {
 
 	@param user User to display the profile infor for.
 	 *****************************************************************/
-	private void resetSmallProfile (User user) {
+	private void resetSmallProfile(User user) {
 
 		topPanel.remove(topCenter);
 		topCenter = new SmallProfilePanel(user);
@@ -232,7 +233,7 @@ public class ViewMain extends JPanel {
 	/*****************************************************************
 	This clears the side panels or focus panel and access panel.
 	 *****************************************************************/
-	public void clearSides () {	
+	public void clearSides() {
 		if (state == State.TIMELINE || state == State.SEARCH_RESULT) {
 		removeFocusPanel();
 		removeAccessPanel();
@@ -245,7 +246,8 @@ public class ViewMain extends JPanel {
 	/*****************************************************************
 	Switches the view state to Timeline.
 
-	
+	@param stati Status[] the status
+	@param user User the user
 	 *****************************************************************/
 	public void switchToTimeline (Status[] stati, User user) {		
 
@@ -266,12 +268,11 @@ public class ViewMain extends JPanel {
 	/*****************************************************************
     Display an array of trends in the main portion of the window.
     and then updates the display.
-    @param place the location for trends
-    @param trends Trend[]
+    @param locals TrendLocations locations.
 	 *****************************************************************/
 	public void switchToTrending(TrendLocations locals) {
 
-		if(state != State.TRENDING) {
+		if (state != State.TRENDING) {
 			state = State.TRENDING;
 
 			removeMiddlePanel();
@@ -285,8 +286,8 @@ public class ViewMain extends JPanel {
 	}
 
 	/*****************************************************************
-
-
+	switch to DM
+	@param users User[] the users.
 	 *****************************************************************/
 	public void switchToDM (User[] users) {	
 
@@ -309,10 +310,9 @@ public class ViewMain extends JPanel {
 	}
 
 	/*****************************************************************
-
-
+	switches to search.
 	 *****************************************************************/
-	public void switchToSearch () {	
+	public void switchToSearch() {	
 
 		if (state != State.SEARCH) {
 			state = State.SEARCH;
@@ -325,8 +325,9 @@ public class ViewMain extends JPanel {
 	}
 
 	/*****************************************************************
-
-
+	switches to search result.
+	@param obj the object
+	@param user the user
 	 *****************************************************************/
 	public void switchToSearchResult (Object[] obj, User user) {	
 
@@ -354,32 +355,25 @@ public class ViewMain extends JPanel {
 	}
 	
 	/*****************************************************************
-
-	@param groupNames String[]
-	@param groupStati Status[][]
+	switches to group.
+	@param groupNames String[] groupnames
 
 	 *****************************************************************/
-	public void switchToGroups (String[] groupNames, Status[][] groupStati) {		
+	public void switchToGroups (String[] groupNames) {
 
 		if (state != State.GROUPS) {
 			state = State.GROUPS;
 
-			if (middlePanel != null) {
-				remove(middlePanel);
-			} 
+			removeMiddlePanel();
+			removeAccessPanel();
+			removeFocusPanel();
 			
-			if (accessPanel != null) {
-				remove(accessPanel);
-			}
+			topPanel.remove(topCenter);
+			topCenter = new SmallGroupsEditPanel(groupNames);
+			topPanel.add(topCenter, BorderLayout.CENTER);
 			
-			if (focusPanel != null) {
-				remove(focusPanel);
-			} 
+			setAccessPanel(new GroupList(groupNames));
 			
-			
-			
-			JPanel groupLists = new GroupsLists(groupNames, groupStati);
-			setMiddlePanel(groupLists);
 
 			//Add all the parts together
 			//add(scrollPane, BorderLayout.CENTER);
@@ -391,20 +385,38 @@ public class ViewMain extends JPanel {
 		updateUI();
 	}
 		
-		
+	/*****************************************************************
+
+	resets the groups.
+	@param groupnames String[] thegroupnames
+	@param groupStati Status[][] the stati.
+	 *****************************************************************/	
+		public void resetGroups(String[] groupNames, Status[][] groupStati) {
+			
+			if (state == State.GROUPS) {
+				state = State.TIMELINE;
+			
+				switchToGroups(groupNames);
+			
+			}
+		}
 		
 	
 
 
 	/*****************************************************************
-
-
+	show profile.
+	@param user the user
+	@param memberGroups groupMembers
+	@param allGroups all groups.
 	 *****************************************************************/
-	public void showProfile (User user) {	
-
-		if (state != State.TRENDING) {
+	public void showProfile(User user, String[] memberGroups, 
+			String[] allGroups) {
+		if (state == State.GROUPS) {
+			setFocusPanel(new ProfilePanel(user, memberGroups, allGroups));
+		} else if (state != State.TRENDING) {
 			//show the user in the access panel with fancy styling.
-			setAccessPanel(new ProfilePanel(user));
+			setAccessPanel(new ProfilePanel(user, memberGroups, allGroups));
 		}
 
 		//refresh window
@@ -412,10 +424,10 @@ public class ViewMain extends JPanel {
 	}
 
 	/*****************************************************************
-
-
+	shows the profile edit.
+	@param user User
 	 *****************************************************************/
-	public void showProfileEdit (User user) {
+	public void showProfileEdit(User user) {
 
 		removeAccessPanel();
 
@@ -427,7 +439,9 @@ public class ViewMain extends JPanel {
 	}
 
 	/*****************************************************************
-
+	Adds to list.
+	@param obj objet.
+	@param name String name.
 	 *****************************************************************/
 	public void addList(Object[] obj, String name) {
 
@@ -441,7 +455,10 @@ public class ViewMain extends JPanel {
 
 			} else if (state == State.SEARCH_RESULT) {
 				setFocusPanel(new StatusList((Status[]) obj));
-
+				
+			} else if (state == State.GROUPS) {
+				setMiddlePanel(new StatusList((Status[]) obj));
+				
 			} else {
 				setMiddlePanel(new StatusList((Status[]) obj));
 			}
@@ -469,19 +486,18 @@ public class ViewMain extends JPanel {
 
 	/*****************************************************************
 	Displays the file chooser for image uploading.
-
+	@return File files.
 	 *****************************************************************/
-	public File imageChooser(){
+	public File imageChooser() {
 
 		int option;
 		JFileChooser imageChooser = new JFileChooser();
 
 		option = imageChooser.showOpenDialog(this);
-		if(option == JFileChooser.APPROVE_OPTION){
+		if (option == JFileChooser.APPROVE_OPTION) {
 			File picture = imageChooser.getSelectedFile();
 			return picture;
-		}
-		else{
+		} else {
 			return null;
 		}
 	}

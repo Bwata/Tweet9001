@@ -1,22 +1,20 @@
+package model;
+
+import java.util.ArrayList;
+import java.util.TreeSet;
+import twitter4j.DirectMessage;
+import twitter4j.User;
+
 /*****************************************************************
-The primary class for the Direct Message groups
+The primary class for the Direct Message groups.
 
 started March 28, 2013
 @author Thomas Verstraete, Tyler Hutek, Rui Takagi, Andrew Jarvis
 @version Winter 2013
  *****************************************************************/
-package model;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.TreeSet;
-
-import twitter4j.DirectMessage;
-import twitter4j.User;
-
-
 public class DMGroups {
 
+	/** */
 	ArrayList<DMUser> users;
 
 	/*****************************************************************
@@ -24,7 +22,7 @@ public class DMGroups {
 	@param sent an array of Direct Messages that were sent.
 	@param received an array of Direct messages that were received. 
 	 *****************************************************************/
-	public DMGroups (DirectMessage[] sent, DirectMessage[] received) {
+	public DMGroups(DirectMessage[] sent, DirectMessage[] received) {
 
 		//parses out users and messages
 
@@ -68,7 +66,7 @@ public class DMGroups {
 	
 	
 	/*****************************************************************
-	 Gets the list of users
+	 Gets the list of users.
 	 @return rUsers the list of users to return
 	 *****************************************************************/
 	public User[] getUsers() {
@@ -84,7 +82,9 @@ public class DMGroups {
 	
 	
 	/*****************************************************************
-	Gets the messages for the user
+	Gets the messages for the user.
+	@param usr the user to get messages from
+	@return DMMessage[] an array of direct messages
 	 *****************************************************************/
 	public DMMessage[] getMessages(User usr) {
 		DMUser dmuser = new DMUser(usr);
@@ -96,19 +96,26 @@ public class DMGroups {
 
 
 	/*****************************************************************
-	 The Direct Message User class
+	 The Direct Message User class.
 	 *****************************************************************/
 	public class DMUser {
 
+		/**User for direct message .*/
 		private User user;
+		
+		/**The tree for the direct messages. */
 		private TreeSet<DMMessage> messages;
 
+		/*****************************************************************
+		 * Constructor for direct message user.
+		 * @param user the user of direct messages
+		 *****************************************************************/
 		private DMUser (User user) {
 			this.user = user;
 			messages = new TreeSet<DMMessage>();
 		}
 		/*****************************************************************
-		Gets the user
+		Gets the user.
 		@return user the user that's requested
 		 *****************************************************************/
 		private User getUser() {
@@ -116,7 +123,7 @@ public class DMGroups {
 		}
 
 		/*****************************************************************
-		 *compares two users
+		 *Compares two users.
 		 *returns true if both users are the same
 		 *****************************************************************/
 		private boolean isUser(User other) {
@@ -131,20 +138,20 @@ public class DMGroups {
 		}
 		
 		/*****************************************************************
-		 * gets a direct message
+		 * gets a direct message.
 		 * @return returns the direct messages
 		 *****************************************************************/
-		private DMMessage[] getMessages () {
+		private DMMessage[] getMessages() {
 			DMMessage[] newDMessage = new DMMessage[1];
 			
 			return messages.toArray(newDMessage);
 		}
 
 		/*****************************************************************
-		 * determines if two users are equal
+		 * determines if two users are equal.
 		 * @return true if the users are equal
 		 *****************************************************************/
-		public boolean equals (Object obj) {
+		public boolean equals(Object obj) {
 			User usr = ((DMUser) obj).getUser();
 			return (user.equals(usr));		
 		}
@@ -152,13 +159,14 @@ public class DMGroups {
 
 
 	/*****************************************************************
-	 * The direct message class
+	 * The direct message class.
 	 *****************************************************************/
 	public class DMMessage implements Comparable{
+		/**the direct message. */ 
 		DirectMessage message;
 
 		/*****************************************************************
-		 * creates a direct message
+		 * creates a direct messa.
 		 *****************************************************************/
 		private DMMessage (DirectMessage message) {
 			this.message = message;
@@ -177,7 +185,7 @@ public class DMGroups {
 		}
 
 		/*****************************************************************
-		Gets a direct message
+		Gets a direct message.
 		@return returns a direct message.
 		 *****************************************************************/
 		public DirectMessage getMessage() {

@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -11,7 +12,10 @@ import utilities.Listeners;
 import utilities.ProgramStyle;
 import utilities.TButton;
 
-public class DMessageSendPanel extends JPanel{
+/*****************************************************************
+the Direct message send panel.
+ *****************************************************************/
+public class DMessageSendPanel extends JPanel {
 	/*****************************************************************
     Basic Constructor to set up the DmessageSendPanel.
      *****************************************************************/

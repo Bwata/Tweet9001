@@ -8,6 +8,8 @@ changes to the Twitter Project.
  *****************************************************************/
 package main;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -46,7 +48,7 @@ public class Controller {
 
 	/**The access class for the Project Model side.*/
 	private ModelMain mainModel;
-	
+
 	ViewLogin loginView;
 
 	/**User account info.*/
@@ -63,9 +65,10 @@ public class Controller {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(true);
 
+
 		//Sets the listeners for the Buttons.
 		setListeners();
-		
+
 		mainModel = new ModelMain();
 
 		loginView = new ViewLogin();
@@ -74,20 +77,22 @@ public class Controller {
 
 		//show the background
 		frame.pack();
-		frame.setVisible(true);
 
+		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
+		int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
+		frame.setLocation(x, y);
+		frame.setVisible(true);
 	}
 
-	/**
+	/*****************************************************************
 	 * @throws TwitterException 
-	 * @throws MalformedURLException ***************************************************************
-
-
+	 * @throws MalformedURLException 
 	 *****************************************************************/
 	private void login(String username, String password){	
-		
+
 		boolean logedIn = false;
-		
+
 		try {
 			logedIn = mainModel.authenticate(username, password);
 		} catch (IllegalStateException e1) {
@@ -100,9 +105,7 @@ public class Controller {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		System.out.println("controller 90: first login : " + logedIn);
-		
+
 		if (logedIn) {
 			setUpMain();
 		} else {
@@ -118,10 +121,8 @@ public class Controller {
 			}
 			loginView.setPinRequest(url);
 		}
-		//String [] inputs = loginView.getInputs();
-
 	}
-	
+
 	/*****************************************************************
 
 
@@ -130,18 +131,14 @@ public class Controller {
 
 		boolean logedIn = false;
 		String[] inputStrings = new String[inputs.length];
-		
+
 		for (int i = 0; i < inputs.length; i++) {
 			inputStrings[i] = inputs[i].getText();
 		}
-		
+
 		try {
 			logedIn = mainModel.setOAuthCode(inputStrings);
-			
-			if (logedIn) {
-				
-				
-			}
+
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -149,14 +146,14 @@ public class Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		if (logedIn) {
 			setUpMain();
-			
+
 		} else {
 			loginView.showError();
 		}
-		
+
 	}
 
 	/*****************************************************************
@@ -167,7 +164,6 @@ public class Controller {
 		//Sets up the model
 		User user = null;
 		Status[] stati = null;
-		//mainModel = new ModelMain();
 		try {
 			user = mainModel.getMainUser();
 			stati = mainModel.getHomeTimeline();
@@ -185,21 +181,21 @@ public class Controller {
 
 		//show the main window
 		mainView = new ViewMain(user, stati);
-		
+
 		mainModel.setGroups();
-		String[] groupNames = mainModel.getGroupNames();
-		mainView.switchToGroups(groupNames, mainModel.getAllGroupStati());
-		
 
 		//Show Time line from the beginning
-		//showHomeTimeline();
-
+		frame.setVisible(false);
 		frame.remove(loginView);
-		
+
 		frame.getContentPane().add(((JPanel) mainView));
 
 		//show the background
 		frame.pack();
+		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
+		int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
+		frame.setLocation(x, y);
 		frame.setVisible(true);
 	}
 
@@ -399,23 +395,31 @@ public class Controller {
 	}
 
 	/*****************************************************************
-
+	shows the profile edit.
 
 	 *****************************************************************/
 	private void showProfileEdit() {
-		//mainView.showProfileEdit(user);
+		try {
+			mainView.showProfileEdit(mainModel.getMainUser());
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*****************************************************************
-
+	shows the profile.
+	@param user User the user.
 
 	 *****************************************************************/
 	private void showProfile(User user) {
-		mainView.showProfile(user);
+		mainView.showProfile(user, 
+				mainModel.getUserGroups(user.getScreenName()),
+				mainModel.getGroupNames());
 	}
 
 	/*****************************************************************
-
+	clears the sides.
 
 	 *****************************************************************/
 	private void clearSides() {		
@@ -425,7 +429,7 @@ public class Controller {
 	/*****************************************************************
 	Gives user a file chooser to edit the profile image.
 	 *****************************************************************/
-	private void imageEdit () {		
+	private void imageEdit() {
 		mainModel.updatePic(mainView.imageChooser());
 	}
 
@@ -443,7 +447,7 @@ public class Controller {
 	 * @param statusID
 	 * @throws TwitterException
 	 *****************************************************************/
-	private void getConversations(long statusID) throws TwitterException{
+	private void getConversations(long statusID) throws TwitterException {
 
 
 		Status[] convo = mainModel.getConversations(statusID);
@@ -451,6 +455,78 @@ public class Controller {
 		if (convo.length > 1) {
 			mainView.addList(convo, "");
 		}
+
+	}
+
+
+	/*****************************************************************
+	shows the groups.
+	 *****************************************************************/
+	private void showGroups() {
+
+		//mainModel.setGroups();
+
+		mainView.switchToGroups(mainModel.getGroupNames());
+
+
+	}
+
+	/*****************************************************************
+	shows the groupStati.
+	@param groupName String the groupname.
+	 *****************************************************************/
+	private void showGroupStati(String groupName) {
+
+		mainView.addList(mainModel.getGroupStati(groupName), groupName);
+
+	}
+
+	/*****************************************************************
+	removes the user from the group.
+	@param user User the user.
+	@param group String the group user.
+	 *****************************************************************/
+	private void removeFromGroup(User user, String group) {
+
+		mainModel.removeFromGroup(group, user.getScreenName());
+
+		showProfile(user);
+	}
+
+	/*****************************************************************
+	adds a user to a group.
+	@param group String the group to be added to.
+	@param user USer the user to be added.
+	 *****************************************************************/
+	private void addToGroup(User user, String group) {
+
+		mainModel.addToGroup(group, user.getScreenName());
+
+		showProfile(user);
+	}
+
+	/*****************************************************************
+	creates a new group.
+	@param groupName String the groupname.
+	 *****************************************************************/
+	private void newGroup(String groupName) {
+
+		mainModel.newGroup(groupName);
+
+		mainView.resetGroups(mainModel.getGroupNames(), 
+				mainModel.getAllGroupStati());
+	}
+
+	/*****************************************************************
+	Deletes a group.
+	@param groupName groupName
+	 *****************************************************************/
+	private void deleteGroup(String groupName) {
+
+		mainModel.deleteGroup(groupName);
+
+		mainView.resetGroups(mainModel.getGroupNames(), 
+				mainModel.getAllGroupStati());
 
 	}
 
@@ -463,6 +539,7 @@ public class Controller {
 		Listeners.addListener(new ButtonListener());
 		Listeners.addListener(new ListListener());
 		Listeners.addListener(new loginButtonListener());
+		Listeners.addListener(new GroupButtonListener());
 	}
 
 	//################################################################
@@ -524,8 +601,6 @@ public class Controller {
 				postTweetAndImage(message);
 				break;
 
-
-
 			case SEARCH_TWEET:
 				String searchTweetText =
 				((JTextArea) (button.getPassedObject())).getText();
@@ -557,7 +632,8 @@ public class Controller {
 				break;
 
 			case EDIT_IMAGE:
-				System.out.println("Controller 357");
+
+
 				//show file chooser and update it then
 				imageEdit();
 				break;
@@ -573,6 +649,33 @@ public class Controller {
 						(button.getPassedObject()));
 				editProfile(profileAreas);
 				showHomeTimeline();
+				break;
+
+			case GROUPS:
+
+				showGroups();
+
+				break;
+
+			case NEW_GROUP:
+
+				String newName = ((JTextArea)
+						(button.getPassedObject())).getText();
+
+				newGroup(newName);
+
+				break;
+
+			case DELETE_GROUP:
+
+				String deleteName = ((String)
+						(button.getPassedObject()));
+				//deleteName = deleteName.substring(7);
+
+
+
+				deleteGroup(deleteName);
+
 				break;
 
 			default:
@@ -616,7 +719,12 @@ public class Controller {
 
 			} else if (id == -2) {
 				showDMMessages((User) obj);
-				//System.out.println("cont listlistener DMMessage");
+
+
+			} else if (id == -3) {
+
+				showGroupStati((String) obj);
+
 
 			} else if (obj instanceof Trend) {
 				showTrendTweets(((Trend) obj).getName());
@@ -634,6 +742,9 @@ public class Controller {
 			} else if (obj instanceof User) {
 				showProfile((User) obj);
 
+			} else if (obj instanceof String) {
+
+				showGroupStati((String) obj);
 			}
 
 
@@ -718,20 +829,76 @@ public class Controller {
 			switch (type) {
 
 			case LOGIN:
-				
+
 				JTextArea[] areas = ((JTextArea[])
 						(button.getPassedObject()));
 				login(areas[0].getText(), areas[1].getText());
-				
+
 				break;
 
 			case REGISTER:
 
 				JTextArea[] areas1 = ((JTextArea[])
 						(button.getPassedObject()));
-				
+
 				registerLogin(areas1);
-				
+
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		/***************************************************************
+        This gets the determining String.
+        @return String of the listener type.
+		 **************************************************************/
+		@Override
+		public String toString() {
+			return listenType;
+		}
+	}
+
+	/*****************************************************************
+    Listener for the main buttons on the main panel.
+	 *****************************************************************/
+	public class GroupButtonListener implements ActionListener {
+
+		/**The String determining the type of listener wanted.*/
+		//string has to match the enum
+		private String listenType = "GroupButton";
+
+		/***************************************************************
+        The action performed method, like you do.
+
+        @param event ActionEvent containing all the info you will need
+		 **************************************************************/
+		@Override
+		public void actionPerformed(ActionEvent event) {
+
+			TButton button = (TButton) event.getSource();
+			ButtonType type = ((TButton) event.getSource())
+					.getButtonType();
+
+			String group = button.getText().substring(2);
+			//String[] groupName = group.split(" ");
+
+			//Switch to Determine Pressed Button
+			switch (type) {
+
+			case Add_TO_GROUP:
+
+
+				addToGroup((User) button.getPassedObject(), group);
+
+				break;
+
+			case REMOVE_FROM_GROUP:
+
+
+				removeFromGroup((User) button.getPassedObject(), group);
+
 				break;
 
 			default:

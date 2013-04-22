@@ -1,13 +1,20 @@
 package utilities;
 
-
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import twitter4j.Trend;
+import javax.swing.JTextArea;
 
-public class TrendRenderPanel extends JPanel{
+import twitter4j.Trend;
+import twitter4j.User;
+
+public class GroupRenderPanel extends JPanel{
 
 	/*****************************************************************
 	Constructor for UserRenderPanel. Builds the panel with the appropriate
@@ -19,13 +26,13 @@ public class TrendRenderPanel extends JPanel{
 	@param isSelected boolean if the item is selected in the GUI
 	@param cellHasFocus boolean if the item has focus.
 	 *****************************************************************/
-	public TrendRenderPanel(
+	public GroupRenderPanel (
 			final JList list,              // the list
 			final Object value,            // value to display
 			final int index,               // cell index
 			final boolean isSelected,      // is the cell selected
-			final boolean cellHasFocus) {  // does the cell have focus 
-	
+			final boolean cellHasFocus)    // does the cell have focus 
+	{
 		if (isSelected) {
 			this.setName("trendSelPanel");
 		} else {
@@ -34,9 +41,9 @@ public class TrendRenderPanel extends JPanel{
 
 		this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 40));
 		try {
-			Trend trend = ((Trend) value);
+			String groupName = ((String) value);
 
-			JLabel title = new JLabel(trend.getName());
+			JLabel title = new JLabel(groupName);
 			//title.setName("H3");
 
 			add(title);

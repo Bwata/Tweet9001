@@ -1,10 +1,3 @@
-/*****************************************************************
-List Rendering Panel for Direct Messages.
-
-started March 16, 2013
-@author Thomas Verstraete, Tyler Hutek
-@version Winter 2013
- *****************************************************************/
 package utilities;
 
 import java.awt.BorderLayout;
@@ -24,6 +17,13 @@ import model.DMGroups.DMMessage;
 import twitter4j.DirectMessage;
 import twitter4j.User;
 
+/*****************************************************************
+List Rendering Panel for Direct Messages.
+
+started March 16, 2013
+@author Thomas Verstraete, Tyler Hutek
+@version Winter 2013
+ *****************************************************************/
 public class DMRenderPanel extends JPanel{
 
 	/*****************************************************************
@@ -36,7 +36,7 @@ public class DMRenderPanel extends JPanel{
 	@param isSelected boolean if the item is selected in the GUI
 	@param cellHasFocus boolean if the item has focus.
 	 *****************************************************************/
-	public DMRenderPanel (
+	public DMRenderPanel(
 			final JList list,              // the list
 			final Object value,            // value to display
 			final int index,               // cell index
@@ -53,14 +53,14 @@ public class DMRenderPanel extends JPanel{
 			//checks if selected
 			if (isSelected) {
 				setName("selectedPanel");
-			} else {
-				//nothing?
 			}
 
 			this.setLayout(new BorderLayout());
-			this.setPreferredSize(new Dimension(ProgramStyle.RENDER_WIDTH, 100));
+			this.setPreferredSize(new Dimension(
+					ProgramStyle.RENDER_WIDTH, 100));
 
-			JLabel image = new JLabel(new ImageIcon(user.getProfileImageUrlHttps()));
+			JLabel image = new JLabel(new ImageIcon(
+					user.getProfileImageUrlHttps()));
 			add(image, BorderLayout.WEST);
 
 			JPanel textPanel = new JPanel();
@@ -82,8 +82,9 @@ public class DMRenderPanel extends JPanel{
 
 			Date date = directMessage.getCreatedAt();
 
-			JLabel timeStamp = new JLabel(((date.getMonth() + 1) + "/" + date.getDate()
-					+ "/" + (date.getYear() - 100) + " " + (date.getHours() % 12) + ":" + date.getMinutes()));
+			JLabel timeStamp = new JLabel(((date.getMonth() + 1) + "/" 
+					 + date.getDate() + "/" + (date.getYear() - 100) + " "
+					 + (date.getHours() % 12) + ":" + date.getMinutes()));
 			timeStamp.setName("H6");
 			userInfo.add(timeStamp);
 

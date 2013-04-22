@@ -53,7 +53,13 @@ public enum ButtonType {
     /**Search for a user button.*/
     SEARCH_USER("Search User"),
 
+    NEW_GROUP ("New Group"),
     
+    DELETE_GROUP ("Delete Group"),
+    
+    Add_TO_GROUP ("Add to Group"),
+    
+    REMOVE_FROM_GROUP ("Remove from Group"),
 
 
     /**show the World Trends.*/

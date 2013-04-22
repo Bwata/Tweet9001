@@ -20,31 +20,33 @@ import javax.swing.JTextArea;
 import twitter4j.User;
 import utilities.ButtonType;
 import utilities.Listeners;
-import utilities.ProgramStyle;
 import utilities.TButton;
 
-public class ProfileEditPanel extends JPanel{
+public class ProfileEditPanel extends JPanel {
 
 	/*****************************************************************
 	Constructor.
 	 *****************************************************************/
 	public ProfileEditPanel (User user) {
 
-		this.setName("borderPanel");
+		this.setName("voidPanel");
 
 		JTextArea[] areas = new JTextArea[4];
 
 		//this preferences
 		setPreferredSize(new Dimension(500, 175));
-		setLayout(new BorderLayout());
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-		JPanel left = new JPanel();
-		left.setLayout(new GridLayout(6, 1));
+		JPanel top = new JPanel();
+		top.setName("borderPanel");
+		top.setLayout(new GridLayout(6, 1));
 
-		JPanel right = new JPanel();
-		right.setLayout(new GridLayout(2, 1));
+		JPanel bottom = new JPanel();
+		bottom.setName("borderPanel");
+		bottom.setLayout(new GridLayout(2, 1));
 
 		JPanel buttons = new JPanel();
+		buttons.setName("borderPanel");
 		buttons.setLayout(new BoxLayout(buttons, BoxLayout.LINE_AXIS));
 
 		JLabel usernameLabel = new JLabel("UserName:");
@@ -60,14 +62,14 @@ public class ProfileEditPanel extends JPanel{
 		loc.setName("writeArea");
 		areas[2] = loc;
 
-		left.add(usernameLabel);
-		left.add(username);
-		left.add(urlLabel);
-		left.add(url);
-		left.add(locLabel);
-		left.add(loc);
+		top.add(usernameLabel);
+		top.add(username);
+		top.add(urlLabel);
+		top.add(url);
+		top.add(locLabel);
+		top.add(loc);
 
-		add(left, BorderLayout.WEST);
+		add(top);
 
 		//Description side
 		JLabel descLabel = new JLabel("Description:");
@@ -76,10 +78,10 @@ public class ProfileEditPanel extends JPanel{
 		
 		areas[3] = description;
 
-		right.add(descLabel);
-		right.add(description);
+		bottom.add(descLabel);
+		bottom.add(description);
 
-		add(right, BorderLayout.CENTER);
+		add(bottom);
 
 		//Buttons section
 		TButton imageEdit = new TButton(ButtonType.EDIT_IMAGE);
@@ -94,7 +96,10 @@ public class ProfileEditPanel extends JPanel{
 		buttons.add(Box.createHorizontalGlue());
 		buttons.add(imageEdit);
 		buttons.add(saveEdit);
+		buttons.add(Box.createHorizontalGlue());
 
-		add(buttons, BorderLayout.SOUTH);
+		add(buttons);
+		
+		add(Box.createVerticalStrut(300));
 	}
 }
